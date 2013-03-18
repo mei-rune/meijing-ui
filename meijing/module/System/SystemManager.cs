@@ -60,6 +60,42 @@ namespace meijing.ui.module
             }
             return s;
         }
+        public static int ParseExpressionAsSecond(string s)
+        {
+            if (s.StartsWith(expressionPrefix))
+            {
+                return GetTimeAsSecond(s);
+            }
+            return 15;
+        }
+
+        public static string CreateExpression(int interval, string unit)
+        {
+            return expressionPrefix + interval.ToString() + unit;
+        }
+
+        public static int GetTimeAsSecond(string s)
+        {
+            int idx = s.LastIndexOfAny(new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' });
+            if (-1 == idx)
+            {
+                return 15;
+            }
+            var m = s.Substring(idx);
+            if ("m" == m || "M" == m)
+            {
+                return int.Parse(s.Substring(0, idx)) * 60;
+            }
+            if ("s" == m || "s" == m)
+            {
+                return int.Parse(s.Substring(0, idx));
+            }
+            if ("ms" == m || "ms" == m)
+            {
+                return int.Parse(s.Substring(0, idx))/60;
+            }
+            return 15;
+        }
 
         public static string GetTimeDescription(string s)
         {
@@ -157,6 +193,10 @@ namespace meijing.ui.module
             serviceAddresses["poller"] = string.Format("http://{0}:7076", addr);
         }
 
+        public static string GetBridge()
+        { 
+            return serviceAddresses["bridge"];
+        }
 
         private static Client client;
         public static Client Client 

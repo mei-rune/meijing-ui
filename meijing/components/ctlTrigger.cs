@@ -13,6 +13,7 @@ namespace meijing.ui.components
 
     public partial class ctlTrigger : UserControl
     {
+        string id;
         IList<Model> models;
         IDictionary<string, Metric> metrics = new Dictionary<string, Metric>();
 
@@ -61,7 +62,10 @@ namespace meijing.ui.components
         public Model Model
         {
             get { return this.topObjectBox.SelectedItem as Model; }
-            set { this.topObjectBox.SelectedItem = value; }
+            set {
+                if (null == value) { return; }
+                this.topObjectBox.SelectedItem = value; 
+            }
         }
 
         public void SetLabel(string parent)
@@ -71,6 +75,9 @@ namespace meijing.ui.components
 
         public void SetModels(IList<Model> models) 
         {
+            if (null == models) {
+                return;
+            }
             this.models = models;
             this.topObjectBox.Items.AddRange(models.ToArray());
         }
@@ -83,6 +90,27 @@ namespace meijing.ui.components
             }
             this.kpiBox.Items.AddRange(metrics);
         }
-        
+
+        public void SetTrigger(Trigger trigger)
+        {
+            this.RuleName = trigger.Name;
+            this.Interval = SystemManager.ParseExpressionAsSecond(trigger.Expression);
+            this.KPI = trigger.GetString("metric");
+            this.id = trigger.Id;
+        }
+
+        public Trigger GetTrigger() 
+        {
+            var trigger = new MetricRule();
+            if (!string.IsNullOrEmpty(id)) {
+                trigger.Id = id;
+            }
+            trigger["name"] = this.RuleName;
+            trigger["expression"] = SystemManager.CreateExpression(this.Interval, "s");
+            trigger["metric"] = this.KPI;
+            trigger["parent_type"] = this.Model.GetClassName();
+            trigger["parent_id"] = this.Model.Id;
+            return trigger;
+        }
     }
 }

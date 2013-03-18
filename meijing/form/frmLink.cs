@@ -13,16 +13,40 @@ namespace meijing.ui
 
     public partial class frmLink : Form
     {
+        private string id;
         private readonly IDictionary<Device, IList<Interface>> devices;
-        public frmLink(IDictionary<Device, IList<Interface>> devices)
+        public frmLink(IDictionary<Device, IList<Interface>> devices, Link link)
         {
             this.devices = devices;
 
             InitializeComponent();
-            foreach (var kp in devices) 
+            this.device1Box.Items.AddRange(devices.Keys.Cast<object>().ToArray());
+            this.device2Box.Items.AddRange(devices.Keys.Cast<object>().ToArray());
+
+            if (null != link) 
             {
-                this.device1Box.Items.Add(kp.Key);
-                this.device2Box.Items.Add(kp.Key);
+                this.LinkName = link.Name;
+                this.Description = link.Description;
+                this.SamplingDirect = link.SamplingDirect;
+
+                var drv1 = devices.Keys.FirstOrDefault((Device d) => d.Id == link.Device1Id);
+                var drv2 = devices.Keys.FirstOrDefault((Device d) => d.Id == link.Device2Id);
+
+                this.Device1 = drv1;
+                this.Device2 = drv2;
+                if (null != drv1)
+                {
+                    device1Box_SelectedIndexChanged(this.port1Box, EventArgs.Empty);
+                    this.Port1 = devices[drv1].FirstOrDefault((Interface ifc) => ifc.IfIndex == link.IfIndex1);
+                }
+                if (null != drv2)
+                {
+                    device2Box_SelectedIndexChanged(this.port2Box, EventArgs.Empty);
+                    this.Port2 = devices[drv2].FirstOrDefault((Interface ifc) => ifc.IfIndex == link.IfIndex2);
+                }
+                this.id = link.Id;
+                this.ok_button.Text = "修改";
+                this.Text = "修改线路...";
             }
         }
 
@@ -48,30 +72,46 @@ namespace meijing.ui
                 }
                 return this.samplingBox.SelectedIndex + 1;
             }
-            set { this.samplingBox.SelectedIndex = value; }
+            set { this.samplingBox.SelectedIndex = value-1; }
         }
 
         public Device Device1 {
             get { return this.device1Box.SelectedItem as Device; }
-            set { this.device1Box.SelectedItem = value; }
+            set
+            {
+                if (null == value) { return;  }
+                this.device1Box.SelectedItem = value;
+            }
         }
 
         public Interface Port1
         {
             get { return this.port1Box.SelectedItem as Interface; }
-            set { this.port1Box.SelectedItem = value; }
+            set
+            {
+                if (null == value) { return; }
+                this.port1Box.SelectedItem = value;
+            }
         }
 
         public Device Device2
         {
             get { return this.device2Box.SelectedItem as Device; }
-            set { this.device2Box.SelectedItem = value; }
+            set
+            {
+                if (null == value) { return; }
+                this.device2Box.SelectedItem = value;
+            }
         }
 
         public Interface Port2
         {
             get { return this.port2Box.SelectedItem as Interface; }
-            set { this.port2Box.SelectedItem = value; }
+            set
+            {
+                if (null == value) { return; }
+                this.port2Box.SelectedItem = value;
+            }
         }
 
         private void cancel_button_Click(object sender, EventArgs e)
@@ -102,14 +142,26 @@ namespace meijing.ui
                 }
 
                 var link = new Link();
+                if (!string.IsNullOrEmpty(id))
+                {
+                    link.Id = id;
+                }
                 link.Name = this.LinkName;
                 link.Description = this.Description;
                 link.Device1Id = Device1.Id;
-                link.IfIndex1 = Port1.IfIndex;
+                if (null != this.Port1)
+                {
+                    link.IfIndex1 = Port1.IfIndex;
+                }
+
                 link.Device2Id = Device2.Id;
-                link.IfIndex2 = Port1.IfIndex;
+                if (null != this.Port2)
+                {
+                    link.IfIndex2 = this.Port2.IfIndex;
+                }
+
                 link.SamplingDirect = SamplingDirect;
-                link.CreateIt();
+                link.SaveIt();
 
                 this.DialogResult = DialogResult.OK;
             }

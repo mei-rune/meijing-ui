@@ -84,6 +84,7 @@ namespace meijing.ui
                     var node = linksNode.Nodes.Add("link-" + drv.Id, drv.Name,
                         link_unselected, link_selected);
                     node.Tag = drv;
+                    node.ContextMenuStrip = this.linkContextMenuStrip;
                     loadRules(node, drv);
                 }
             }
@@ -108,6 +109,7 @@ namespace meijing.ui
                 var n = node.Nodes.Add("trigger-" + trigger.Id, trigger.Name,
                     trigger_unselected, trigger_selected);
                 n.Tag = trigger;
+                n.ContextMenuStrip = this.triggerContextMenuStrip;
             }
         }
 
@@ -161,6 +163,7 @@ namespace meijing.ui
                 var n = node.Nodes.Add("trigger-" + trigger.Id, trigger.Name,
                     trigger_unselected, trigger_selected);
                 n.Tag = trigger;
+                n.ContextMenuStrip = this.triggerContextMenuStrip;
             }
         }
 
@@ -240,11 +243,12 @@ namespace meijing.ui
             {
                 var drv = node.Nodes[i].Tag as Device;
                 var linkNode = node.Nodes[i].Nodes.Find("interfaces", false).First();
-                devices[drv] = GetLinks(linkNode);
+                devices[drv] = GetInterfaces(linkNode);
             }
             return devices;
         }
-        private IList<Interface> GetLinks(TreeNode node)
+
+        private IList<Interface> GetInterfaces(TreeNode node)
         {
             List<Interface> interfaces = new List<Interface>();
             if (null == node)
@@ -258,6 +262,27 @@ namespace meijing.ui
             }
             return interfaces;
         }
+
+        private IList<Link> GetAllLinks()
+        {
+            return GetLinks(this.trvsrvlst.Nodes.Find("links", false).First());
+        }
+
+        private IList<Link> GetLinks(TreeNode node)
+        {
+            List<Link> interfaces = new List<Link>();
+            if (null == node)
+            {
+                return interfaces;
+            }
+
+            for (int i = 0; i < node.Nodes.Count; i++)
+            {
+                interfaces.Add(node.Nodes[i].Tag as Link);
+            }
+            return interfaces;
+        }
+
         private IList<Device> GetAllDevices()
         {
             return GetAllDevices(this.trvsrvlst.Nodes.Find("devices", false).First());
@@ -437,67 +462,130 @@ namespace meijing.ui
 
         private void addLinkToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SystemManager.OpenForm(new frmLink(GetAllDevicesAndPorts()), true, false);
+            SystemManager.OpenForm(new frmLink(GetAllDevicesAndPorts(), null), true, false);
             loadLinks();
         }
 
         private void deleteLinkToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SystemManager.OpenForm(new frmDeleteLink(), true, false);
+            SystemManager.OpenForm(new frmDeleteLink(GetAllLinks()), true, false);
             loadLinks();
         }
 
         private void addTriggerToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // 下面的代码写错， 不应该这样子写， 先不管了。
             var node = this.trvsrvlst.SelectedNode;
             if (null == node.Tag)
             {
                 if ("links" == node.Name)
                 {
-                    frmTrigger.ShowAdd(GetLinks(node), "设备:", Metric.LINKS);
+                    frmTrigger.ShowAdd(GetLinks(node), "设备:", Metric.LINKS, null);
                 }
                 else if ("devices" == node.Name)
                 {
-                    frmTrigger.ShowAdd(GetAllDevices(node), "设备:", Metric.DEVICES);
+                    frmTrigger.ShowAdd(GetAllDevices(node), "设备:", Metric.DEVICES, null);
                 }
                 else if ("interfaces" == node.Name)
                 {
-                    frmTrigger.ShowAdd(GetAllDevicesAndPorts(), "设备:", "端口号:", Metric.INTERFACES);
+                    frmTrigger.ShowAdd(GetAllDevicesAndPorts(), "设备:", "端口号:", 
+                        Metric.INTERFACES, node.Parent.Tag as Device, null);
                 }
                 else if ("triggers" == node.Name)
                 {
-                    List<Trigger> triggers = new List<Trigger>();
-                    for (int i = 0; i < node.Nodes.Count; i++)
-                    {
-                        triggers.Add(node.Nodes[i].Tag as Trigger);
-                    }
-                    showTriggers(node.Parent.Tag as Device, triggers);
+                    frmTrigger.ShowAdd(GetAllDevices(), "设备:", Metric.DEVICES, node.Parent.Tag as Device);
                 }
                 return;
             }
             var drv = node.Tag as Device;
             if (null != drv)
             {
-                frmTrigger.ShowAdd(GetAllDevices(node), "设备:", Metric.DEVICES);
+                frmTrigger.ShowAdd(GetAllDevices(), "设备:", Metric.DEVICES, drv);
+                return;
+            }
+            var link = node.Tag as Link;
+            if (null != link)
+            {
+                frmTrigger.ShowAdd(GetAllLinks(), "线路:", Metric.LINKS, link);
                 return;
             }
             var ifc = node.Tag as Interface;
             if (null != ifc)
             {
-                frmTrigger.ShowAdd(GetAllDevicesAndPorts(), "设备:", "端口号:", Metric.INTERFACES);
+                drv = node.Parent.Parent.Tag as Device;
+                frmTrigger.ShowAdd(GetAllDevicesAndPorts(), "设备:", "端口号:", Metric.INTERFACES, drv, ifc);
                 return;
             }
             var rule = node.Tag as Trigger;
             if (null != rule)
             {
-                //frmTrigger.ShowEdit(GetAllDevices(node), "设备:");
-                return;
+                editTrigger(node);
             }
         }
 
         private void deleteTriggerToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            var node = this.trvsrvlst.SelectedNode;
+            var rule = node.Tag as Trigger;
+            if (null != rule)
+            {
+                if (!MyMessageBox.ShowConfirm("请确认...", "你真的要删除这个任务吗?")) 
+                {
+                    return;
+                }
+                try
+                {
+                    rule.DeleteIt();
+                    node.Remove();
+                }
+                catch (Exception ex)
+                {
+                    MyMessageBox.ShowMessage("错误", "删除任务失败!", ex.ToString());
+                }
+                return;
+            }
+            else 
+            {
+                MyMessageBox.ShowMessage("警告", "请选择一个任务.");
+            }
+        }
 
+        private void editLinkToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var node = this.trvsrvlst.SelectedNode;
+            var rule = node.Tag as Link;
+            if (null == rule)
+            {
+                return;
+            }
+
+            SystemManager.OpenForm(new frmLink(GetAllDevicesAndPorts(), rule), true, false);
+            loadLinks();
+        }
+
+        private void editTrigger_ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var node = this.trvsrvlst.SelectedNode;
+            editTrigger(node);
+        }
+        private void editTrigger(TreeNode node) 
+        {
+            var rule = node.Tag as Trigger;
+            if (null == rule)
+            {
+                return;
+            }
+            var drv = node.Parent.Parent.Tag as Device;
+            if (null != drv)
+            {
+                frmTrigger.ShowEdit(GetAllDevices(), "设备:", Metric.DEVICES, drv, rule);
+                return;
+            }
+            var link = node.Parent.Parent.Tag as Link;
+            if (null != drv)
+            {
+                frmTrigger.ShowEdit(GetAllDevices(), "设备:", Metric.DEVICES, drv, rule);
+            }
         }
 
 

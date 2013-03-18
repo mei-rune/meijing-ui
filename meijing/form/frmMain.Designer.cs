@@ -44,6 +44,8 @@ namespace meijing.ui
             this.deleteDevice_toolStripButton = new System.Windows.Forms.ToolStripButton();
             this.addLinktoolStripButton = new System.Windows.Forms.ToolStripButton();
             this.deleteLinktoolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.addTriggertoolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.deleteTriggertoolStripButton = new System.Windows.Forms.ToolStripButton();
             this.menuStripMain = new System.Windows.Forms.MenuStrip();
             this.ManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RefreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,27 +57,50 @@ namespace meijing.ui
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OperationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addTriggerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteTriggerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ThanksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.AboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem12 = new System.Windows.Forms.ToolStripSeparator();
             this.contextMenuStripMain = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.addDevice_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteDevice_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addLink_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteLink_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addTrigger_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteTrigger_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trvsrvlst = new System.Windows.Forms.TreeView();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
             this.rPanel = new System.Windows.Forms.Panel();
             this.listView = new System.Windows.Forms.ListView();
             this.splitter1 = new System.Windows.Forms.Splitter();
-            this.addTriggerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteTriggerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addTriggertoolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.deleteTriggertoolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.triggerContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
+            this.editTrigger_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
+            this.linkContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem11 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem13 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem14 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem16 = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStripMain.SuspendLayout();
             this.toolStripMain.SuspendLayout();
             this.menuStripMain.SuspendLayout();
+            this.contextMenuStripMain.SuspendLayout();
             this.panel1.SuspendLayout();
             this.rPanel.SuspendLayout();
+            this.triggerContextMenuStrip.SuspendLayout();
+            this.linkContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStripMain
@@ -165,6 +190,27 @@ namespace meijing.ui
             this.deleteLinktoolStripButton.Size = new System.Drawing.Size(23, 22);
             this.deleteLinktoolStripButton.Text = "删除线路";
             this.deleteLinktoolStripButton.Click += new System.EventHandler(this.deleteLinkToolStripMenuItem_Click);
+            // 
+            // addTriggertoolStripButton
+            // 
+            this.addTriggertoolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.addTriggertoolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("addTriggertoolStripButton.Image")));
+            this.addTriggertoolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.addTriggertoolStripButton.Name = "addTriggertoolStripButton";
+            this.addTriggertoolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.addTriggertoolStripButton.Text = "添加任务";
+            this.addTriggertoolStripButton.Click += new System.EventHandler(this.addTriggerToolStripMenuItem_Click);
+            // 
+            // deleteTriggertoolStripButton
+            // 
+            this.deleteTriggertoolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.deleteTriggertoolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("deleteTriggertoolStripButton.Image")));
+            this.deleteTriggertoolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.deleteTriggertoolStripButton.Name = "deleteTriggertoolStripButton";
+            this.deleteTriggertoolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.deleteTriggertoolStripButton.Text = "删除任务";
+            this.deleteTriggertoolStripButton.ToolTipText = "删除任务";
+            this.deleteTriggertoolStripButton.Click += new System.EventHandler(this.deleteTriggerToolStripMenuItem_Click);
             // 
             // menuStripMain
             // 
@@ -259,6 +305,20 @@ namespace meijing.ui
             this.OperationToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
             this.OperationToolStripMenuItem.Text = "任务";
             // 
+            // addTriggerToolStripMenuItem
+            // 
+            this.addTriggerToolStripMenuItem.Name = "addTriggerToolStripMenuItem";
+            this.addTriggerToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.addTriggerToolStripMenuItem.Text = "添加任务";
+            this.addTriggerToolStripMenuItem.Click += new System.EventHandler(this.addTriggerToolStripMenuItem_Click);
+            // 
+            // deleteTriggerToolStripMenuItem
+            // 
+            this.deleteTriggerToolStripMenuItem.Name = "deleteTriggerToolStripMenuItem";
+            this.deleteTriggerToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.deleteTriggerToolStripMenuItem.Text = "删除任务";
+            this.deleteTriggerToolStripMenuItem.Click += new System.EventHandler(this.deleteTriggerToolStripMenuItem_Click);
+            // 
             // HelpToolStripMenuItem
             // 
             this.HelpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -296,12 +356,62 @@ namespace meijing.ui
             // 
             // contextMenuStripMain
             // 
+            this.contextMenuStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addDevice_ToolStripMenuItem,
+            this.deleteDevice_ToolStripMenuItem,
+            this.addLink_ToolStripMenuItem,
+            this.deleteLink_ToolStripMenuItem,
+            this.addTrigger_ToolStripMenuItem,
+            this.deleteTrigger_ToolStripMenuItem});
             this.contextMenuStripMain.Name = "contextMenuStripMain";
-            this.contextMenuStripMain.Size = new System.Drawing.Size(61, 4);
+            this.contextMenuStripMain.Size = new System.Drawing.Size(125, 136);
+            // 
+            // addDevice_ToolStripMenuItem
+            // 
+            this.addDevice_ToolStripMenuItem.Name = "addDevice_ToolStripMenuItem";
+            this.addDevice_ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.addDevice_ToolStripMenuItem.Text = "添加设备";
+            this.addDevice_ToolStripMenuItem.Click += new System.EventHandler(this.addDeviceToolStripMenuItem_Click);
+            // 
+            // deleteDevice_ToolStripMenuItem
+            // 
+            this.deleteDevice_ToolStripMenuItem.Name = "deleteDevice_ToolStripMenuItem";
+            this.deleteDevice_ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.deleteDevice_ToolStripMenuItem.Text = "删除设备";
+            this.deleteDevice_ToolStripMenuItem.Click += new System.EventHandler(this.deleteDeviceToolStripMenuItem_Click);
+            // 
+            // addLink_ToolStripMenuItem
+            // 
+            this.addLink_ToolStripMenuItem.Name = "addLink_ToolStripMenuItem";
+            this.addLink_ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.addLink_ToolStripMenuItem.Text = "添加线路";
+            this.addLink_ToolStripMenuItem.Click += new System.EventHandler(this.addLinkToolStripMenuItem_Click);
+            // 
+            // deleteLink_ToolStripMenuItem
+            // 
+            this.deleteLink_ToolStripMenuItem.Name = "deleteLink_ToolStripMenuItem";
+            this.deleteLink_ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.deleteLink_ToolStripMenuItem.Text = "删除线路";
+            this.deleteLink_ToolStripMenuItem.Click += new System.EventHandler(this.deleteLinkToolStripMenuItem_Click);
+            // 
+            // addTrigger_ToolStripMenuItem
+            // 
+            this.addTrigger_ToolStripMenuItem.Name = "addTrigger_ToolStripMenuItem";
+            this.addTrigger_ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.addTrigger_ToolStripMenuItem.Text = "添加任务";
+            this.addTrigger_ToolStripMenuItem.Click += new System.EventHandler(this.addTriggerToolStripMenuItem_Click);
+            // 
+            // deleteTrigger_ToolStripMenuItem
+            // 
+            this.deleteTrigger_ToolStripMenuItem.Name = "deleteTrigger_ToolStripMenuItem";
+            this.deleteTrigger_ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.deleteTrigger_ToolStripMenuItem.Text = "删除任务";
+            this.deleteTrigger_ToolStripMenuItem.Click += new System.EventHandler(this.deleteTriggerToolStripMenuItem_Click);
             // 
             // trvsrvlst
             // 
             this.trvsrvlst.BackColor = System.Drawing.Color.White;
+            this.trvsrvlst.ContextMenuStrip = this.contextMenuStripMain;
             this.trvsrvlst.Dock = System.Windows.Forms.DockStyle.Left;
             this.trvsrvlst.ImageIndex = 0;
             this.trvsrvlst.ImageList = this.imageList1;
@@ -372,6 +482,7 @@ namespace meijing.ui
             // 
             // listView
             // 
+            this.listView.ContextMenuStrip = this.contextMenuStripMain;
             this.listView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView.Location = new System.Drawing.Point(0, 0);
             this.listView.Name = "listView";
@@ -388,40 +499,117 @@ namespace meijing.ui
             this.splitter1.TabIndex = 1;
             this.splitter1.TabStop = false;
             // 
-            // addTriggerToolStripMenuItem
+            // triggerContextMenuStrip
             // 
-            this.addTriggerToolStripMenuItem.Name = "addTriggerToolStripMenuItem";
-            this.addTriggerToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.addTriggerToolStripMenuItem.Text = "添加任务";
-            this.addTriggerToolStripMenuItem.Click += new System.EventHandler(this.addTriggerToolStripMenuItem_Click);
+            this.triggerContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem2,
+            this.toolStripMenuItem3,
+            this.toolStripMenuItem4,
+            this.toolStripMenuItem5,
+            this.toolStripMenuItem6,
+            this.editTrigger_ToolStripMenuItem,
+            this.toolStripMenuItem7});
+            this.triggerContextMenuStrip.Name = "contextMenuStripMain";
+            this.triggerContextMenuStrip.Size = new System.Drawing.Size(125, 158);
             // 
-            // deleteTriggerToolStripMenuItem
+            // toolStripMenuItem2
             // 
-            this.deleteTriggerToolStripMenuItem.Name = "deleteTriggerToolStripMenuItem";
-            this.deleteTriggerToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.deleteTriggerToolStripMenuItem.Text = "删除任务";
-            this.deleteTriggerToolStripMenuItem.Click += new System.EventHandler(this.deleteTriggerToolStripMenuItem_Click);
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(124, 22);
+            this.toolStripMenuItem2.Text = "添加设备";
             // 
-            // addTriggertoolStripButton
+            // toolStripMenuItem3
             // 
-            this.addTriggertoolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.addTriggertoolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("addTriggertoolStripButton.Image")));
-            this.addTriggertoolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.addTriggertoolStripButton.Name = "addTriggertoolStripButton";
-            this.addTriggertoolStripButton.Size = new System.Drawing.Size(23, 22);
-            this.addTriggertoolStripButton.Text = "添加任务";
-            this.addTriggertoolStripButton.Click += new System.EventHandler(this.addTriggerToolStripMenuItem_Click);
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(124, 22);
+            this.toolStripMenuItem3.Text = "删除设备";
             // 
-            // deleteTriggertoolStripButton
+            // toolStripMenuItem4
             // 
-            this.deleteTriggertoolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.deleteTriggertoolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("deleteTriggertoolStripButton.Image")));
-            this.deleteTriggertoolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.deleteTriggertoolStripButton.Name = "deleteTriggertoolStripButton";
-            this.deleteTriggertoolStripButton.Size = new System.Drawing.Size(23, 22);
-            this.deleteTriggertoolStripButton.Text = "删除任务";
-            this.deleteTriggertoolStripButton.ToolTipText = "删除任务";
-            this.deleteTriggertoolStripButton.Click += new System.EventHandler(this.deleteTriggerToolStripMenuItem_Click);
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(124, 22);
+            this.toolStripMenuItem4.Text = "添加线路";
+            // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(124, 22);
+            this.toolStripMenuItem5.Text = "删除线路";
+            // 
+            // toolStripMenuItem6
+            // 
+            this.toolStripMenuItem6.Name = "toolStripMenuItem6";
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(124, 22);
+            this.toolStripMenuItem6.Text = "添加任务";
+            // 
+            // editTrigger_ToolStripMenuItem
+            // 
+            this.editTrigger_ToolStripMenuItem.Name = "editTrigger_ToolStripMenuItem";
+            this.editTrigger_ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.editTrigger_ToolStripMenuItem.Text = "修改任务";
+            this.editTrigger_ToolStripMenuItem.Click += new System.EventHandler(this.editTrigger_ToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem7
+            // 
+            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(124, 22);
+            this.toolStripMenuItem7.Text = "删除任务";
+            // 
+            // linkContextMenuStrip
+            // 
+            this.linkContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem8,
+            this.toolStripMenuItem9,
+            this.toolStripMenuItem10,
+            this.toolStripMenuItem11,
+            this.toolStripMenuItem13,
+            this.toolStripMenuItem14,
+            this.toolStripMenuItem16});
+            this.linkContextMenuStrip.Name = "contextMenuStripMain";
+            this.linkContextMenuStrip.Size = new System.Drawing.Size(153, 180);
+            // 
+            // toolStripMenuItem8
+            // 
+            this.toolStripMenuItem8.Name = "toolStripMenuItem8";
+            this.toolStripMenuItem8.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem8.Text = "添加设备";
+            // 
+            // toolStripMenuItem9
+            // 
+            this.toolStripMenuItem9.Name = "toolStripMenuItem9";
+            this.toolStripMenuItem9.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem9.Text = "删除设备";
+            // 
+            // toolStripMenuItem10
+            // 
+            this.toolStripMenuItem10.Name = "toolStripMenuItem10";
+            this.toolStripMenuItem10.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem10.Text = "添加线路";
+            // 
+            // toolStripMenuItem11
+            // 
+            this.toolStripMenuItem11.Name = "toolStripMenuItem11";
+            this.toolStripMenuItem11.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem11.Text = "修改线路";
+            this.toolStripMenuItem11.Click += new System.EventHandler(this.editLinkToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem13
+            // 
+            this.toolStripMenuItem13.Name = "toolStripMenuItem13";
+            this.toolStripMenuItem13.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem13.Text = "删除线路";
+            // 
+            // toolStripMenuItem14
+            // 
+            this.toolStripMenuItem14.Name = "toolStripMenuItem14";
+            this.toolStripMenuItem14.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem14.Text = "添加任务";
+            // 
+            // toolStripMenuItem16
+            // 
+            this.toolStripMenuItem16.Name = "toolStripMenuItem16";
+            this.toolStripMenuItem16.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem16.Text = "删除任务";
             // 
             // frmMain
             // 
@@ -436,7 +624,7 @@ namespace meijing.ui
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Mongo-Cola";
+            this.Text = "meijing-ui";
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.statusStripMain.ResumeLayout(false);
             this.statusStripMain.PerformLayout();
@@ -444,8 +632,11 @@ namespace meijing.ui
             this.toolStripMain.PerformLayout();
             this.menuStripMain.ResumeLayout(false);
             this.menuStripMain.PerformLayout();
+            this.contextMenuStripMain.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.rPanel.ResumeLayout(false);
+            this.triggerContextMenuStrip.ResumeLayout(false);
+            this.linkContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -488,5 +679,27 @@ namespace meijing.ui
         private ToolStripButton deleteTriggertoolStripButton;
         private ToolStripMenuItem addTriggerToolStripMenuItem;
         private ToolStripMenuItem deleteTriggerToolStripMenuItem;
+        private ToolStripMenuItem addDevice_ToolStripMenuItem;
+        private ToolStripMenuItem deleteDevice_ToolStripMenuItem;
+        private ToolStripMenuItem addLink_ToolStripMenuItem;
+        private ToolStripMenuItem deleteLink_ToolStripMenuItem;
+        private ToolStripMenuItem addTrigger_ToolStripMenuItem;
+        private ToolStripMenuItem deleteTrigger_ToolStripMenuItem;
+        private ContextMenuStrip triggerContextMenuStrip;
+        private ToolStripMenuItem toolStripMenuItem2;
+        private ToolStripMenuItem toolStripMenuItem3;
+        private ToolStripMenuItem toolStripMenuItem4;
+        private ToolStripMenuItem toolStripMenuItem5;
+        private ToolStripMenuItem toolStripMenuItem6;
+        private ToolStripMenuItem editTrigger_ToolStripMenuItem;
+        private ToolStripMenuItem toolStripMenuItem7;
+        private ContextMenuStrip linkContextMenuStrip;
+        private ToolStripMenuItem toolStripMenuItem8;
+        private ToolStripMenuItem toolStripMenuItem9;
+        private ToolStripMenuItem toolStripMenuItem10;
+        private ToolStripMenuItem toolStripMenuItem11;
+        private ToolStripMenuItem toolStripMenuItem13;
+        private ToolStripMenuItem toolStripMenuItem14;
+        private ToolStripMenuItem toolStripMenuItem16;
     }
 }

@@ -48,6 +48,7 @@ namespace meijing.ui.module
         public string Id
         {
             get { return GetString("_id");  }
+            set { this.attributes["_id"] = value;  }
         }
 
         public string GetString(string key) {
@@ -92,13 +93,31 @@ namespace meijing.ui.module
             set { this.attributes[key] = value; }
         }
 
+        public string GetClassName()
+        {
+            return Model.GetClassName(this.GetType());
+        }
+
+        public string GetTableName()
+        {
+            return Model.GetTableName(this.GetType());
+        }
+
         public override int GetHashCode()
         {
+            if (null == this.Id)
+            {
+                return -1;
+            }
             return this.Id.GetHashCode();
         }
 
         public override string ToString()
         {
+            if (null == this.Id)
+            {
+                return "";
+            }
             return Id.ToString();
         }
 
@@ -110,6 +129,19 @@ namespace meijing.ui.module
             }
 
             return Id.Equals(model.Id);
+        }
+
+        public string SaveIt()
+        {
+            if (null == this.Id)
+            {
+                return CreateIt();
+            }
+            else
+            {
+                UpdateIt();
+                return this.Id;
+            }
         }
 
         public string CreateIt()
@@ -194,13 +226,13 @@ namespace meijing.ui.module
             SystemManager.Client.DeleteById(GetClassName(typeof(T)), id);
         }
 
-        public static void DeleteBy<T>(IDictionary<string, Object> query)
+        public static void DeleteBy<T>(IDictionary<string, string> query)
             where T : Model
         {
             SystemManager.Client.DeleteBy(GetClassName(typeof(T)), query);
         }
 
-        public static int Count<T>(IDictionary<string, Object> query)
+        public static int Count<T>(IDictionary<string, string> query)
             where T : Model
         {
             return SystemManager.Client.Count(GetClassName(typeof(T)), query);

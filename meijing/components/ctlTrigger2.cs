@@ -13,6 +13,7 @@ namespace meijing.ui.components
 
     public partial class ctlTrigger2 : UserControl
     {
+        string id;
         IDictionary<string, Metric> metrics = new Dictionary<string, Metric>();
         IDictionary<Model, IList<object>> models;
         public ctlTrigger2()
@@ -58,7 +59,11 @@ namespace meijing.ui.components
         public Model Model
         {
             get { return this.topObjectBox.SelectedItem as Model; }
-            set { this.topObjectBox.SelectedItem = value; }
+            set
+            {
+                if (null == value) { return; } 
+                this.topObjectBox.SelectedItem = value;
+            }
         }
 
         public object Child 
@@ -73,8 +78,12 @@ namespace meijing.ui.components
             this.childObjectLabel.Text = child;
         }
 
-        public void SetModels(IDictionary<Model, IList<object>> models) 
+        public void SetModels(IDictionary<Model, IList<object>> models)
         {
+            if (null == models)
+            {
+                return;
+            }
             this.models = models;
             this.topObjectBox.Items.AddRange(models.Keys.ToArray());
         }
@@ -98,6 +107,29 @@ namespace meijing.ui.components
             }
 
             this.childrenBox.Items.AddRange(items.ToArray());
+        }
+
+        public void SetTrigger(Trigger trigger)
+        {
+            this.RuleName = trigger.Name;
+            this.Interval = SystemManager.ParseExpressionAsSecond(trigger.Expression);
+            this.KPI = trigger.GetString("metric");
+            this.id = trigger.Id;
+        }
+
+        public Trigger GetTrigger()
+        {
+            var trigger = new MetricRule();
+            if (!string.IsNullOrEmpty(id))
+            {
+                trigger.Id = id;
+            }
+            trigger["name"] = this.RuleName;
+            trigger["expression"] = SystemManager.CreateExpression(this.Interval, "s");
+            trigger["metric"] = this.KPI;
+            trigger["parent_type"] = this.Model.GetClassName();
+            trigger["parent_id"] = this.Model.Id;
+            return trigger;
         }
     }
 }

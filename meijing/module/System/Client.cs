@@ -6,12 +6,13 @@ using System.Net;
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Collections;
 
 namespace meijing.ui.module
 {
     public class Client
     {
-        readonly string baseUrl;
+        protected readonly string baseUrl;
         public Client(string address)
         {
             baseUrl = address;
@@ -47,7 +48,21 @@ namespace meijing.ui.module
 
                 return JsonConvert.DeserializeObject<Dictionary<string, object>>(responseString);
             }
-            catch (WebException e) {
+            catch (WebException e)
+            {
+                if (null == e.Response)
+                {
+                    throw;
+                }
+                if ("GET" == action &&  HttpStatusCode.NotFound == ((HttpWebResponse)e.Response).StatusCode)
+                {
+                    return new Dictionary<string, object>();
+                }
+
+                if (null == e.Response.GetResponseStream())
+                {
+                    throw;
+                }
                 var body = new StreamReader(e.Response.GetResponseStream()).ReadToEnd();
                 throw new WebException(string.Format("{0}, {1}", e.Message, body), e);
             }
@@ -58,7 +73,7 @@ namespace meijing.ui.module
         {
             var url = new UrlBuilder(baseUrl).Concat(target).ToUrl();
             var res = Invoke("POST", url, attributes, HttpStatusCode.Created);
-            return res.ToString();
+            return res["value"].ToString();
         }
 
         public string Save(string target, IDictionary<string, string> query,
@@ -67,14 +82,14 @@ namespace meijing.ui.module
             var url = new UrlBuilder(baseUrl).Concat(target).WithQueries(query, "@")
                 .WithQuery("save", "true").ToUrl();
             var res = Invoke("POST", url, attributes, HttpStatusCode.OK);
-            return res.ToString();
+            return res["value"].ToString();
         }
 
         public string UpdateById(string target, string id, IDictionary<string, object> attributes)
         {
             var url = new UrlBuilder(baseUrl).Concat(target, id).ToUrl();
             var res = Invoke("PUT", url, attributes, HttpStatusCode.OK);
-            return res.ToString();
+            return res["value"].ToString();
         }
 
         public string UpdateBy(string target, IDictionary<string, string> query,
@@ -82,25 +97,36 @@ namespace meijing.ui.module
         {
             var url = new UrlBuilder(baseUrl).Concat(target, "query").WithQueries(query, "@").ToUrl();
             var res = Invoke("PUT", url, attributes, HttpStatusCode.OK);
-            return res.ToString();
+            return res["value"].ToString();
         }
 
         public string DeleteById(string target, string id)
         {
             var url = new UrlBuilder(baseUrl).Concat(target, id).ToUrl();
             var res = Invoke("DELETE", url, null, HttpStatusCode.OK);
-            return res.ToString();
+            return res["value"].ToString();
         }
 
-        public string DeleteBy(string target, IDictionary<string, object> query)
+        public string DeleteBy(string target, IDictionary<string, string> query)
         {
             var url = new UrlBuilder(baseUrl).Concat(target, "query").WithQueries(query, "@").ToUrl();
-	        var res = Invoke("DELETE", url, null, HttpStatusCode.OK);
-	        return res.ToString();
+            var res = Invoke("DELETE", url, null, HttpStatusCode.OK);
+            return res["value"].ToString();
         }
-        public int Count(string type, IDictionary<string, Object> query)
+        public int Count(string target, IDictionary<string, string> query)
         {
-            throw new NotImplementedException();
+            var url = new UrlBuilder(baseUrl).Concat(target, "count").WithQueries(query, "@").ToUrl();
+            var res = Invoke("GET", url, null, HttpStatusCode.OK);
+
+            object obj;
+            if (res.TryGetValue("value", out obj))
+            {
+                return int.Parse(res["value"].ToString());
+            }
+            else
+            {
+                return 0;
+            }
         }
 
         public IDictionary<string, object> FindById(string type, string id)
@@ -117,7 +143,15 @@ namespace meijing.ui.module
         {
             var url = new UrlBuilder(baseUrl).Concat(target, id).WithQuery("includes", includes).ToUrl();
             var res = Invoke("GET", url, null, HttpStatusCode.OK);
-            return ToDictionary((JObject)res["value"]);
+            object obj;
+            if (res.TryGetValue("value", out obj))
+            {
+                return ToDictionary((JObject)obj);
+            }
+            else
+            {
+                throw new ApplicationException("没有找到");
+            }
         }
 
         public IList<IDictionary<string, Object>> FindByWithIncludes(string target, 
@@ -128,7 +162,15 @@ namespace meijing.ui.module
                 WithQuery("includes", includes).ToUrl();
 
             var res = Invoke("GET", url, null, HttpStatusCode.OK);
-            return ToObjects(res["value"] as IEnumerable<object>);
+            object obj;
+            if (res.TryGetValue("value", out obj))
+            {
+                return ToObjects(obj as IEnumerable<object>);
+            }
+            else
+            {
+                return new List<IDictionary<string, Object>>();
+            }
         }
 
 
@@ -139,10 +181,18 @@ namespace meijing.ui.module
                 WithQueries(query, "@").ToUrl();
 
             var res = Invoke("GET", url, null, HttpStatusCode.OK);
-            return ToObjects(res["value"] as IEnumerable<object>);
+            object obj;
+            if (res.TryGetValue("value", out obj))
+            {
+                return ToObjects(obj as IEnumerable<object>);
+            }
+            else
+            {
+                return new List<IDictionary<string, Object>>();
+            }
         }
 
-        private static IList<IDictionary<string, object>> ToObjects(IEnumerable<object> obj)
+        protected static IList<IDictionary<string, object>> ToObjects(IEnumerable<object> obj)
         {
             if (null == obj)
             {
@@ -156,7 +206,8 @@ namespace meijing.ui.module
             }
             return result;
         }
-        private static IDictionary<string, object> ToDictionary(JObject obj) {
+        protected static IDictionary<string, object> ToDictionary(JObject obj)
+        {
             if (null == obj) {
                 return null;
             }
@@ -167,7 +218,7 @@ namespace meijing.ui.module
             return result;
         }
 
-        private static IList<object> ToArray(JArray obj)
+        protected static IList<object> ToArray(JArray obj)
         {
             if (null == obj)
             {
@@ -182,7 +233,38 @@ namespace meijing.ui.module
             return result;
         }
 
-        private static object ToObject(JToken token) { 
+        protected static IList<string> ToStringArray(JArray obj)
+        {
+            if (null == obj)
+            {
+                return null;
+            }
+
+            List<string> result = new List<string>();
+            foreach (var kp in obj)
+            {
+                result.Add(kp.ToString());
+            }
+            return result;
+        }
+
+        protected static IList<string> ToStringArray(IEnumerable obj)
+        {
+            if (null == obj)
+            {
+                return null;
+            }
+
+            List<string> result = new List<string>();
+            foreach (var kp in obj)
+            {
+                result.Add(kp.ToString());
+            }
+            return result;
+        }
+
+        protected static object ToObject(JToken token)
+        { 
             var jo = token as JObject;
             if(null != jo) {
                return ToDictionary(jo);

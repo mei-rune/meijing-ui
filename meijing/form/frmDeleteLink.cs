@@ -9,11 +9,14 @@ using System.Windows.Forms;
 
 namespace meijing.ui
 {
+    using meijing.ui.module;
+
     public partial class frmDeleteLink : Form
     {
-        public frmDeleteLink()
+        public frmDeleteLink(IList<Link> links)
         {
             InitializeComponent();
+            this.listView.SetLinks(links);
         }
 
         private void cancel_buttom_Click(object sender, EventArgs e)
