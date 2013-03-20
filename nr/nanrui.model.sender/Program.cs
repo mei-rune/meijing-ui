@@ -46,8 +46,8 @@ namespace meijing.nanrui.model.sender
 
         static Dispatcher _deviceDispatcher = new Dispatcher();
         static Dispatcher _serviceDispatcher = new Dispatcher();
-        static Dictionary<int, Device> _deviceByIds = new Dictionary<int,Device>();
-        static Dictionary<int, Link> _linkByIds = new Dictionary<int,Link>();
+        static Dictionary<string, Device> _deviceByIds = new Dictionary<string, Device>();
+        static Dictionary<string, Link> _linkByIds = new Dictionary<string, Link>();
         //static Dictionary<int, ServiceStaticPropertiesData> _serviceByIds = new Dictionary<int, ServiceStaticPropertiesData>();
 
         static Dictionary<string, string> _deviceModels = new Dictionary<string, string>();
@@ -241,10 +241,6 @@ namespace meijing.nanrui.model.sender
                     {
                         addr = ss.Substring(10);
                     }
-                    else if (ss.StartsWith("--PATH=", StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        basePath = BTSystem.GetBasePath(basePath, ss.Substring(7));
-                    }
                     else if (ss.StartsWith("--MaxSize=", StringComparison.InvariantCultureIgnoreCase))
                     {
                         maxSize = int.Parse(ss.Substring(10));
@@ -296,8 +292,6 @@ namespace meijing.nanrui.model.sender
 
                         foreach (Device dev in devices)
                         {
-                            bool[] sa;
-
                             XmlContainer xmlContainer = null;
                             switch (dev.Catalog)
                             {
@@ -594,7 +588,7 @@ namespace meijing.nanrui.model.sender
 
         static XmlContainer processRT(Device dev, IDictionary<string, XmlContainer> dict)
         {
-            XmlContainer xmlContainer = createXml(GetAddress(dev.IP, dev.Address), dict);
+            XmlContainer xmlContainer = createXml(GetAddress(dev.Address, dev.Address), dict);
             XmlElement rt = AppendChild(createXmlElement("Router", xmlContainer), "Router");
             string originalKey = generateOriginalKey(dev);
             AppendChild(rt, "OriginalKey", originalKey);
@@ -613,7 +607,7 @@ namespace meijing.nanrui.model.sender
                 AppendChild(rt, "Model", model);
 
             AppendChild(rt, "PrimaryMACAddress", btSystem.GetPrimaryMAC(dev));
-            AppendChild(rt, "UsingIPAddress", dev.IP);
+            AppendChild(rt, "UsingIPAddress", dev.Address);
 
 
             foreach (KeyValuePair<string, string> kp in _deviceFields)
@@ -691,10 +685,10 @@ namespace meijing.nanrui.model.sender
         static XmlContainer processLink(Link link, Dictionary<string, XmlContainer> dict)
         {
             Device dev1 = null;
-            _deviceByIds.TryGetValue(link.DevId1, out dev1);
+            _deviceByIds.TryGetValue(link.Device1Id, out dev1);
 
             Device dev2 = null;
-            _deviceByIds.TryGetValue(link.DevId2, out dev2);
+            _deviceByIds.TryGetValue(link.Device2Id, out dev2);
             if (null == dev1 || null == dev2)
             {
                 logger.InfoFormat("线路[{0}:{1}]其中一端的设备没有,跳过!", link.Id, link.DisplayName);
@@ -812,31 +806,31 @@ namespace meijing.nanrui.model.sender
             return xmlContainer;
         }
 
-        static void processPorts(BTSystem btSystem, Device dev, bool isRT, XmlElement element)
+        static void processPorts(Device dev, bool isRT, XmlElement element)
         {
-            Dictionary<int, DeviceIPData> ipList = new Dictionary<int, DeviceIPData>();
+            Dictionary<int, IPAddress> ipList = new Dictionary<int, IPAddress>();
 
-            foreach (DeviceIPData ipData in btSystem.GetDeviceIPs(dev.Id).Values)
+            foreach (IPAddress ipData in dev.Children<IPAddress>(null))
             {
                 ipList[ipData.IfIndex] = ipData;
             }
 
-            foreach (Interface port in dev.GetPorts())
+            foreach (Interface port in dev.Children<Interface>(null))
             {
-                DeviceIPData ip = null;
+                IPAddress ip = null;
                 ipList.TryGetValue(port.IfIndex, out ip);
 
                 //if ("172.16.138.254" == dev.IP)
                 //    Console.WriteLine( "{0} - {1}", port.IfIndex, null == ip );
 
 
-                processPort(btSystem, dev, port, ip, isRT, element);
+                processPort(dev, port, ip, isRT, element);
             }
         }
 
-        static void processPort(BTSystem btSystem, Device dev
+        static void processPort(Device dev
             , Interface port
-            , DeviceIPData ipData
+            , IPAddress ipData
             , bool isRT
             , XmlElement element)
         {
@@ -848,7 +842,7 @@ namespace meijing.nanrui.model.sender
 
             //- <!--  设备名称 选填  --> 
             //  <Name>xxxxx</Name> 
-            AppendChild(ip, "Name", port.DisplayName);
+            AppendChild(ip, "Name", port.ToString());
 
             //- <!--  端口在设备内部的编号/例如ETH1=1 必须填写  --> 
             //  <InternalNumber>1</InternalNumber> 
@@ -860,7 +854,7 @@ namespace meijing.nanrui.model.sender
                 {
                     //- <!--  IP地址   --> 
                     //  <Address>10.144.99.1</Address> 
-                    AppendChild(ip, "Address", dev.IP);
+                    AppendChild(ip, "Address", dev.Address);
 
                     //- <!--  子网掩码   --> 
                     //  <NetworkMask>255.255.255.0</NetworkMask> 
@@ -869,7 +863,7 @@ namespace meijing.nanrui.model.sender
             }
             else
             {
-                AppendChild(ip, "Address", ipData.IP);
+                AppendChild(ip, "Address", ipData.Address);
                 AppendChild(ip, "NetworkMask", ipData.Mask);
             }
 
@@ -885,7 +879,7 @@ namespace meijing.nanrui.model.sender
 
             //- <!--  MAC地址   --> 
             //  <MACAddress>1A.73.8A.4A.32.21</MACAddress> 
-            AppendChild(ip, "MACAddress", port.IfMAC);
+            AppendChild(ip, "MACAddress", port.IfPhysAddress);
         }
 
         static string Execute(string cmd, string arguments)

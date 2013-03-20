@@ -84,18 +84,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Client.cs" />
     <Compile Include="Matcher.cs" />
+    <Compile Include="Model.cs" />
     <Compile Include="PerformanceData.cs" />
     <Compile Include="TemplateEngine.cs" />
+    <Compile Include="UrlBuilder.cs" />
     <Compile Include="XmlSetting.cs" />
     <Compile Include="NMSSupport.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="nanrui.performance.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="nmsprovider-activemq.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -13,18 +13,18 @@ namespace meijing
     [Serializable]
     public class IPSeg //: IEnumerable<IPAddress>
     {
-        private IPAddress from_;
-        private IPAddress to_;
+        private System.Net.IPAddress from_;
+        private System.Net.IPAddress to_;
 
         [XmlIgnore]
-        public IPAddress From
+        public System.Net.IPAddress From
         {
-            get { return from_??IPAddress.None; }
+            get { return from_??System.Net.IPAddress.None; }
             set { from_ = value; }
         }
 
         [XmlIgnore]
-        public IPAddress To
+        public System.Net.IPAddress To
         {
             get { return to_ ?? From; }
             set { to_ = value; }
@@ -34,36 +34,36 @@ namespace meijing
         public string _From_
         {
             get { return From.ToString(); }
-            set { From = IPAddress.Parse(value); }
+            set { From = System.Net.IPAddress.Parse(value); }
         }
 
         [XmlElement("To")]
         public string _To_
         {
             get { return To.ToString(); }
-            set { To = IPAddress.Parse(value); }
+            set { To = System.Net.IPAddress.Parse(value); }
         }
 
         public IPSeg( )
         {
         }
 
-        public IPSeg(KeyValuePair<IPAddress, IPAddress> seg)
+        public IPSeg(KeyValuePair<System.Net.IPAddress, System.Net.IPAddress> seg)
         {
             From = seg.Key;
             To = seg.Value;
         }
 
-        public IPSeg(IPAddress from, IPAddress to)
+        public IPSeg(System.Net.IPAddress from, System.Net.IPAddress to)
         {
             From = from;
             To = to;
         }
         public IPSeg(string from, string to)
         {
-            From = IPAddress.Parse(from);
+            From = System.Net.IPAddress.Parse(from);
             if (!string.IsNullOrEmpty( to) )
-                To = IPAddress.Parse(to);
+                To = System.Net.IPAddress.Parse(to);
         }
 
 
@@ -79,7 +79,7 @@ namespace meijing
             }
         }
 
-        public IEnumerator<IPAddress> internalGetEnumerator()
+        public IEnumerator<System.Net.IPAddress> internalGetEnumerator()
         {
             if (!IsNull(from_))
             {
@@ -89,7 +89,7 @@ namespace meijing
                 }
                 else
                 {
-                    IPAddress from = From;
+                    System.Net.IPAddress from = From;
                     while (true)
                     {
                         yield return from;
@@ -101,7 +101,7 @@ namespace meijing
             }
         }
 
-        public bool In(IPAddress addr)
+        public bool In(System.Net.IPAddress addr)
         {
             if (IsNull(from_))
                 return false;
@@ -115,7 +115,7 @@ namespace meijing
 
         #region IEnumerable<IPAddress> Members
 
-        public IEnumerator<IPAddress> GetEnumerator()
+        public IEnumerator<System.Net.IPAddress> GetEnumerator()
         {
             return internalGetEnumerator();
         }
@@ -152,14 +152,14 @@ namespace meijing
             return string.Format("{0}-{1}", From, To);
         }
 
-        private bool IsNull( IPAddress addr )
+        private bool IsNull(System.Net.IPAddress addr)
         { 
             if( null == addr )
                 return true;
-            return addr == IPAddress.None;
+            return addr == System.Net.IPAddress.None;
         }
 
-        public static bool In(IPAddress address, IPSeg[] segments)
+        public static bool In(System.Net.IPAddress address, IPSeg[] segments)
         {
             foreach (IPSeg seg in segments)
             {
@@ -189,7 +189,7 @@ namespace meijing
             return xCount == yCount ? 0 : (xCount > yCount ? 1 : -1);
         }
 
-        static public int CompareFor(IPAddress x, IPAddress y)
+        static public int CompareFor(System.Net.IPAddress x, System.Net.IPAddress y)
         {
             if ((x.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork &&
                    y.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
@@ -252,7 +252,7 @@ namespace meijing
         }
 
 
-        static public IPAddress Prev(IPAddress x)
+        static public System.Net.IPAddress Prev(System.Net.IPAddress x)
         {
             byte[] New = Minus(x.GetAddressBytes(), 1);
             string ni = New.Length == 4 ? string.Format("{0}.{1}.{2}.{3}", New[0], New[1], New[2], New[3])
@@ -260,10 +260,10 @@ namespace meijing
                                                          New[0], New[1], New[2], New[3], New[4], New[5], New[6], New[7],
                                                          New[8], New[9], New[10], New[11], New[12], New[13], New[14], New[15]);
 
-            return IPAddress.Parse(ni);
+            return System.Net.IPAddress.Parse(ni);
         }
 
-        static public IPAddress Next(IPAddress x)
+        static public System.Net.IPAddress Next(System.Net.IPAddress x)
         {
             byte[] New = Plus(x.GetAddressBytes(), 1);
             string ni = New.Length == 4 ? string.Format("{0}.{1}.{2}.{3}", New[0], New[1], New[2], New[3])
@@ -271,10 +271,10 @@ namespace meijing
                                                          New[0], New[1], New[2], New[3], New[4], New[5], New[6], New[7],
                                                          New[8], New[9], New[10], New[11], New[12], New[13], New[14], New[15]);
 
-            return IPAddress.Parse(ni);
+            return System.Net.IPAddress.Parse(ni);
         }
 
-        static public IPAddress Plus(IPAddress x, byte y)
+        static public System.Net.IPAddress Plus(System.Net.IPAddress x, byte y)
         {
             byte[] New = Plus(x.GetAddressBytes(), y);
             string ni = New.Length == 4 ? string.Format("{0}.{1}.{2}.{3}", New[0], New[1], New[2], New[3])
@@ -282,10 +282,10 @@ namespace meijing
                                                          New[0], New[1], New[2], New[3], New[4], New[5], New[6], New[7],
                                                          New[8], New[9], New[10], New[11], New[12], New[13], New[14], New[15]);
 
-            return IPAddress.Parse(ni);
+            return System.Net.IPAddress.Parse(ni);
         }
 
-        static public IPAddress Minus(IPAddress x, byte y)
+        static public System.Net.IPAddress Minus(System.Net.IPAddress x, byte y)
         {
             byte[] New = Minus(x.GetAddressBytes(), y);
             string ni = New.Length == 4 ? string.Format("{0}.{1}.{2}.{3}", New[0], New[1], New[2], New[3])
@@ -293,7 +293,7 @@ namespace meijing
                                                          New[0], New[1], New[2], New[3], New[4], New[5], New[6], New[7],
                                                          New[8], New[9], New[10], New[11], New[12], New[13], New[14], New[15]);
 
-            return IPAddress.Parse(ni);
+            return System.Net.IPAddress.Parse(ni);
         }
 
         static ulong GetValue(byte[] x)
@@ -312,7 +312,7 @@ namespace meijing
             return (int)(y1 - x1 + 1);
         }
 
-        static public int Distance(IPAddress x, IPAddress y)
+        static public int Distance(System.Net.IPAddress x, System.Net.IPAddress y)
         {
             return IPSeg.Distance(x.GetAddressBytes(), y.GetAddressBytes());
         }
@@ -333,7 +333,7 @@ namespace meijing
 
             for (i = 0; i < xx.Length; i++)
                 xx[i] = op(xx[i], mm[i]);
-            return new IPAddress(xx);
+            return new System.Net.IPAddress(xx);
         }
 
         public static System.Net.IPAddress And(System.Net.IPAddress x, System.Net.IPAddress mask)
