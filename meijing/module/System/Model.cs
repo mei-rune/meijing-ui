@@ -269,6 +269,13 @@ namespace meijing.ui.module
     [Name("device")]
     public class Device : Model
     {
+        public Device()
+        {
+        }
+        public Device(IDictionary<string, object> attributes)
+            : base(attributes)
+        {
+        }
         public string Name
         {
             get{ return GetString("name"); }
@@ -317,7 +324,7 @@ namespace meijing.ui.module
 
         public override string ToString()
         {
-            return string.IsNullOrEmpty(Name)?(string.IsNullOrEmpty(Description)?Id:Description):Name;
+            return string.IsNullOrEmpty(Name)?Address:string.Format("[{0}]{1}", Address, Name);
         }
     }
 
@@ -445,6 +452,11 @@ namespace meijing.ui.module
     [Name("address")]
     public class IPAddress : Model {
 
+        public string DeviceId
+        {
+            get { return GetString("device_id"); }
+            set { base["device_id"] = value; }
+        }
         public string Address
         {
             get{ return GetString("address"); }

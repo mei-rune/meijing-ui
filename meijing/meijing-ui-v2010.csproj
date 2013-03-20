@@ -188,12 +188,13 @@
     <Compile Include="messageBox\MyMessageBox.cs" />
     <Compile Include="module\Resource\StringResources.cs" />
     <Compile Include="module\Resource\StringResource_Enum.cs" />
-    <Compile Include="module\System\Class1.cs" />
     <Compile Include="module\System\Client.cs" />
+    <Compile Include="module\System\DiscoveryClient.cs" />
     <Compile Include="module\System\EventHelper.cs" />
     <Compile Include="module\Resource\GetSystemIcon.cs" />
     <Compile Include="module\System\CloneMeunToolItem.cs" />
     <Compile Include="module\System\ConfigHelper.cs" />
+    <Compile Include="module\System\Metric.cs" />
     <Compile Include="module\System\Model.cs" />
     <Compile Include="module\System\SystemManager.cs" />
     <Compile Include="module\System\UrlBuilder.cs" />

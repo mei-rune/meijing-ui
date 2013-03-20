@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Net;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace meijing.ui.module
 {
@@ -39,6 +40,21 @@ namespace meijing.ui.module
         public void Interrupt() 
         {
             is_eof = true;
+        }
+
+        public IDictionary<string, object> GetResult()
+        {
+            var res = Invoke("GET", new UrlBuilder(this.baseUrl).Concat("discovery", id).ToUrl(),
+                null, HttpStatusCode.OK);
+            object obj;
+            if (res.TryGetValue("value", out obj))
+            {
+                return ToDictionary((JObject)obj);
+            }
+            else
+            {
+                throw new ApplicationException("没有找到");
+            }
         }
 
         public IEnumerable<string> Get()

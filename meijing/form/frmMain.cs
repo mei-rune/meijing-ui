@@ -115,31 +115,52 @@ namespace meijing.ui
 
 
         private void loadDevices() {
-            this.trvsrvlst.BeginUpdate();
             try
             {
-                var devices = Device.FindBy<Device>(null);
+                var devices = Sort(Device.FindBy<Device>(null));
+
                 var devicesNode = this.trvsrvlst.Nodes.Find("devices", false).First();
-                devicesNode.Nodes.Clear();
-                foreach (var drv in devices)
+
+                this.trvsrvlst.BeginUpdate();
+                try
                 {
-                    var node = devicesNode.Nodes.Add("device-" + drv.Id, drv.Address, 
-                        device_unselected, device_selected);
-                    node.Tag = drv;
-                    loadInterfaces(node, drv);
-                    loadRules(node, drv);
+                    devicesNode.Nodes.Clear();
+                    foreach (var drv in devices)
+                    {
+                        var node = devicesNode.Nodes.Add("device-" + drv.Id, drv.Address,
+                            device_unselected, device_selected);
+                        node.Tag = drv;
+                        loadInterfaces(node, drv);
+                        loadRules(node, drv);
+                    }
+                }
+                finally
+                {
+                    this.trvsrvlst.EndUpdate();
                 }
             }
             catch (Exception e)
             {
                 MyMessageBox.ShowMessage("哦，出错了！", "载入设备列表出错了!", e.ToString());
             }
-            finally
-            {
-                this.trvsrvlst.EndUpdate();
-            }
         }
 
+        private IEnumerable<Device> Sort(IList<Device> devices)
+        {
+            if (null == devices) {
+                return null;
+            }
+
+            return devices.OrderBy((Device x)=> {
+                System.Net.IPAddress address = null;
+                System.Net.IPAddress.TryParse(x.Address, out address);
+                if (null != address)
+                    return System.Net.IPAddress.HostToNetworkOrder(address.Address);
+
+                return (long)0;
+            });
+        }
+        
         private void loadInterfaces(TreeNode node, Device drv)
         {
             node = node.Nodes.Add("if-" + drv.Id, "端口", if_root_unselected, if_root_selected);
@@ -448,9 +469,14 @@ namespace meijing.ui
         }
         #endregion
 
+        frmAddDrv drvFrm = new frmAddDrv();
         private void addDeviceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SystemManager.OpenForm(new frmAddDrv(), true, false);
+            drvFrm.StartPosition = FormStartPosition.CenterParent;
+            drvFrm.FormBorderStyle = FormBorderStyle.FixedSingle;
+            drvFrm.MaximizeBox = false;
+            drvFrm.ShowDialog();
+            
             loadDevices();
         }
 
@@ -480,7 +506,7 @@ namespace meijing.ui
             {
                 if ("links" == node.Name)
                 {
-                    frmTrigger.ShowAdd(GetLinks(node), "设备:", Metric.LINKS, null);
+                    frmTrigger.ShowAdd(GetLinks(node), "线路:", Metric.LINKS, null);
                 }
                 else if ("devices" == node.Name)
                 {
@@ -493,7 +519,16 @@ namespace meijing.ui
                 }
                 else if ("triggers" == node.Name)
                 {
-                    frmTrigger.ShowAdd(GetAllDevices(), "设备:", Metric.DEVICES, node.Parent.Tag as Device);
+                    var dev = node.Parent.Tag as Device;
+                    if(null != dev) {
+                       frmTrigger.ShowAdd(GetAllDevices(), "设备:", Metric.DEVICES, dev);
+                       return;
+                    }
+                    var l = node.Parent.Tag as Link;
+                    if(null != l) {
+                      frmTrigger.ShowAdd(GetAllLinks(), "线路:", Metric.LINKS, l);
+                      return;
+                    }
                 }
                 return;
             }
@@ -584,8 +619,13 @@ namespace meijing.ui
             var link = node.Parent.Parent.Tag as Link;
             if (null != drv)
             {
-                frmTrigger.ShowEdit(GetAllDevices(), "设备:", Metric.DEVICES, drv, rule);
+                frmTrigger.ShowEdit(GetAllDevices(), "线路:", Metric.DEVICES, drv, rule);
             }
+        }
+
+        private void frmMain_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            drvFrm.Close();
         }
 
 

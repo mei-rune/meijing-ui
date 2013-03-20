@@ -104,7 +104,7 @@ namespace meijing.ui.module
                 sb.Append(kp.Value);
                 sb.Append("&");
             }
-            sb.Remove(0, sb.Length - 1);
+            sb.Remove(sb.Length-1, 1);
             return this;
         }
 
@@ -134,7 +134,7 @@ namespace meijing.ui.module
                 sb.Append(kp.Value.ToString());
                 sb.Append("&");
             }
-            sb.Remove(0, sb.Length - 1);
+            sb.Remove(sb.Length - 1, 1);
             return this;
         }
 
