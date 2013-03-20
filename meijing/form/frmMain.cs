@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using meijing.ui.module;
 using System.Threading;
+using System.Drawing;
 
 namespace meijing.ui
 {
+    using meijing.ui.module;
+
     public partial class frmMain : Form
     {
         public frmMain()
@@ -482,8 +484,28 @@ namespace meijing.ui
 
         private void deleteDeviceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SystemManager.OpenForm(new frmDeleteDrv(GetAllDevices()), true, false);
-            loadDevices();
+            var node = this.trvsrvlst.SelectedNode;
+            if (null != node && null != node.Tag as Device)
+            {
+                if (!MyMessageBox.ShowConfirm("警告", "确定要删除这个设备吗?"))
+                {
+                    return;
+                }
+                try
+                {
+                    (node.Tag as Device).DeleteIt();
+                    node.Remove();
+                }
+                catch (Exception ex)
+                {
+                    MyMessageBox.ShowMessage("错误", "删除设备失败!", ex.ToString());
+                }
+            }
+            else
+            {
+                SystemManager.OpenForm(new frmDeleteDrv(GetAllDevices()), true, false);
+                loadDevices();
+            }
         }
 
         private void addLinkToolStripMenuItem_Click(object sender, EventArgs e)
@@ -494,15 +516,35 @@ namespace meijing.ui
 
         private void deleteLinkToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SystemManager.OpenForm(new frmDeleteLink(GetAllLinks()), true, false);
-            loadLinks();
+            var node = this.trvsrvlst.SelectedNode;
+            if (null != node && null != node.Tag as Link)
+            {
+                if (!MyMessageBox.ShowConfirm("警告", "确定要删除这条线路吗?"))
+                {
+                    return;
+                }
+                try
+                {
+                    (node.Tag as Link).DeleteIt();
+                    node.Remove();
+                }
+                catch (Exception ex)
+                {
+                    MyMessageBox.ShowMessage("错误", "删除线路失败!", ex.ToString());
+                }
+            }
+            else
+            {
+                SystemManager.OpenForm(new frmDeleteLink(GetAllLinks()), true, false);
+                loadLinks();
+            }
         }
 
         private void addTriggerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // 下面的代码写错， 不应该这样子写， 先不管了。
             var node = this.trvsrvlst.SelectedNode;
-            if (null == node.Tag)
+            if (null == node || null == node.Tag)
             {
                 if ("links" == node.Name)
                 {
@@ -626,6 +668,23 @@ namespace meijing.ui
         private void frmMain_FormClosed(object sender, FormClosedEventArgs e)
         {
             drvFrm.Close();
+        }
+
+        private void trvsrvlst_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+
+            if (e.Button == MouseButtons.Right)//判断你点的是不是右键
+            {
+                this.trvsrvlst.SelectedNode = this.trvsrvlst.GetNodeAt(new Point(e.X, e.Y));
+            }
+        }
+
+        private void trvsrvlst_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)//判断你点的是不是右键
+            {
+                this.trvsrvlst.SelectedNode = this.trvsrvlst.GetNodeAt(new Point(e.X, e.Y));
+            }
         }
 
 
