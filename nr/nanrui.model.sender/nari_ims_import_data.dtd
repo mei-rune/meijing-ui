@@ -1,0 +1,1268 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!--BT 系统数据交换文件格式标准-->
+<!--文件由数据源描述，数据文件信息，和具体的配置数据组成-->
+<!ELEMENT IMSDATA (datasource, datainfo, datas*)>
+<!--数据源描述-->
+<!ELEMENT datasource (#PCDATA)>
+<!--name:数据源名称,createtime:文件生成时间，corporation:地域公司，vendorname：厂商名称，productname：产品名称，RESERVED：预留字段-->
+<!ATTLIST datasource
+	name CDATA #REQUIRED
+	createtime CDATA #REQUIRED
+	corporation CDATA #REQUIRED
+	vendorname CDATA #REQUIRED
+	productname CDATA #IMPLIED
+	RESERVED CDATA #IMPLIED>
+<!--数据文件信息-->
+<!ELEMENT datainfo (#PCDATA)>
+<!--OUTPUTIP:文件输出IP地址,BEGINTIME:开始时间，ENDTIME：结束时间，RESERVED：预留字段-->
+<!ATTLIST datainfo
+	OUTPUTIP CDATA #IMPLIED
+	BEGINTIME CDATA #IMPLIED
+	ENDTIME CDATA #IMPLIED
+	RESERVED CDATA #IMPLIED>
+<!--数据-->
+<!--数据必须是BT资源模型中定义的模型的实例数据的全部或一部分-->
+<!ELEMENT datas
+(ApacheServer*,KVM*,Unix*,ConnectorModule*,Activity*,ApacheVirtualHost*,UPS*
+,SystemContains*,WebSphereServer*,J2EEWebContainer*,RMI_IIOP*,ComputerSystemCluster*,PhysicalLink*
+,Chip*,ManagedElement*,PhysicalMedia*,OracleSegment*,DB2AdminServer*,WebSphereNamedEndpoint*
+,CIMSystem*,BusinessSystem*,Linux*,LinuxUnitaryComputerSystem*,OSSoftwareInstallation*,SoftwareInstallation*
+,SecureSoftwareInstallation*,WebSphereJ2EEResource*,Debian*,WindowsComputerSystem*,JDBCConnection*,StorageExtent*
+,WebLogicServer*,OracleDBLink*,Role*,Irix*,DB2Database*,EJBContainer*
+,Mouse*,JMS*,SystemBusCard*,BSD*,Department*,JTA*
+,HardProxy*,LogicalContent*,J2EEModule*,PhysicalPackage*,GenericComputerSystem*,SunUnitaryComputerSystem*
+,JBOSS*,Computersystem*,Paper*,OracleInstance*,Scanner*,FTPServer*
+,DiskPartition*,TapeDrive*,SoftwareContainer*,CDCOM*,WebSphereNode*,Card*
+,PhysicalTape*,OracleDataFile*,EJB*,WebSphereJDBCDataSource*,SolarisFileSystem*,Application*
+,JDBCDriver*,RemoteFileSystem*,AppServerCluster*,JCAManagedConnectionFactory*,IrixUnitaryComputerSystem*,Tape*
+,RelationShip*,RuntimeProcess*,WebLogicJDBCDataSource*,ImportantProcess*,SqlServerConfig*,Chassis*
+,LogicalDevice*,SAN*,J2EEResource*,ModelObject*,Printer*,DV*
+,NetworkSoftwareInstallation*,J2EEDomain*,AutomationSoftwareInstallation*,DeskTerminal*,Patch*,JSP*
+,LogicalLink*,Monitor*,DatabaseServer*,OracleRedoLogFile*,GAP*,WebSphereWebModule*
+,SoftwareService*,BusinessProcess*,PhysicalFrame*,DatabaseSoftwareInstallation*,Fqdn*,LocalFileSystem*
+,JDBCConnectionPool*,PowerSupply*,IpV4Address*,DB2ConfigValue*,HpUnitaryComputerSystem*,JMSConnection*
+,IpV6Address*,BindAddress*,UnixUnitaryComputerSystem*,ITSystem*,SqlServer*,SoftwareModule*
+,WebModule*,JDBCDataSource*,Database*,L2Interface*,VPNGateway*,IpInterface*
+,JavaMail*,Corporation*,MachineryRoom*,WindowsOperatingSystem*,Rack*,KeyBoard*
+,JDBC*,FileSystem*,PhysicalComponent*,DiskDriver*,StorageVolume*,HpUx*
+,Switch*,WebSphereEJBModule*,DNSServer*,Sensor*,WebLogicJMSServer*,Document*
+,MAC*,JMSSession*,VLAN*,LDAPServer*,OracleListener*,WebContainer*
+,MiddlewareSoftwareInstallation*,Router*,FAX*,SqlServerDatabase*,DB2BufferPool*,AppClientModule*
+,OracleTableSpace*,AirConditioner*,DB2Server*,PhysicalConnector*,AixUnitaryComputerSystem*,Serverlet*
+,JVM*,UnitaryComputerSystem*,Firewall*,CPU*,UnixFileSystem*,Solaris*
+,DB2Container*,J2EEDeployedObject*,SwitchDoor*,URL*,JMSEndpoint*,WebSphereCluster*
+,FCPort*,L2Link*,LogicalLink*,ApacheWebContainer*,WebLogicCluster*,OfficeSoftwareInstallation*,DB2Instance*
+,JCAConnection*,WebVirtualHost*,TV*,LogicalElement*,IDS*,LoadBalancer*
+,BigMonitor*,RealTimeDatabase*,OracleControlFile*,Aix*,WebSphereJMSServer*,EJBModule*
+,JCAConnectionPool*,WindowsFileSystem*,OverheadProjector*,IpAddress*,MediaAccessDevice*,Employee*
+,FreeBSDUnitaryComputerSystem*,J2EEServer*,WebSphereJ2EEApplication*,PowerDistributionCab*,Slot*,JNDI*
+,ProcessPool*,FCSwitch*,PhysicalElement*,IpNetwork*,DB2System*,WebSphereCell*
+,VulScanner*,DiskArray*,WebLogicDomain*,MailServer*,SoftwareComponent*,JCAConnectionFactory*
+,WebServer*,DB2TableSpace*,OracleInitValue*,OracleServer*,OperatingSystem*,SoftwareResource*
+,J2EEComponent*,FinancialSoftwareInstallation*,AssertInfo*,BackUpSystem*,J2EEApplication*,AirCondition*
+,AppServer*)>
+<!--classname：该项数据对应BT模型中的类名-->
+<!ATTLIST datas 
+classname CDATA #REQUIRED
+>
+<!--包含实例节点，包含关系可以用ContainsInstance子节点这种隐式的方式体现，例如：主机中的CPU，硬盘:CPU和硬盘数据可以以主机的ContainsInstance子节点的方式，请参考Sample.xml-->
+<!ELEMENT ContainsInstance
+(ApacheServer*,KVM*,Unix*,ConnectorModule*,Activity*,ApacheVirtualHost*,UPS*,
+SystemContains*,WebSphereServer*,J2EEWebContainer*,RMI_IIOP*,ComputerSystemCluster*,PhysicalLink*,
+Chip*,ManagedElement*,PhysicalMedia*,OracleSegment*,DB2AdminServer*,WebSphereNamedEndpoint*,
+CIMSystem*,BusinessSystem*,Linux*,LinuxUnitaryComputerSystem*,OSSoftwareInstallation*,SoftwareInstallation*,
+SecureSoftwareInstallation*,WebSphereJ2EEResource*,Debian*,WindowsComputerSystem*,JDBCConnection*,StorageExtent*,
+WebLogicServer*,OracleDBLink*,Role*,Irix*,DB2Database*,EJBContainer*,
+Mouse*,JMS*,SystemBusCard*,BSD*,Department*,JTA*,
+HardProxy*,LogicalContent*,J2EEModule*,PhysicalPackage*,GenericComputerSystem*,SunUnitaryComputerSystem*,
+JBOSS*,Computersystem*,Paper*,OracleInstance*,Scanner*,FTPServer*,
+DiskPartition*,TapeDrive*,SoftwareContainer*,CDCOM*,WebSphereNode*,Card*,
+PhysicalTape*,OracleDataFile*,EJB*,WebSphereJDBCDataSource*,SolarisFileSystem*,Application*,
+JDBCDriver*,RemoteFileSystem*,AppServerCluster*,JCAManagedConnectionFactory*,IrixUnitaryComputerSystem*,Tape*,
+RelationShip*,RuntimeProcess*,WebLogicJDBCDataSource*,ImportantProcess*,SqlServerConfig*,Chassis*,
+LogicalDevice*,SAN*,J2EEResource*,ModelObject*,Printer*,DV*,
+NetworkSoftwareInstallation*,J2EEDomain*,AutomationSoftwareInstallation*,DeskTerminal*,Patch*,JSP*,
+LogicalLink*,Monitor*,DatabaseServer*,OracleRedoLogFile*,GAP*,WebSphereWebModule*,
+SoftwareService*,BusinessProcess*,PhysicalFrame*,DatabaseSoftwareInstallation*,Fqdn*,LocalFileSystem*,
+JDBCConnectionPool*,PowerSupply*,IpV4Address*,DB2ConfigValue*,HpUnitaryComputerSystem*,JMSConnection*,
+IpV6Address*,BindAddress*,UnixUnitaryComputerSystem*,ITSystem*,SqlServer*,SoftwareModule*,
+WebModule*,JDBCDataSource*,Database*,L2Interface*,VPNGateway*,IpInterface*,
+JavaMail*,Corporation*,MachineryRoom*,WindowsOperatingSystem*,Rack*,KeyBoard*,
+JDBC*,FileSystem*,PhysicalComponent*,DiskDriver*,StorageVolume*,HpUx*,
+Switch*,WebSphereEJBModule*,DNSServer*,Sensor*,WebLogicJMSServer*,Document*,
+MAC*,JMSSession*,VLAN*,LDAPServer*,OracleListener*,WebContainer*,
+MiddlewareSoftwareInstallation*,Router*,FAX*,SqlServerDatabase*,DB2BufferPool*,AppClientModule*,
+OracleTableSpace*,AirConditioner*,DB2Server*,PhysicalConnector*,AixUnitaryComputerSystem*,Serverlet*,
+JVM*,UnitaryComputerSystem*,Firewall*,CPU*,UnixFileSystem*,Solaris*,
+DB2Container*,J2EEDeployedObject*,SwitchDoor*,URL*,JMSEndpoint*,WebSphereCluster*,
+FCPort*,L2Link*,LogicalLink*,ApacheWebContainer*,WebLogicCluster*,OfficeSoftwareInstallation*,DB2Instance*,
+JCAConnection*,WebVirtualHost*,TV*,LogicalElement*,IDS*,LoadBalancer*,
+BigMonitor*,RealTimeDatabase*,OracleControlFile*,Aix*,WebSphereJMSServer*,EJBModule*,
+JCAConnectionPool*,WindowsFileSystem*,OverheadProjector*,IpAddress*,MediaAccessDevice*,Employee*,
+FreeBSDUnitaryComputerSystem*,J2EEServer*,WebSphereJ2EEApplication*,PowerDistributionCab*,Slot*,JNDI*,
+ProcessPool*,FCSwitch*,PhysicalElement*,IpNetwork*,DB2System*,WebSphereCell*,
+VulScanner*,DiskArray*,WebLogicDomain*,MailServer*,SoftwareComponent*,JCAConnectionFactory*,
+WebServer*,DB2TableSpace*,OracleInitValue*,OracleServer*,OperatingSystem*,SoftwareResource*,
+J2EEComponent*,FinancialSoftwareInstallation*,AssertInfo*,BackUpSystem*,J2EEApplication*,AirCondition*,
+AppServer*)>
+<!--********以下信息与BT资源模型保持一致*********-->
+<!--Apache服务-->
+<!ELEMENT ApacheServer (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Vendor?,Status?,ProductVersion?,KeyName?,ProductName?,VisitIPAddress?,ContainsInstance?)>
+<!--KVM-->
+<!ELEMENT KVM (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Model?,DeviceType?,DPI?,BandWidth?,ContainsInstance?)>
+<!--Unix 操作系统-->
+<!ELEMENT Unix (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,BootTime?,License?,VirtualMemorySize?,KernelVersion?,OSVersion?,OsType?,NumPhysicalMemPages?,SystemMemPageSize?,MaxProcesses?,NumPhysicalMemFreePages?,MaxUsers?,OSDistribution?,ContainsInstance?)>
+<!---->
+<!ELEMENT ConnectorModule (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,FileName?,ModuleName?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT Activity (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ActivityName?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT ApacheVirtualHost (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,DefaultWebServer?,DocumentRoot?,ServerName?,ContainsInstance?)>
+<!--不间断电源-->
+<!ELEMENT UPS (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,SerialNumber?,PhysicalComponentType?,BatteryType?,KVA?,ContainsInstance?)>
+<!--???-->
+<!ELEMENT SystemContains (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,ContainsID?,ContainsInstance?)>
+<!--WebSphere服务-->
+<!ELEMENT WebSphereServer (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Vendor?,Status?,ProductVersion?,KeyName?,ProductName?,VisitIPAddress?,AppClassloaderPolicy?,AppClassloadingMode?,ClusterUniqueId?,ClusterWeight?,JvmLogFileName?,WebLogicServerType?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT J2EEWebContainer (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Status?,ServerRoot?,WebContainerUser?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT RMI_IIOP (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!--计算机系统集群-->
+<!ELEMENT ComputerSystemCluster (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,UsingLoadBalancer?,ContainsInstance?)>
+<!--物理链接-->
+<!ELEMENT PhysicalLink (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!--芯片-->
+<!ELEMENT Chip (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,PhysicalComponentType?,ContainsInstance?)>
+<!--被管对象-->
+<!ELEMENT ManagedElement (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!--物理媒体-->
+<!ELEMENT PhysicalMedia (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,PhysicalComponentType?,ContainsInstance?)>
+<!--oracle数据库段-->
+<!ELEMENT OracleSegment (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!--DB2管理服务器-->
+<!ELEMENT DB2AdminServer (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Vendor?,Status?,ProductVersion?,KeyName?,ProductName?,VisitIPAddress?,Home?,NodeName?,DB2ServerLevel?,ProductId?,LevelId?,BuildLevel?,ProtocolParams?,PTF?,PORT?,DB2ServerComment?,DB2ServerType?,Protocol?,ContainsInstance?)>
+<!--WebSphere命名节点-->
+<!ELEMENT WebSphereNamedEndpoint (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,HostName?,ContainsInstance?)>
+<!--设备系统-->
+<!ELEMENT CIMSystem (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!--业务系统-->
+<!ELEMENT BusinessSystem (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,URL?,Contact?,BusinessRole?,BusinessLevel?,MaxUserNum?,ContainsInstance?)>
+<!--Linux-->
+<!ELEMENT Linux (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,BootTime?,License?,VirtualMemorySize?,KernelVersion?,OSVersion?,OsType?,NumPhysicalMemPages?,SystemMemPageSize?,MaxProcesses?,NumPhysicalMemFreePages?,MaxUsers?,OSDistribution?,ContainsInstance?)>
+<!--linux操作系统实体主机-->
+<!ELEMENT LinuxUnitaryComputerSystem (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ROMVersion?,OSInfo?,DetailedConfigure?,SupportSystem?,MemorySize?,DevLevel?,VMId?,PrimaryMACAddress?,UsingIPAddress?,Architecture?,Signature?,NumCPUs?,Virtual?,SerialNumber?,SystemBoardInfo?,CdpDeviceId?,Model?,ComputersystemType?,CValue?,AValue?,IValue?,AssetValue?,Threshold?,ContainsInstance?)>
+<!--操作系统软件-->
+<!ELEMENT OSSoftwareInstallation (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ProductVersion?,ProductName?,InstalledLocation?,License?,ContainsInstance?)>
+<!--软件安装包-->
+<!ELEMENT SoftwareInstallation (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ProductVersion?,ProductName?,InstalledLocation?,License?,ContainsInstance?)>
+<!--安全软件-->
+<!ELEMENT SecureSoftwareInstallation (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ProductVersion?,ProductName?,InstalledLocation?,License?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT WebSphereJ2EEResource (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!--Debian操作系统-->
+<!ELEMENT Debian (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,BootTime?,License?,VirtualMemorySize?,KernelVersion?,OSVersion?,OsType?,NumPhysicalMemPages?,SystemMemPageSize?,MaxProcesses?,NumPhysicalMemFreePages?,MaxUsers?,OSDistribution?,ContainsInstance?)>
+<!--Windows服务器-->
+<!ELEMENT WindowsComputerSystem (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ROMVersion?,OSInfo?,DetailedConfigure?,SupportSystem?,MemorySize?,DevLevel?,VMId?,PrimaryMACAddress?,UsingIPAddress?,Architecture?,Signature?,NumCPUs?,Virtual?,SerialNumber?,SystemBoardInfo?,CdpDeviceId?,Model?,ComputersystemType?,CValue?,AValue?,IValue?,AssetValue?,Threshold?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT JDBCConnection (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!--存储区域-->
+<!ELEMENT StorageExtent (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Model?,DeviceType?,FreeSpace?,LogicalName?,Capacity?,NumOfBlocks?,BlockSize?,ContainsInstance?)>
+<!--WebLogic服务-->
+<!ELEMENT WebLogicServer (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Vendor?,Status?,ProductVersion?,KeyName?,ProductName?,VisitIPAddress?,ClusterWeight?,DomainLogEnabled?,ExpectedToRun?,ExternalDSNName?,InterfaceAddress?,JavaCompiler?,JdbcLogFileName?,JdbcLoggingEnabled?,LoginTimeout?,RootDirectory?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT OracleDBLink (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ServiceName?,VisitIPAddress?,PORT?,ContainsInstance?)>
+<!--角色-->
+<!ELEMENT Role (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,RoleAuthority?,ContainsInstance?)>
+<!--Irix操作系统-->
+<!ELEMENT Irix (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,BootTime?,License?,VirtualMemorySize?,KernelVersion?,OSVersion?,OsType?,NumPhysicalMemPages?,SystemMemPageSize?,MaxProcesses?,NumPhysicalMemFreePages?,MaxUsers?,OSDistribution?,ContainsInstance?)>
+<!--DB2数据库-->
+<!ELEMENT DB2Database (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,DbName?,Path?,Alias?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT EJBContainer (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,SoftwareComponentType?,ExecutableName?,SoftwareVersion?,Publisher?,SoftwareComponentGroup?,InstalledDate?,ComponentName?,ContainsInstance?)>
+<!--鼠标-->
+<!ELEMENT Mouse (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Model?,DeviceType?,IdentifyingNumber?,MouseType?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT JMS (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!--系统总线卡-->
+<!ELEMENT SystemBusCard (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Model?,PhysicalFrameType?,FwRevision?,SerialNumber?,HwRevision?,ContainsInstance?)>
+<!--BSD操作系统-->
+<!ELEMENT BSD (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,BootTime?,License?,VirtualMemorySize?,KernelVersion?,OSVersion?,OsType?,NumPhysicalMemPages?,SystemMemPageSize?,MaxProcesses?,NumPhysicalMemFreePages?,MaxUsers?,OSDistribution?,ContainsInstance?)>
+<!--部门-->
+<!ELEMENT Department (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,Deptype?,DepALLName?,ParentDep?,CorpName?,LeaderName?,DepID?,ParnetDepID?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT JTA (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!--硬件代理设备-->
+<!ELEMENT HardProxy (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ROMVersion?,OSInfo?,DetailedConfigure?,SupportSystem?,MemorySize?,DevLevel?,VMId?,PrimaryMACAddress?,UsingIPAddress?,Architecture?,Signature?,NumCPUs?,Virtual?,SerialNumber?,SystemBoardInfo?,CdpDeviceId?,Model?,ComputersystemType?,CValue?,AValue?,IValue?,AssetValue?,Threshold?,InterfaceNUM?,ContainsInstance?)>
+<!--逻辑材料-->
+<!ELEMENT LogicalContent (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,CheckSum?,Content?,FixedPath?,URI?,ContentName?,ContainsInstance?)>
+<!--J2EE模块-->
+<!ELEMENT J2EEModule (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,FileName?,ModuleName?,ContainsInstance?)>
+<!--物理包-->
+<!ELEMENT PhysicalPackage (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Model?,SerialNumber?,HwRevision?,FanInfo?,PhysicalPackageType?,ContainsInstance?)>
+<!--网络设备-->
+<!ELEMENT GenericComputerSystem (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ROMVersion?,OSInfo?,DetailedConfigure?,SupportSystem?,MemorySize?,DevLevel?,VMId?,PrimaryMACAddress?,UsingIPAddress?,Architecture?,Signature?,NumCPUs?,Virtual?,SerialNumber?,SystemBoardInfo?,CdpDeviceId?,Model?,ComputersystemType?,CValue?,AValue?,IValue?,AssetValue?,Threshold?,InterfaceNUM?,ContainsInstance?)>
+<!--SUN服务器-->
+<!ELEMENT SunUnitaryComputerSystem (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ROMVersion?,OSInfo?,DetailedConfigure?,SupportSystem?,MemorySize?,DevLevel?,VMId?,PrimaryMACAddress?,UsingIPAddress?,Architecture?,Signature?,NumCPUs?,Virtual?,SerialNumber?,SystemBoardInfo?,CdpDeviceId?,Model?,ComputersystemType?,CValue?,AValue?,IValue?,AssetValue?,Threshold?,ContainsInstance?)>
+<!---->
+<!ELEMENT JBOSS (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Vendor?,Status?,ProductVersion?,KeyName?,ProductName?,VisitIPAddress?,ContainsInstance?)>
+<!--设备-->
+<!ELEMENT Computersystem (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ROMVersion?,OSInfo?,DetailedConfigure?,SupportSystem?,MemorySize?,DevLevel?,VMId?,PrimaryMACAddress?,UsingIPAddress?,Architecture?,Signature?,NumCPUs?,Virtual?,SerialNumber?,SystemBoardInfo?,CdpDeviceId?,Model?,ComputersystemType?,CValue?,AValue?,IValue?,AssetValue?,Threshold?,ContainsInstance?)>
+<!--打印纸-->
+<!ELEMENT Paper (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Brand?,PaperType?,ContainsInstance?)>
+<!--Oracle实例-->
+<!ELEMENT OracleInstance (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Vendor?,Status?,ProductVersion?,KeyName?,ProductName?,VisitIPAddress?,Home?,PORT?,SID?,ContainsInstance?)>
+<!--扫描仪-->
+<!ELEMENT Scanner (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Model?,DeviceType?,ScanComponent?,ScanSize?,DPI?,ColorDeepSize?,InterfaceType?,ContainsInstance?)>
+<!---->
+<!ELEMENT FTPServer (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Vendor?,Status?,ProductVersion?,KeyName?,ProductName?,VisitIPAddress?,ContainsInstance?)>
+<!--磁盘分区-->
+<!ELEMENT DiskPartition (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Model?,DeviceType?,FreeSpace?,LogicalName?,Capacity?,NumOfBlocks?,BlockSize?,PrimaryPartition?,PartitionType?,ContainsInstance?)>
+<!--磁带机-->
+<!ELEMENT TapeDrive (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ROMVersion?,OSInfo?,DetailedConfigure?,SupportSystem?,MemorySize?,DevLevel?,VMId?,PrimaryMACAddress?,UsingIPAddress?,Architecture?,Signature?,NumCPUs?,Virtual?,SerialNumber?,SystemBoardInfo?,CdpDeviceId?,Model?,ComputersystemType?,CValue?,AValue?,IValue?,AssetValue?,Threshold?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT SoftwareContainer (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Status?,ContainsInstance?)>
+<!--光驱-->
+<!ELEMENT CDCOM (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Model?,DeviceType?,Speed?,InterfaceType?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT WebSphereNode (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,DomainName?,ConsoleContextPath?,DiscoveryProtocol?,RootDirectory?,WebSphereNodeType?,ContainsInstance?)>
+<!--板卡-->
+<!ELEMENT Card (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Model?,PhysicalFrameType?,FwRevision?,SerialNumber?,HwRevision?,ContainsInstance?)>
+<!--物理磁带-->
+<!ELEMENT PhysicalTape (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,PhysicalComponentType?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT OracleDataFile (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,OracleDataFileSize?,ContainsInstance?)>
+<!--EJB组件-->
+<!ELEMENT EJB (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT WebSphereJDBCDataSource (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!--Solaris文件系统-->
+<!ELEMENT SolarisFileSystem (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,AvailableSpace?,MountPoint?,FileSystemType?,Capacity?,ContainsInstance?)>
+<!--应用-->
+<!ELEMENT Application (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,URL?,Contact?,AppVersion?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT JDBCDriver (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!--远程文件系统-->
+<!ELEMENT RemoteFileSystem (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,AvailableSpace?,MountPoint?,FileSystemType?,Capacity?,ServerName?,ExportName?,ContainsInstance?)>
+<!--应用服务集群-->
+<!ELEMENT AppServerCluster (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,PORT?,Status?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT JCAManagedConnectionFactory (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!--Irix主机-->
+<!ELEMENT IrixUnitaryComputerSystem (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ROMVersion?,OSInfo?,DetailedConfigure?,SupportSystem?,MemorySize?,DevLevel?,VMId?,PrimaryMACAddress?,UsingIPAddress?,Architecture?,Signature?,NumCPUs?,Virtual?,SerialNumber?,SystemBoardInfo?,CdpDeviceId?,Model?,ComputersystemType?,CValue?,AValue?,IValue?,AssetValue?,Threshold?,ContainsInstance?)>
+<!--磁带-->
+<!ELEMENT Tape (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Model?,DeviceType?,FreeSpace?,LogicalName?,Capacity?,NumOfBlocks?,BlockSize?,ContainsInstance?)>
+<!--关联关系-->
+<!ELEMENT RelationShip (FromObjectID,ToObjectID?,RelationTypeID?,DeleteState?,DeleteTime?,ContainsInstance?)>
+<!--运行进程-->
+<!ELEMENT RuntimeProcess (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,PID?,UID?,CmdLine?,Command?,Env?,PPID?,User?,Unattached?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT WebLogicJDBCDataSource (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!--关键进程-->
+<!ELEMENT ImportantProcess (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,CommandLine?,CWD?,Env?,InitialSize?,MaxSize?,MinSize?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT SqlServerConfig (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,IsDynamic?,IsAdvanced?,Value?,ConfigId?,ContainsInstance?)>
+<!--机柜-->
+<!ELEMENT Chassis (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Model?,PhysicalFrameType?,ChassisUUID?,SerialNumber?,HwRevision?,Standards?,RackNumber?,ContainsInstance?)>
+<!--逻辑设备-->
+<!ELEMENT LogicalDevice (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Model?,DeviceType?,ContainsInstance?)>
+<!--SAN交换机-->
+<!ELEMENT SAN (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ROMVersion?,OSInfo?,DetailedConfigure?,SupportSystem?,MemorySize?,DevLevel?,VMId?,PrimaryMACAddress?,UsingIPAddress?,Architecture?,Signature?,NumCPUs?,Virtual?,SerialNumber?,SystemBoardInfo?,CdpDeviceId?,Model?,ComputersystemType?,CValue?,AValue?,IValue?,AssetValue?,Threshold?,InterfaceNUM?,MAXSpeed?,SecureCertificate?,ContainsInstance?)>
+<!--J2EE资源-->
+<!ELEMENT J2EEResource (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!--对象-->
+<!ELEMENT ModelObject (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,ContainsInstance?)>
+<!--打印机-->
+<!ELEMENT Printer (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Model?,DeviceType?,PPM?,PrintSize?,DPI?,ContainsInstance?)>
+<!--摄像机-->
+<!ELEMENT DV (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Model?,DeviceType?,ColorDeepSize?,InterfaceType?,ContainsInstance?)>
+<!--网络软件-->
+<!ELEMENT NetworkSoftwareInstallation (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ProductVersion?,ProductName?,InstalledLocation?,License?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT J2EEDomain (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,DomainName?,ContainsInstance?)>
+<!--自动化软件-->
+<!ELEMENT AutomationSoftwareInstallation (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ProductVersion?,ProductName?,InstalledLocation?,License?,ContainsInstance?)>
+<!--桌面终端-->
+<!ELEMENT DeskTerminal (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ROMVersion?,OSInfo?,DetailedConfigure?,SupportSystem?,MemorySize?,DevLevel?,VMId?,PrimaryMACAddress?,UsingIPAddress?,Architecture?,Signature?,NumCPUs?,Virtual?,SerialNumber?,SystemBoardInfo?,CdpDeviceId?,Model?,ComputersystemType?,CValue?,AValue?,IValue?,AssetValue?,Threshold?,DeskTerminalType?,OsType?,SPVersion?,IEVersion?,CPUType?,CPUSN?,IPAddress?,IPMask?,MACAddress?,CPUSpeed?,DiskSize?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT Patch (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ProductVersion?,ProductName?,InstalledLocation?,License?,SpNumber?,BuildNumber?,PatchType?,Languages?,OsType?,DetailDescription?,PatchDescription?,PatchName?,Switches?,FileChange?,Detect?,PatchUrl?,NeedsReboot?,PatchLevel?,PublisherCode?,ContainsInstance?)>
+<!--JSP组件-->
+<!ELEMENT JSP (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!--业务系统逻辑链路-->
+<!ELEMENT LogicalLink (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,LinkType?,ObjectID1?,ObjectID2?,ContainsInstance?)>
+<!--显示器-->
+<!ELEMENT Monitor (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Model?,DeviceType?,MonitorSize?,MaxScanFrequency?,DPI?,ColorDeepSize?,InterfaceType?,ContainsInstance?)>
+<!--数据库服务-->
+<!ELEMENT DatabaseServer (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Vendor?,Status?,ProductVersion?,KeyName?,ProductName?,VisitIPAddress?,Home?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT OracleRedoLogFile (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,FileSize?,ContainsInstance?)>
+<!--隔离装置-->
+<!ELEMENT GAP (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ROMVersion?,OSInfo?,DetailedConfigure?,SupportSystem?,MemorySize?,DevLevel?,VMId?,PrimaryMACAddress?,UsingIPAddress?,Architecture?,Signature?,NumCPUs?,Virtual?,SerialNumber?,SystemBoardInfo?,CdpDeviceId?,Model?,ComputersystemType?,CValue?,AValue?,IValue?,AssetValue?,Threshold?,InterfaceNUM?,ContainsInstance?)>
+<!---->
+<!ELEMENT WebSphereWebModule (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,FileName?,ModuleName?,ContainsInstance?)>
+<!--软件服务-->
+<!ELEMENT SoftwareService (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,SoftwareVersion?,Date?,Path?,Sizeof?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT BusinessProcess (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ActivityName?,BusinessImpact?,BusinessPriority?,BusinessRole?,ContainsInstance?)>
+<!--物理框架-->
+<!ELEMENT PhysicalFrame (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Model?,PhysicalFrameType?,ContainsInstance?)>
+<!--数据库软件-->
+<!ELEMENT DatabaseSoftwareInstallation (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ProductVersion?,ProductName?,InstalledLocation?,License?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT Fqdn (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,FqdnInfo?,ContainsInstance?)>
+<!--本地文件系统-->
+<!ELEMENT LocalFileSystem (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,AvailableSpace?,MountPoint?,FileSystemType?,Capacity?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT JDBCConnectionPool (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!--电源-->
+<!ELEMENT PowerSupply (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,SerialNumber?,PhysicalComponentType?,ContainsInstance?)>
+<!--IPv4地址-->
+<!ELEMENT IpV4Address (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Address?,AddressSpace?,DotNotation?,ContainsInstance?)>
+<!--DB2配置值-->
+<!ELEMENT DB2ConfigValue (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ConfigValue?,ContainsInstance?)>
+<!--惠普服务器-->
+<!ELEMENT HpUnitaryComputerSystem (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ROMVersion?,OSInfo?,DetailedConfigure?,SupportSystem?,MemorySize?,DevLevel?,VMId?,PrimaryMACAddress?,UsingIPAddress?,Architecture?,Signature?,NumCPUs?,Virtual?,SerialNumber?,SystemBoardInfo?,CdpDeviceId?,Model?,ComputersystemType?,CValue?,AValue?,IValue?,AssetValue?,Threshold?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT JMSConnection (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!--IPv6地址-->
+<!ELEMENT IpV6Address (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Address?,AddressSpace?,DotNotation?,ContainsInstance?)>
+<!--绑定地址-->
+<!ELEMENT BindAddress (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Path?,PortNumber?,ContainsInstance?)>
+<!--Unix主机设备-->
+<!ELEMENT UnixUnitaryComputerSystem (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ROMVersion?,OSInfo?,DetailedConfigure?,SupportSystem?,MemorySize?,DevLevel?,VMId?,PrimaryMACAddress?,UsingIPAddress?,Architecture?,Signature?,NumCPUs?,Virtual?,SerialNumber?,SystemBoardInfo?,CdpDeviceId?,Model?,ComputersystemType?,CValue?,AValue?,IValue?,AssetValue?,Threshold?,ContainsInstance?)>
+<!--IT系统-->
+<!ELEMENT ITSystem (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,URL?,Contact?,ContainsInstance?)>
+<!--SQLSERVER数据库-->
+<!ELEMENT SqlServer (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Vendor?,Status?,ProductVersion?,KeyName?,ProductName?,VisitIPAddress?,Home?,ConcurrentLimit?,DefaultDomain?,Language?,PipeName?,RunAsUser?,SortOrder?,ContainsInstance?)>
+<!--软件模块-->
+<!ELEMENT SoftwareModule (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,FileName?,ModuleName?,ContainsInstance?)>
+<!---->
+<!ELEMENT WebModule (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,FileName?,ModuleName?,ContainsInstance?)>
+<!--JDBC数据源-->
+<!ELEMENT JDBCDataSource (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!--数据库-->
+<!ELEMENT Database (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,DbName?,ContainsInstance?)>
+<!--网络二层接口-->
+<!ELEMENT L2Interface (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,MTU?,CdpRef?,Private?,HwAddress?,Duplex?,Promiscuous?,AutoNegotiation?,Encapsulation?,Loopback?,Broadcast?,InSpeed?,OutSpeed?,IndexNum?,ContainsInstance?)>
+<!--VPN网关-->
+<!ELEMENT VPNGateway (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ROMVersion?,OSInfo?,DetailedConfigure?,SupportSystem?,MemorySize?,DevLevel?,VMId?,PrimaryMACAddress?,UsingIPAddress?,Architecture?,Signature?,NumCPUs?,Virtual?,SerialNumber?,SystemBoardInfo?,CdpDeviceId?,Model?,ComputersystemType?,CValue?,AValue?,IValue?,AssetValue?,Threshold?,InterfaceNUM?,ContainsInstance?)>
+<!--IP地址接口-->
+<!ELEMENT IpInterface (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,InternalNumber?,Address?,NetworkMask?,MACAddress?,Speed?,Duplex?,AutoNegotiation?,MTU?,Encapsulation?,Broadcast?,Loopback?,IpInterfaceType?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT JavaMail (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!--地域公司-->
+<!ELEMENT Corporation (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,Corptype?,ParentCorporation?,CorporationLevel?,ContainsInstance?)>
+<!--机房-->
+<!ELEMENT MachineryRoom (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,BuildingName?,RoomNumber?,RoomArea?,BuildTime?,Floor?,Address?,ContainsInstance?)>
+<!--Windows操作系统-->
+<!ELEMENT WindowsOperatingSystem (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,BootTime?,License?,VirtualMemorySize?,KernelVersion?,OSVersion?,OsType?,ContainsInstance?)>
+<!--机架-->
+<!ELEMENT Rack (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Model?,PhysicalFrameType?,InternalNumber?,UNUM?,ContainsInstance?)>
+<!--键盘-->
+<!ELEMENT KeyBoard (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Model?,DeviceType?,IdentifyingNumber?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT JDBC (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!--文件系统-->
+<!ELEMENT FileSystem (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,AvailableSpace?,MountPoint?,FileSystemType?,Capacity?,ContainsInstance?)>
+<!--物理组件-->
+<!ELEMENT PhysicalComponent (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,PhysicalComponentType?,ContainsInstance?)>
+<!--磁盘-->
+<!ELEMENT DiskDriver (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Model?,DeviceType?,MediaAccessDeviceType?,Capacity?,IdentifyingNumber?,ContainsInstance?)>
+<!--存储卷-->
+<!ELEMENT StorageVolume (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Model?,DeviceType?,FreeSpace?,LogicalName?,Capacity?,NumOfBlocks?,BlockSize?,StorageVolumeType?,ContainsInstance?)>
+<!--HP-UX-->
+<!ELEMENT HpUx (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,BootTime?,License?,VirtualMemorySize?,KernelVersion?,OSVersion?,OsType?,NumPhysicalMemPages?,SystemMemPageSize?,MaxProcesses?,NumPhysicalMemFreePages?,MaxUsers?,OSDistribution?,ContainsInstance?)>
+<!--交换机-->
+<!ELEMENT Switch (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ROMVersion?,OSInfo?,DetailedConfigure?,SupportSystem?,MemorySize?,DevLevel?,VMId?,PrimaryMACAddress?,UsingIPAddress?,Architecture?,Signature?,NumCPUs?,Virtual?,SerialNumber?,SystemBoardInfo?,CdpDeviceId?,Model?,ComputersystemType?,CValue?,AValue?,IValue?,AssetValue?,Threshold?,InterfaceNUM?,ContainsInstance?)>
+<!---->
+<!ELEMENT WebSphereEJBModule (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,FileName?,ModuleName?,ContainsInstance?)>
+<!---->
+<!ELEMENT DNSServer (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Vendor?,Status?,ProductVersion?,KeyName?,ProductName?,VisitIPAddress?,DomainName?,ContainsInstance?)>
+<!--传感器-->
+<!ELEMENT Sensor (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,SerialNumber?,SensorType?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT WebLogicJMSServer (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!--文档-->
+<!ELEMENT Document (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,CheckSum?,Content?,FixedPath?,URI?,ContentName?,ContainsInstance?)>
+<!--MAC操作系统-->
+<!ELEMENT MAC (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,BootTime?,License?,VirtualMemorySize?,KernelVersion?,OSVersion?,OsType?,NumPhysicalMemPages?,SystemMemPageSize?,MaxProcesses?,NumPhysicalMemFreePages?,MaxUsers?,OSDistribution?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT JMSSession (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT VLAN (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,VLANAddress?,Netmask?,AddressSpace?,ContainsInstance?)>
+<!---->
+<!ELEMENT LDAPServer (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Vendor?,Status?,ProductVersion?,KeyName?,ProductName?,VisitIPAddress?,ContainsInstance?)>
+<!--Oracle监听器-->
+<!ELEMENT OracleListener (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT WebContainer (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Status?,ServerRoot?,WebContainerUser?,ContainsInstance?)>
+<!--中间件软件-->
+<!ELEMENT MiddlewareSoftwareInstallation (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ProductVersion?,ProductName?,InstalledLocation?,License?,ContainsInstance?)>
+<!--路由器-->
+<!ELEMENT Router (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ROMVersion?,OSInfo?,DetailedConfigure?,SupportSystem?,MemorySize?,DevLevel?,VMId?,PrimaryMACAddress?,UsingIPAddress?,Architecture?,Signature?,NumCPUs?,Virtual?,SerialNumber?,SystemBoardInfo?,CdpDeviceId?,Model?,ComputersystemType?,CValue?,AValue?,IValue?,AssetValue?,Threshold?,InterfaceNUM?,ContainsInstance?)>
+<!--传真机-->
+<!ELEMENT FAX (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Model?,DeviceType?,DPI?,ColorDeepSize?,InterfaceType?,ContainsInstance?)>
+<!--SqlServer数据库-->
+<!ELEMENT SqlServerDatabase (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,DbName?,CreationDate?,DbId?,DbVersion?,PrimaryDataFile?,ContainsInstance?)>
+<!--DB2缓存池-->
+<!ELEMENT DB2BufferPool (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,PageSize?,NumPages?,PoolId?,ContainsInstance?)>
+<!---->
+<!ELEMENT AppClientModule (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,FileName?,ModuleName?,ContainsInstance?)>
+<!--Oracle表空间-->
+<!ELEMENT OracleTableSpace (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,TableSpaceSize?,ContainsInstance?)>
+<!--空调-->
+<!ELEMENT AirConditioner (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Model?,DeviceType?,Power?,InterfaceType?,ContainsInstance?)>
+<!--DB2数据库服务-->
+<!ELEMENT DB2Server (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Vendor?,Status?,ProductVersion?,KeyName?,ProductName?,VisitIPAddress?,Home?,NodeName?,DB2ServerLevel?,ProductId?,LevelId?,BuildLevel?,ProtocolParams?,PTF?,PORT?,DB2ServerComment?,DB2ServerType?,Protocol?,ContainsInstance?)>
+<!--物理连接器-->
+<!ELEMENT PhysicalConnector (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Model?,HwRevision?,ContainsInstance?)>
+<!--Aix服务器-->
+<!ELEMENT AixUnitaryComputerSystem (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ROMVersion?,OSInfo?,DetailedConfigure?,SupportSystem?,MemorySize?,DevLevel?,VMId?,PrimaryMACAddress?,UsingIPAddress?,Architecture?,Signature?,NumCPUs?,Virtual?,SerialNumber?,SystemBoardInfo?,CdpDeviceId?,Model?,ComputersystemType?,CValue?,AValue?,IValue?,AssetValue?,Threshold?,ContainsInstance?)>
+<!--Serverlet组件-->
+<!ELEMENT Serverlet (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!--Java虚拟机-->
+<!ELEMENT JVM (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,IncrementalGCEnabled?,JavaClassName?,ClassPath?,InitialHeapSize?,HotSpotEnabled?,JVMVersion?,StackSize?,MaxHeapSize?,ContainsInstance?)>
+<!--实体主机设备-->
+<!ELEMENT UnitaryComputerSystem (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ROMVersion?,OSInfo?,DetailedConfigure?,SupportSystem?,MemorySize?,DevLevel?,VMId?,PrimaryMACAddress?,UsingIPAddress?,Architecture?,Signature?,NumCPUs?,Virtual?,SerialNumber?,SystemBoardInfo?,CdpDeviceId?,Model?,ComputersystemType?,CValue?,AValue?,IValue?,AssetValue?,Threshold?,ContainsInstance?)>
+<!--防火墙-->
+<!ELEMENT Firewall (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ROMVersion?,OSInfo?,DetailedConfigure?,SupportSystem?,MemorySize?,DevLevel?,VMId?,PrimaryMACAddress?,UsingIPAddress?,Architecture?,Signature?,NumCPUs?,Virtual?,SerialNumber?,SystemBoardInfo?,CdpDeviceId?,Model?,ComputersystemType?,CValue?,AValue?,IValue?,AssetValue?,Threshold?,InterfaceNUM?,ContainsInstance?)>
+<!--CPU-->
+<!ELEMENT CPU (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Model?,DeviceType?,IdentifyingNumber?,SlotNumber?,CPUSpeed?,L1Cache?,L2Cache?,CPUCoresInstalled?,ContainsInstance?)>
+<!--Unix文件系统-->
+<!ELEMENT UnixFileSystem (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,AvailableSpace?,MountPoint?,FileSystemType?,Capacity?,ContainsInstance?)>
+<!--Solaris-->
+<!ELEMENT Solaris (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,BootTime?,License?,VirtualMemorySize?,KernelVersion?,OSVersion?,OsType?,NumPhysicalMemPages?,SystemMemPageSize?,MaxProcesses?,NumPhysicalMemFreePages?,MaxUsers?,OSDistribution?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT DB2Container (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,NumPages?,ContainerId?,PageSize?,PartitionGroup?,ContainsInstance?)>
+<!--J2EE部署的对象-->
+<!ELEMENT J2EEDeployedObject (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,FileName?,ModuleName?,ContainsInstance?)>
+<!--门禁-->
+<!ELEMENT SwitchDoor (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Model?,DeviceType?,MinEchoTime?,InterfaceType?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT URL (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT JMSEndpoint (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!--WebSphere应用集群-->
+<!ELEMENT WebSphereCluster (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,PORT?,Status?,AppClassloaderPolicy?,AppClassloadingMode?,ClusterUniqueId?,ClusterWeight?,JvmLogFileName?,Type?,ContainsInstance?)>
+<!--FC端口-->
+<!ELEMENT FCPort (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Model?,DeviceType?,PermanentAddress?,PortNumber?,Speed?,FCPortType?,ContainsInstance?)>
+<!--网络链路-->
+<!ELEMENT L2Link (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,BandWidth?,Type?,Dev1ID?,Dev2ID?,Dev1ClassName?,Dev2ClassName?,Port1ID?,Port2ID?,UpSpeed?,DownSpeed?,LinkLevel?,Direction?,ContainsInstance?)>
+<!--网络链路-->
+<!ELEMENT LogicalLink (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,BandWidth?,Type?,Dev1ID?,Dev2ID?,Dev1ClassName?,Dev2ClassName?,Port1ID?,Port2ID?,UpSpeed?,DownSpeed?,LinkLevel?,Direction?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT ApacheWebContainer (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Status?,ServerRoot?,WebContainerUser?,ContainsInstance?)>
+<!--WebLogic服务集群-->
+<!ELEMENT WebLogicCluster (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,PORT?,Status?,ClusterAddress?,MulticastAddress?,ContainsInstance?)>
+<!--办公软件-->
+<!ELEMENT OfficeSoftwareInstallation (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ProductVersion?,ProductName?,InstalledLocation?,License?,ContainsInstance?)>
+<!--DB2实例-->
+<!ELEMENT DB2Instance (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Vendor?,Status?,ProductVersion?,KeyName?,ProductName?,VisitIPAddress?,Home?,NodeName?,DB2ServerLevel?,ProductId?,LevelId?,BuildLevel?,ProtocolParams?,PTF?,PORT?,DB2ServerComment?,DB2ServerType?,Protocol?,BitSize?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT JCAConnection (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT WebVirtualHost (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,DefaultWebServer?,DocumentRoot?,ServerName?,ContainsInstance?)>
+<!--电视-->
+<!ELEMENT TV (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Model?,DeviceType?,DPI?,ColorDeepSize?,InterfaceType?,ContainsInstance?)>
+<!--逻辑元素-->
+<!ELEMENT LogicalElement (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!--入侵检测设备-->
+<!ELEMENT IDS (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ROMVersion?,OSInfo?,DetailedConfigure?,SupportSystem?,MemorySize?,DevLevel?,VMId?,PrimaryMACAddress?,UsingIPAddress?,Architecture?,Signature?,NumCPUs?,Virtual?,SerialNumber?,SystemBoardInfo?,CdpDeviceId?,Model?,ComputersystemType?,CValue?,AValue?,IValue?,AssetValue?,Threshold?,InterfaceNUM?,ContainsInstance?)>
+<!--负载平衡设备-->
+<!ELEMENT LoadBalancer (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ROMVersion?,OSInfo?,DetailedConfigure?,SupportSystem?,MemorySize?,DevLevel?,VMId?,PrimaryMACAddress?,UsingIPAddress?,Architecture?,Signature?,NumCPUs?,Virtual?,SerialNumber?,SystemBoardInfo?,CdpDeviceId?,Model?,ComputersystemType?,CValue?,AValue?,IValue?,AssetValue?,Threshold?,InterfaceNUM?,ContainsInstance?)>
+<!--大屏-->
+<!ELEMENT BigMonitor (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Model?,DeviceType?,MonitorSize?,MaxScanFrequency?,DPI?,ColorDeepSize?,InterfaceType?,ContainsInstance?)>
+<!--实时数据库-->
+<!ELEMENT RealTimeDatabase (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,DbName?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT OracleControlFile (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,FileSize?,ContainsInstance?)>
+<!--Aix-->
+<!ELEMENT Aix (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,BootTime?,License?,VirtualMemorySize?,KernelVersion?,OSVersion?,OsType?,NumPhysicalMemPages?,SystemMemPageSize?,MaxProcesses?,NumPhysicalMemFreePages?,MaxUsers?,OSDistribution?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT WebSphereJMSServer (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!---->
+<!ELEMENT EJBModule (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,FileName?,ModuleName?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT JCAConnectionPool (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!--Windows文件系统-->
+<!ELEMENT WindowsFileSystem (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,AvailableSpace?,MountPoint?,FileSystemType?,Capacity?,ContainsInstance?)>
+<!--投影仪-->
+<!ELEMENT OverheadProjector (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Model?,DeviceType?,ScanSize?,DPI?,ColorDeepSize?,InterfaceType?,ContainsInstance?)>
+<!--Ip地址-->
+<!ELEMENT IpAddress (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Address?,AddressSpace?,DotNotation?,ContainsInstance?)>
+<!--媒体接入设备-->
+<!ELEMENT MediaAccessDevice (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Model?,DeviceType?,MediaAccessDeviceType?,ContainsInstance?)>
+<!--用户-->
+<!ELEMENT Employee (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,RealName?,PassWord?,Sex?,Age?,FamilyAddress?,UserPost?,CorpName?,DepName?,DepID?,ContainsInstance?)>
+<!--FreeBSD主机-->
+<!ELEMENT FreeBSDUnitaryComputerSystem (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ROMVersion?,OSInfo?,DetailedConfigure?,SupportSystem?,MemorySize?,DevLevel?,VMId?,PrimaryMACAddress?,UsingIPAddress?,Architecture?,Signature?,NumCPUs?,Virtual?,SerialNumber?,SystemBoardInfo?,CdpDeviceId?,Model?,ComputersystemType?,CValue?,AValue?,IValue?,AssetValue?,Threshold?,ContainsInstance?)>
+<!--J2EE服务-->
+<!ELEMENT J2EEServer (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Vendor?,Status?,ProductVersion?,KeyName?,ProductName?,VisitIPAddress?,ContainsInstance?)>
+<!---->
+<!ELEMENT WebSphereJ2EEApplication (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,FileName?,ModuleName?,ContainsInstance?)>
+<!--配电箱-->
+<!ELEMENT PowerDistributionCab (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Model?,DeviceType?,InterfaceType?,ContainsInstance?)>
+<!--插槽-->
+<!ELEMENT Slot (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Model?,HwRevision?,Num?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT JNDI (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!--进程池-->
+<!ELEMENT ProcessPool (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,CommandLine?,CWD?,Env?,ProcessPoolDecrement?,ProcessPoolIncrement?,InitialSize?,MaxSize?,MinSize?,ProcessPoolSize?,ContainsInstance?)>
+<!--FC交换机-->
+<!ELEMENT FCSwitch (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ROMVersion?,OSInfo?,DetailedConfigure?,SupportSystem?,MemorySize?,DevLevel?,VMId?,PrimaryMACAddress?,UsingIPAddress?,Architecture?,Signature?,NumCPUs?,Virtual?,SerialNumber?,SystemBoardInfo?,CdpDeviceId?,Model?,ComputersystemType?,CValue?,AValue?,IValue?,AssetValue?,Threshold?,ContainsInstance?)>
+<!--物理元素-->
+<!ELEMENT PhysicalElement (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!--网段-->
+<!ELEMENT IpNetwork (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,SubNetAddress?,Netmask?,AddressSpace?,ContainsInstance?)>
+<!--DB2数据库系统-->
+<!ELEMENT DB2System (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT WebSphereCell (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,DomainName?,WebSphereCellType?,RootDirectory?,DiscoveryProtocol?,ContainsInstance?)>
+<!--病毒/漏洞扫描设备-->
+<!ELEMENT VulScanner (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ROMVersion?,OSInfo?,DetailedConfigure?,SupportSystem?,MemorySize?,DevLevel?,VMId?,PrimaryMACAddress?,UsingIPAddress?,Architecture?,Signature?,NumCPUs?,Virtual?,SerialNumber?,SystemBoardInfo?,CdpDeviceId?,Model?,ComputersystemType?,CValue?,AValue?,IValue?,AssetValue?,Threshold?,InterfaceNUM?,ContainsInstance?)>
+<!--磁盘阵列-->
+<!ELEMENT DiskArray (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ROMVersion?,OSInfo?,DetailedConfigure?,SupportSystem?,MemorySize?,DevLevel?,VMId?,PrimaryMACAddress?,UsingIPAddress?,Architecture?,Signature?,NumCPUs?,Virtual?,SerialNumber?,SystemBoardInfo?,CdpDeviceId?,Model?,ComputersystemType?,CValue?,AValue?,IValue?,AssetValue?,Threshold?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT WebLogicDomain (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,DomainName?,ConsoleContextPath?,ConsoleEnabled?,LastModificationTime?,RootDirectory?,ContainsInstance?)>
+<!---->
+<!ELEMENT MailServer (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Vendor?,Status?,ProductVersion?,KeyName?,ProductName?,VisitIPAddress?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT SoftwareComponent (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,SoftwareComponentType?,ExecutableName?,SoftwareVersion?,Publisher?,SoftwareComponentGroup?,InstalledDate?,ComponentName?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT JCAConnectionFactory (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!--Web服务-->
+<!ELEMENT WebServer (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Vendor?,Status?,ProductVersion?,KeyName?,ProductName?,VisitIPAddress?,ContainsInstance?)>
+<!--DB2表空间-->
+<!ELEMENT DB2TableSpace (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,SpaceId?,PageSize?,DB2TableSpaceSize?,Manager?,ContentType?,DB2TableSpaceType?,ContainsInstance?)>
+<!--Oracle初始化值-->
+<!ELEMENT OracleInitValue (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Value?,ContainsInstance?)>
+<!--Oracle服务-->
+<!ELEMENT OracleServer (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!--操作系统-->
+<!ELEMENT OperatingSystem (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,BootTime?,License?,VirtualMemorySize?,KernelVersion?,OSVersion?,OsType?,ContainsInstance?)>
+<!--软件资源-->
+<!ELEMENT SoftwareResource (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!--J2EE组件-->
+<!ELEMENT J2EEComponent (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!--财务软件-->
+<!ELEMENT FinancialSoftwareInstallation (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ProductVersion?,ProductName?,InstalledLocation?,License?,ContainsInstance?)>
+<!-- -->
+<!ELEMENT AssertInfo (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ContainsInstance?)>
+<!--备份系统设备-->
+<!ELEMENT BackUpSystem (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,ROMVersion?,OSInfo?,DetailedConfigure?,SupportSystem?,MemorySize?,DevLevel?,VMId?,PrimaryMACAddress?,UsingIPAddress?,Architecture?,Signature?,NumCPUs?,Virtual?,SerialNumber?,SystemBoardInfo?,CdpDeviceId?,Model?,ComputersystemType?,CValue?,AValue?,IValue?,AssetValue?,Threshold?,InterfaceNUM?,MAXSpeed?,SecureCertificate?,Capacity?,MaxCapacity?,ContainsInstance?)>
+<!--J2EE应用-->
+<!ELEMENT J2EEApplication (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,FileName?,ModuleName?,ContainsInstance?)>
+<!--空调-->
+<!ELEMENT AirCondition (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,SerialNumber?,Model?,ContainsInstance?)>
+<!--应用服务-->
+<!ELEMENT AppServer (Unicode,OriginalKey?,Name?,AdminStatus?,CreatedBy?,CreatedTime?,LastModifiedBy?,LastModifiedTime?,NetRegion?,CIType?,RelateToObject?,RelateFromObject?,PurchaseTime?,PurchaseMoney?,Weigh?,Manufacturer?,Provider?,PurchaseCorporation?,OwnerCorporation?,ManageCorporation?,UsePurpose?,PurchaseContractNum?,ServiceContractNum?,FistRunningTime?,OverhaulTime?,FreeRepairTime?,NeedDiscardTime?,UserName?,Overhauler?,AuditState?,DeleteState?,LastLifeCycleStateTime?,LifeCycleState?,LastAuditTime?,DeleteTime?,Description?,Vendor?,Status?,ProductVersion?,KeyName?,ProductName?,VisitIPAddress?,ContainsInstance?)>
+<!-- 完整性赋值 java.lang.String -->
+<!ELEMENT AValue (#PCDATA)>
+<!-- IP地址 java.lang.String -->
+<!ELEMENT Address (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT AddressSpace (#PCDATA)>
+<!-- 管理状态 java.lang.Long -->
+<!ELEMENT AdminStatus (#PCDATA)>
+<!-- 年龄 java.lang.Long -->
+<!ELEMENT Age (#PCDATA)>
+<!-- 应用类加载策略 java.lang.String -->
+<!ELEMENT AppClassloaderPolicy (#PCDATA)>
+<!-- 应用类加载模式 java.lang.String -->
+<!ELEMENT AppClassloadingMode (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT AppVersion (#PCDATA)>
+<!-- 计算机架构 java.lang.String -->
+<!ELEMENT Architecture (#PCDATA)>
+<!-- 资产价值 java.lang.String -->
+<!ELEMENT AssetValue (#PCDATA)>
+<!-- 审计状态 java.lang.Long -->
+<!ELEMENT AuditState (#PCDATA)>
+<!-- 是否是自动协商模式 java.lang.Boolean -->
+<!ELEMENT AutoNegotiation (#PCDATA)>
+<!--  java.lang.Long -->
+<!ELEMENT AvailableSpace (#PCDATA)>
+<!-- 带宽 java.lang.Long -->
+<!ELEMENT BandWidth (#PCDATA)>
+<!-- 电池类型 java.lang.String -->
+<!ELEMENT BatteryType (#PCDATA)>
+<!-- 字节大小 java.lang.String -->
+<!ELEMENT BitSize (#PCDATA)>
+<!--  java.lang.Long -->
+<!ELEMENT BlockSize (#PCDATA)>
+<!-- 启动时间 java.sql.Date -->
+<!ELEMENT BootTime (#PCDATA)>
+<!-- 品牌 java.lang.String -->
+<!ELEMENT Brand (#PCDATA)>
+<!-- 是否广播 java.lang.Boolean -->
+<!ELEMENT Broadcast (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT BuildLevel (#PCDATA)>
+<!-- 建立时间 java.util.Date -->
+<!ELEMENT BuildTime (#PCDATA)>
+<!-- 所在建筑名称 java.lang.String -->
+<!ELEMENT BuildingName (#PCDATA)>
+<!-- 业务系统级别 java.lang.String -->
+<!ELEMENT BusinessLevel (#PCDATA)>
+<!-- 业务角色 java.lang.String -->
+<!ELEMENT BusinessRole (#PCDATA)>
+<!-- 配置项类别 java.lang.Long -->
+<!ELEMENT CIType (#PCDATA)>
+<!-- CPU内核数 java.lang.Long -->
+<!ELEMENT CPUCoresInstalled (#PCDATA)>
+<!-- CPU序列号 java.lang.String -->
+<!ELEMENT CPUSN (#PCDATA)>
+<!-- CPU速率 java.lang.Long -->
+<!ELEMENT CPUSpeed (#PCDATA)>
+<!-- CPU类型 java.lang.String -->
+<!ELEMENT CPUType (#PCDATA)>
+<!-- 机密性赋值 java.lang.String -->
+<!ELEMENT CValue (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT CWD (#PCDATA)>
+<!-- 当前容量 java.lang.String -->
+<!ELEMENT Capacity (#PCDATA)>
+<!-- CDP设备ID java.lang.String -->
+<!ELEMENT CdpDeviceId (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT CdpRef (#PCDATA)>
+<!-- 机柜标识 java.lang.Long -->
+<!ELEMENT ChassisUUID (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT CheckSum (#PCDATA)>
+<!-- 类路径 java.lang.String -->
+<!ELEMENT ClassPath (#PCDATA)>
+<!-- 集群ID java.lang.String -->
+<!ELEMENT ClusterUniqueId (#PCDATA)>
+<!-- 集群单位 int -->
+<!ELEMENT ClusterWeight (#PCDATA)>
+<!-- 命令行 java.lang.String -->
+<!ELEMENT CmdLine (#PCDATA)>
+<!-- 颜色灰度级 java.lang.Long -->
+<!ELEMENT ColorDeepSize (#PCDATA)>
+<!-- 命令 java.lang.String -->
+<!ELEMENT Command (#PCDATA)>
+<!-- 命令行 java.lang.String -->
+<!ELEMENT CommandLine (#PCDATA)>
+<!-- 设备类型 java.lang.String -->
+<!ELEMENT ComputersystemType (#PCDATA)>
+<!--  int -->
+<!ELEMENT ConcurrentLimit (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT Contact (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT ContainsID (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT Content (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT ContentName (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT ContentType (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT CorpName (#PCDATA)>
+<!-- 公司级别 1代表网省公司 2代表地市公司 java.lang.Long -->
+<!ELEMENT CorporationLevel (#PCDATA)>
+<!-- 公司类型 java.lang.String -->
+<!ELEMENT Corptype (#PCDATA)>
+<!-- 建立人 java.lang.String -->
+<!ELEMENT CreatedBy (#PCDATA)>
+<!-- 建立时间 java.sql.Date -->
+<!ELEMENT CreatedTime (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT DB2ConfigValue (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT DB2ServerComment (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT DB2ServerLevel (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT DB2ServerType (#PCDATA)>
+<!--  java.lang.Long -->
+<!ELEMENT DB2TableSpaceSize (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT DB2TableSpaceType (#PCDATA)>
+<!-- 分辨率 java.lang.String -->
+<!ELEMENT DPI (#PCDATA)>
+<!--  java.util.Date -->
+<!ELEMENT Date (#PCDATA)>
+<!-- 数据库名称 java.lang.String -->
+<!ELEMENT DbName (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT DefaultDomain (#PCDATA)>
+<!-- 删除状态 java.lang.Long -->
+<!ELEMENT DeleteState (#PCDATA)>
+<!-- 删除时间 java.sql.Date -->
+<!ELEMENT DeleteTime (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT DepALLName (#PCDATA)>
+<!--  java.lang.Long -->
+<!ELEMENT DepID (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT Deptype (#PCDATA)>
+<!-- 描述 java.lang.String -->
+<!ELEMENT Description (#PCDATA)>
+<!-- 终端类型 java.lang.String -->
+<!ELEMENT DeskTerminalType (#PCDATA)>
+<!-- 配置 java.lang.String -->
+<!ELEMENT DetailedConfigure (#PCDATA)>
+<!-- 接口类型1 java.lang.String -->
+<!ELEMENT Dev1ClassName (#PCDATA)>
+<!-- 接口ID1 java.lang.Long -->
+<!ELEMENT Dev1ID (#PCDATA)>
+<!-- 接口类型2 java.lang.String -->
+<!ELEMENT Dev2ClassName (#PCDATA)>
+<!-- 接口ID2 java.lang.Long -->
+<!ELEMENT Dev2ID (#PCDATA)>
+<!-- 设备级别 java.lang.Long -->
+<!ELEMENT DevLevel (#PCDATA)>
+<!-- 设备类型 java.lang.String -->
+<!ELEMENT DeviceType (#PCDATA)>
+<!-- 方向 java.lang.Long -->
+<!ELEMENT Direction (#PCDATA)>
+<!-- 硬盘大小 java.lang.Long -->
+<!ELEMENT DiskSize (#PCDATA)>
+<!-- 是否启用域日志 java.lang.Boolean -->
+<!ELEMENT DomainLogEnabled (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT DotNotation (#PCDATA)>
+<!-- 下行最大带宽 java.lang.Long -->
+<!ELEMENT DownSpeed (#PCDATA)>
+<!-- 是否为全双工 java.lang.Boolean -->
+<!ELEMENT Duplex (#PCDATA)>
+<!-- 封包类型 java.lang.String -->
+<!ELEMENT Encapsulation (#PCDATA)>
+<!-- 环境 java.lang.Long -->
+<!ELEMENT Env (#PCDATA)>
+<!-- 是否自启动 java.lang.Boolean -->
+<!ELEMENT ExpectedToRun (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT ExportName (#PCDATA)>
+<!-- 外部DNS名称 java.lang.String -->
+<!ELEMENT ExternalDSNName (#PCDATA)>
+<!--  java.lang.Long -->
+<!ELEMENT FCPortType (#PCDATA)>
+<!-- 家庭地址 java.lang.String -->
+<!ELEMENT FamilyAddress (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT FanInfo (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT FileName (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT FileSystemType (#PCDATA)>
+<!-- 上线时间 java.sql.Date -->
+<!ELEMENT FistRunningTime (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT FixedPath (#PCDATA)>
+<!-- 所在楼层 int -->
+<!ELEMENT Floor (#PCDATA)>
+<!-- 保修时间 java.sql.Date -->
+<!ELEMENT FreeRepairTime (#PCDATA)>
+<!--  java.lang.Long -->
+<!ELEMENT FreeSpace (#PCDATA)>
+<!--   -->
+<!ELEMENT FromObjectID (#PCDATA)>
+<!-- 固件版本号 java.lang.String -->
+<!ELEMENT FwRevision (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT Home (#PCDATA)>
+<!-- 是否启动超连接 java.lang.Boolean -->
+<!ELEMENT HotSpotEnabled (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT HwAddress (#PCDATA)>
+<!-- 硬件版本号 java.lang.String -->
+<!ELEMENT HwRevision (#PCDATA)>
+<!-- IE版本 java.lang.String -->
+<!ELEMENT IEVersion (#PCDATA)>
+<!-- IP地址 java.lang.String -->
+<!ELEMENT IPAddress (#PCDATA)>
+<!-- IP掩码 java.lang.String -->
+<!ELEMENT IPMask (#PCDATA)>
+<!-- 可用性赋值 java.lang.String -->
+<!ELEMENT IValue (#PCDATA)>
+<!-- 编号 java.lang.String -->
+<!ELEMENT IdentifyingNumber (#PCDATA)>
+<!--  java.lang.Long -->
+<!ELEMENT InSpeed (#PCDATA)>
+<!-- 自增管理启动 java.lang.Boolean -->
+<!ELEMENT IncrementalGCEnabled (#PCDATA)>
+<!--  java.lang.Long -->
+<!ELEMENT IndexNum (#PCDATA)>
+<!-- 初始化堆栈大小 java.lang.Long -->
+<!ELEMENT InitialHeapSize (#PCDATA)>
+<!-- 初始化大小 java.lang.Long -->
+<!ELEMENT InitialSize (#PCDATA)>
+<!-- 安装目录 java.lang.String -->
+<!ELEMENT InstalledLocation (#PCDATA)>
+<!-- 访问地址 java.lang.String -->
+<!ELEMENT InterfaceAddress (#PCDATA)>
+<!-- 端口个数 java.lang.Long -->
+<!ELEMENT InterfaceNUM (#PCDATA)>
+<!-- 光驱类型 java.lang.Long -->
+<!ELEMENT InterfaceType (#PCDATA)>
+<!-- 内部编号 java.lang.String -->
+<!ELEMENT InternalNumber (#PCDATA)>
+<!-- 版本 java.lang.Long -->
+<!ELEMENT JVMVersion (#PCDATA)>
+<!-- 类名 java.lang.String -->
+<!ELEMENT JavaClassName (#PCDATA)>
+<!-- JAVA编译器版本 java.lang.String -->
+<!ELEMENT JavaCompiler (#PCDATA)>
+<!-- jdbc日志文件名 java.lang.String -->
+<!ELEMENT JdbcLogFileName (#PCDATA)>
+<!-- 是否启用jdbc日志 java.lang.Boolean -->
+<!ELEMENT JdbcLoggingEnabled (#PCDATA)>
+<!-- JVM日志文件名 java.lang.String -->
+<!ELEMENT JvmLogFileName (#PCDATA)>
+<!-- 视在功率 java.lang.Long -->
+<!ELEMENT KVA (#PCDATA)>
+<!-- 内核版本 java.lang.String -->
+<!ELEMENT KernelVersion (#PCDATA)>
+<!-- 键盘类型 java.lang.Long -->
+<!ELEMENT KeyBoardType (#PCDATA)>
+<!-- 主名称 java.lang.String -->
+<!ELEMENT KeyName (#PCDATA)>
+<!-- 一级缓存 java.lang.Long -->
+<!ELEMENT L1Cache (#PCDATA)>
+<!-- 二级缓存 java.lang.Long -->
+<!ELEMENT L2Cache (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT Language (#PCDATA)>
+<!-- 最后审核时间 java.sql.Date -->
+<!ELEMENT LastAuditTime (#PCDATA)>
+<!-- 资产状态更新时间 java.sql.Date -->
+<!ELEMENT LastLifeCycleStateTime (#PCDATA)>
+<!-- 最后修改人 java.lang.String -->
+<!ELEMENT LastModifiedBy (#PCDATA)>
+<!-- 最后修改时间 java.sql.Date -->
+<!ELEMENT LastModifiedTime (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT LeaderName (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT LevelId (#PCDATA)>
+<!-- 序列号 java.lang.String -->
+<!ELEMENT License (#PCDATA)>
+<!-- 生命周期状态 java.lang.Long -->
+<!ELEMENT LifeCycleState (#PCDATA)>
+<!-- 链路类型 java.lang.Long -->
+<!ELEMENT LinkType (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT LoadBalancer (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT LogicalName (#PCDATA)>
+<!-- 登陆超时数 java.lang.Long -->
+<!ELEMENT LoginTimeout (#PCDATA)>
+<!-- 是否为回送接口 java.lang.Boolean -->
+<!ELEMENT Loopback (#PCDATA)>
+<!-- MAC地址 java.lang.String -->
+<!ELEMENT MACAddress (#PCDATA)>
+<!-- 最大传输速率 java.lang.String -->
+<!ELEMENT MAXSpeed (#PCDATA)>
+<!-- 最大传输单元 java.lang.String -->
+<!ELEMENT MTU (#PCDATA)>
+<!-- 管理单位 java.lang.String -->
+<!ELEMENT ManageCorporation (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT Manager (#PCDATA)>
+<!-- 生产商 java.lang.String -->
+<!ELEMENT Manufacturer (#PCDATA)>
+<!-- 最大支持容量 java.lang.String -->
+<!ELEMENT MaxCapacity (#PCDATA)>
+<!-- 最大堆大小 java.lang.Long -->
+<!ELEMENT MaxHeapSize (#PCDATA)>
+<!--  java.lang.Long -->
+<!ELEMENT MaxProcesses (#PCDATA)>
+<!-- 最大刷新频率 java.lang.Long -->
+<!ELEMENT MaxScanFrequency (#PCDATA)>
+<!-- 最大 java.lang.Long -->
+<!ELEMENT MaxSize (#PCDATA)>
+<!-- 最大用户数 java.lang.Long -->
+<!ELEMENT MaxUserNum (#PCDATA)>
+<!--  java.lang.Long -->
+<!ELEMENT MaxUsers (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT MediaAccessDeviceType (#PCDATA)>
+<!-- 内存大小 java.lang.Long -->
+<!ELEMENT MemorySize (#PCDATA)>
+<!-- 最小响应时间 java.lang.Long -->
+<!ELEMENT MinEchoTime (#PCDATA)>
+<!-- 最小 java.lang.Long -->
+<!ELEMENT MinSize (#PCDATA)>
+<!-- 型号 java.lang.Long -->
+<!ELEMENT Model (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT ModuleName (#PCDATA)>
+<!-- 屏幕大小 java.lang.Long -->
+<!ELEMENT MonitorSize (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT MountPoint (#PCDATA)>
+<!-- 鼠标类型 java.lang.Long -->
+<!ELEMENT MouseType (#PCDATA)>
+<!-- 资源名称 java.lang.String -->
+<!ELEMENT Name (#PCDATA)>
+<!-- 额定报废时间 java.sql.Date -->
+<!ELEMENT NeedDiscardTime (#PCDATA)>
+<!-- 网络域（内网，外网） java.lang.Long -->
+<!ELEMENT NetRegion (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT Netmask (#PCDATA)>
+<!-- 子网掩码 java.lang.String -->
+<!ELEMENT NetworkMask (#PCDATA)>
+<!-- 节点名称 java.lang.String -->
+<!ELEMENT NodeName (#PCDATA)>
+<!-- CPU个数 java.lang.Long -->
+<!ELEMENT NumCPUs (#PCDATA)>
+<!--  java.lang.Long -->
+<!ELEMENT NumOfBlocks (#PCDATA)>
+<!--  int -->
+<!ELEMENT NumPages (#PCDATA)>
+<!--  java.lang.Long -->
+<!ELEMENT NumPhysicalMemFreePages (#PCDATA)>
+<!--  java.lang.Long -->
+<!ELEMENT NumPhysicalMemPages (#PCDATA)>
+<!--  java.lang.Long -->
+<!ELEMENT OSDistribution (#PCDATA)>
+<!-- 操作系统信息 java.lang.String -->
+<!ELEMENT OSInfo (#PCDATA)>
+<!-- 操作系统版本 java.lang.String -->
+<!ELEMENT OSVersion (#PCDATA)>
+<!-- 关联实例1 java.lang.Long -->
+<!ELEMENT ObjectID1 (#PCDATA)>
+<!-- 关联实例2 java.lang.Long -->
+<!ELEMENT ObjectID2 (#PCDATA)>
+<!-- 资源ID java.lang.Long -->
+<!ELEMENT Objectid (#PCDATA)>
+<!-- 原系统ID java.lang.String -->
+<!ELEMENT OriginalKey (#PCDATA)>
+<!-- 操作系统类型 java.lang.String -->
+<!ELEMENT OsType (#PCDATA)>
+<!--  java.lang.Long -->
+<!ELEMENT OutSpeed (#PCDATA)>
+<!-- 检修时间 java.sql.Date -->
+<!ELEMENT OverhaulTime (#PCDATA)>
+<!-- 维护人 java.lang.String -->
+<!ELEMENT Overhauler (#PCDATA)>
+<!-- 产权单位 java.lang.String -->
+<!ELEMENT OwnerCorporation (#PCDATA)>
+<!-- 进程ID java.lang.Long -->
+<!ELEMENT PID (#PCDATA)>
+<!-- 访问端口 java.lang.Long -->
+<!ELEMENT PORT (#PCDATA)>
+<!-- 父进程ID java.lang.Long -->
+<!ELEMENT PPID (#PCDATA)>
+<!-- 打印速度 java.lang.Long -->
+<!ELEMENT PPM (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT PTF (#PCDATA)>
+<!--  int -->
+<!ELEMENT PageSize (#PCDATA)>
+<!-- 打印纸类型(A4,A3...) java.lang.String -->
+<!ELEMENT PaperType (#PCDATA)>
+<!-- 母公司 java.lang.String -->
+<!ELEMENT ParentCorporation (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT ParentDep (#PCDATA)>
+<!--  java.lang.Long -->
+<!ELEMENT ParnetDepID (#PCDATA)>
+<!--  java.lang.Long -->
+<!ELEMENT PartitionSubType (#PCDATA)>
+<!--  java.lang.Long -->
+<!ELEMENT PartitionType (#PCDATA)>
+<!-- 密码 java.lang.String -->
+<!ELEMENT PassWord (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT Path (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT PermanentAddress (#PCDATA)>
+<!-- 物理组建类型 int -->
+<!ELEMENT PhysicalComponentType (#PCDATA)>
+<!--  java.lang.Long -->
+<!ELEMENT PhysicalFrameType (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT PhysicalPackageType (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT PipeName (#PCDATA)>
+<!--  int -->
+<!ELEMENT PoolId (#PCDATA)>
+<!-- 接口1端口号 java.lang.Long -->
+<!ELEMENT Port1ID (#PCDATA)>
+<!-- 接口2端口号 java.lang.Long -->
+<!ELEMENT Port2ID (#PCDATA)>
+<!--  java.lang.Long -->
+<!ELEMENT PortNumber (#PCDATA)>
+<!-- 功率 java.lang.String -->
+<!ELEMENT Power (#PCDATA)>
+<!-- MAC地址 java.lang.String -->
+<!ELEMENT PrimaryMACAddress (#PCDATA)>
+<!--  java.lang.Long -->
+<!ELEMENT PrimaryPartition (#PCDATA)>
+<!-- 打印版本 java.lang.String -->
+<!ELEMENT PrintSize (#PCDATA)>
+<!--  java.lang.Boolean -->
+<!ELEMENT Private (#PCDATA)>
+<!--  java.lang.Long -->
+<!ELEMENT ProcessPoolDecrement (#PCDATA)>
+<!--  java.lang.Long -->
+<!ELEMENT ProcessPoolIncrement (#PCDATA)>
+<!--  java.lang.Long -->
+<!ELEMENT ProcessPoolSize (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT ProductId (#PCDATA)>
+<!-- 产品名称 java.lang.String -->
+<!ELEMENT ProductName (#PCDATA)>
+<!-- 版本 java.lang.String -->
+<!ELEMENT ProductVersion (#PCDATA)>
+<!--  java.lang.Boolean -->
+<!ELEMENT Promiscuous (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT Protocol (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT ProtocolParams (#PCDATA)>
+<!-- 提供商 java.lang.String -->
+<!ELEMENT Provider (#PCDATA)>
+<!-- 购买合同号 java.lang.String -->
+<!ELEMENT PurchaseContractNum (#PCDATA)>
+<!-- 购买单位 java.lang.String -->
+<!ELEMENT PurchaseCorporation (#PCDATA)>
+<!-- 购买金额 java.lang.Float -->
+<!ELEMENT PurchaseMoney (#PCDATA)>
+<!-- 购买时间 java.sql.Date -->
+<!ELEMENT PurchaseTime (#PCDATA)>
+<!-- ROM版本 java.lang.String -->
+<!ELEMENT ROMVersion (#PCDATA)>
+<!-- 机架个数 java.lang.Long -->
+<!ELEMENT RackNumber (#PCDATA)>
+<!-- 姓名 java.lang.String -->
+<!ELEMENT RealName (#PCDATA)>
+<!-- 关联对象  -->
+<!ELEMENT RelateFromObject (#PCDATA)>
+<!-- 被关联对象  -->
+<!ELEMENT RelateToObject (#PCDATA)>
+<!--  java.lang.Long -->
+<!ELEMENT RelationId (#PCDATA)>
+<!--  java.lang.Long -->
+<!ELEMENT RelationTypeID (#PCDATA)>
+<!-- 角色权限 java.lang.String -->
+<!ELEMENT RoleAuthority (#PCDATA)>
+<!-- 所在地域 int -->
+<!ELEMENT RoomArea (#PCDATA)>
+<!-- 房间号 int -->
+<!ELEMENT RoomNumber (#PCDATA)>
+<!-- 启动目录 java.lang.String -->
+<!ELEMENT RootDirectory (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT RunAsUser (#PCDATA)>
+<!-- 服务名 java.lang.String -->
+<!ELEMENT SID (#PCDATA)>
+<!-- SP版本 java.lang.String -->
+<!ELEMENT SPVersion (#PCDATA)>
+<!-- 扫描组件 java.lang.String -->
+<!ELEMENT ScanComponent (#PCDATA)>
+<!-- 扫描大小 java.lang.String -->
+<!ELEMENT ScanSize (#PCDATA)>
+<!-- 安全认证模式 java.lang.String -->
+<!ELEMENT SecureCertificate (#PCDATA)>
+<!--  int -->
+<!ELEMENT SensorType (#PCDATA)>
+<!-- 序列号 java.lang.String -->
+<!ELEMENT SerialNumber (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT ServerName (#PCDATA)>
+<!-- 服务合同号 java.lang.String -->
+<!ELEMENT ServiceContractNum (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT SeverName (#PCDATA)>
+<!-- 性别 java.lang.String -->
+<!ELEMENT Sex (#PCDATA)>
+<!-- 署名 java.lang.Long -->
+<!ELEMENT Signature (#PCDATA)>
+<!--  java.lang.Long -->
+<!ELEMENT Sizeof (#PCDATA)>
+<!-- 插巢号 java.lang.Long -->
+<!ELEMENT SlotNumber (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT SoftwareVersion (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT SortOrder (#PCDATA)>
+<!--  int -->
+<!ELEMENT SpaceId (#PCDATA)>
+<!-- 速率 java.lang.Long -->
+<!ELEMENT Speed (#PCDATA)>
+<!-- 栈大小 java.lang.Long -->
+<!ELEMENT StackSize (#PCDATA)>
+<!-- 标准(XU) java.lang.String -->
+<!ELEMENT Standards (#PCDATA)>
+<!-- 状态 int -->
+<!ELEMENT Status (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT StorageVolumeType (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT SubNetAddress (#PCDATA)>
+<!-- 支持系统 java.lang.String -->
+<!ELEMENT SupportSystem (#PCDATA)>
+<!-- 主板编号 java.lang.String -->
+<!ELEMENT SystemBoardInfo (#PCDATA)>
+<!--  java.lang.Long -->
+<!ELEMENT SystemMemPageSize (#PCDATA)>
+<!--  java.lang.Long -->
+<!ELEMENT TableSpaceSize (#PCDATA)>
+<!-- 自动确认阀值 java.lang.Long -->
+<!ELEMENT Threshold (#PCDATA)>
+<!--   java.lang.Long-->
+<!ELEMENT ToObjectID (#PCDATA)>
+<!-- 类型 java.lang.Long -->
+<!ELEMENT Type (#PCDATA)>
+<!--  java.lang.Long -->
+<!ELEMENT UID (#PCDATA)>
+<!-- U数 java.lang.String -->
+<!ELEMENT UNUM (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT URI (#PCDATA)>
+<!--  java.lang.String -->
+<!ELEMENT URL (#PCDATA)>
+<!-- 是否分离 java.lang.Boolean -->
+<!ELEMENT Unattached (#PCDATA)>
+<!-- 统一编码 java.lang.String -->
+<!ELEMENT Unicode (#PCDATA)>
+<!-- 上行最大带宽 java.lang.Long -->
+<!ELEMENT UpSpeed (#PCDATA)>
+<!-- 用途 java.lang.String -->
+<!ELEMENT UsePurpose (#PCDATA)>
+<!-- 创建用户 java.lang.String -->
+<!ELEMENT User (#PCDATA)>
+<!-- 责任人 java.lang.String -->
+<!ELEMENT UserName (#PCDATA)>
+<!-- 职位 java.lang.String -->
+<!ELEMENT UserPost (#PCDATA)>
+<!-- 正在使用IP java.lang.String -->
+<!ELEMENT UsingIPAddress (#PCDATA)>
+<!-- 虚拟机编号 java.lang.String -->
+<!ELEMENT VMId (#PCDATA)>
+<!--  java.lang.Long -->
+<!ELEMENT Value (#PCDATA)>
+<!-- 厂商 java.lang.String -->
+<!ELEMENT Vendor (#PCDATA)>
+<!-- 是否虚拟 java.lang.Boolean -->
+<!ELEMENT Virtual (#PCDATA)>
+<!-- 虚拟内存大小 java.lang.Long -->
+<!ELEMENT VirtualMemorySize (#PCDATA)>
+<!-- 访问地址 java.lang.String -->
+<!ELEMENT VisitIPAddress (#PCDATA)>
+<!-- 服务类型 java.lang.String -->
+<!ELEMENT WebLogicServerType (#PCDATA)>
+<!-- 计量单位 java.lang.String -->
+<!ELEMENT Weigh (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT ActivityName (#PCDATA)>
+<!--   java.lang.Boolean-->
+<!ELEMENT DefaultWebServer (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT DocumentRoot (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT ServerRoot (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT WebContainerUser (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT UsingLoadBalancer (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT HostName (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT ServiceName (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT Alias (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT SoftwareComponentType (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT ExecutableName (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT Publisher (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT SoftwareComponentGroup (#PCDATA)>
+<!--   java.util.Date-->
+<!ELEMENT InstalledDate (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT ComponentName (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT DomainName (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT ConsoleContextPath (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT DiscoveryProtocol (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT WebSphereNodeType (#PCDATA)>
+<!--   java.lang.Long-->
+<!ELEMENT OracleDataFileSize (#PCDATA)>
+<!--   java.lang.Boolean-->
+<!ELEMENT IsDynamic (#PCDATA)>
+<!--   java.lang.Boolean-->
+<!ELEMENT IsAdvanced (#PCDATA)>
+<!--   java.lang.Long-->
+<!ELEMENT ConfigId (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT SpNumber (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT BuildNumber (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT PatchType (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT Languages (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT DetailDescription (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT PatchDescription (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT PatchName (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT Switches (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT FileChange (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT Detect (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT PatchUrl (#PCDATA)>
+<!--   java.lang.Long-->
+<!ELEMENT NeedsReboot (#PCDATA)>
+<!--   java.lang.Long-->
+<!ELEMENT PatchLevel (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT PublisherCode (#PCDATA)>
+<!--   java.lang.Long-->
+<!ELEMENT FileSize (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT BusinessImpact (#PCDATA)>
+<!--   java.lang.Long-->
+<!ELEMENT BusinessPriority (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT FqdnInfo (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT ConfigValue (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT IpInterfaceType (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT VLANAddress (#PCDATA)>
+<!--   java.util.Date-->
+<!ELEMENT CreationDate (#PCDATA)>
+<!--   java.lang.Long-->
+<!ELEMENT DbId (#PCDATA)>
+<!--   java.lang.Long-->
+<!ELEMENT DbVersion (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT PrimaryDataFile (#PCDATA)>
+<!--   java.lang.Long-->
+<!ELEMENT ContainerId (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT PartitionGroup (#PCDATA)>
+<!--   java.lang.Long-->
+<!ELEMENT LinkLevel (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT ClusterAddress (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT MulticastAddress (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT DepName (#PCDATA)>
+<!--   java.lang.Long-->
+<!ELEMENT Num (#PCDATA)>
+<!--   java.lang.String-->
+<!ELEMENT WebSphereCellType (#PCDATA)>
+<!--   java.lang.Boolean-->
+<!ELEMENT ConsoleEnabled (#PCDATA)>
+<!--   java.util.Date-->
+<!ELEMENT LastModificationTime (#PCDATA)>

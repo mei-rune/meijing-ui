@@ -503,15 +503,19 @@ namespace meijing.ui
             }
             else
             {
-                SystemManager.OpenForm(new frmDeleteDrv(GetAllDevices()), true, false);
-                loadDevices();
+                if (SystemManager.OpenForm(new frmDeleteDrv(GetAllDevices()), true, false))
+                {
+                    loadDevices();
+                }
             }
         }
 
         private void addLinkToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SystemManager.OpenForm(new frmLink(GetAllDevicesAndPorts(), null), true, false);
-            loadLinks();
+            if (SystemManager.OpenForm(new frmLink(GetAllDevicesAndPorts(), null), true, false))
+            {
+                loadLinks();
+            }
         }
 
         private void deleteLinkToolStripMenuItem_Click(object sender, EventArgs e)
@@ -535,8 +539,10 @@ namespace meijing.ui
             }
             else
             {
-                SystemManager.OpenForm(new frmDeleteLink(GetAllLinks()), true, false);
-                loadLinks();
+                if (SystemManager.OpenForm(new frmDeleteLink(GetAllLinks()), true, false))
+                {
+                    loadLinks();
+                }
             }
         }
 

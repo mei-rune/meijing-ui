@@ -130,7 +130,7 @@ namespace meijing.ui.module
         /// <param name="mfrm"></param>
         /// <param name="isDispose">有些时候需要使用被打开窗体产生的数据，所以不能Dispose</param>
         /// <param name="isUseAppIcon"></param>
-        public static void OpenForm(Form mfrm, Boolean isDispose, Boolean isUseAppIcon)
+        public static bool OpenForm(Form mfrm, Boolean isDispose, Boolean isUseAppIcon)
         {
             mfrm.StartPosition = FormStartPosition.CenterParent;
             mfrm.BackColor = Color.White;
@@ -140,9 +140,10 @@ namespace meijing.ui.module
             {
                 mfrm.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
             }
-            mfrm.ShowDialog();
+            var res = mfrm.ShowDialog();
             mfrm.Close();
             if (isDispose) { mfrm.Dispose(); }
+            return res == DialogResult.OK;
         }
 
         /// <summary>
