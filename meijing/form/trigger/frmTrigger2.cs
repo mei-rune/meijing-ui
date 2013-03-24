@@ -40,6 +40,21 @@ namespace meijing.ui
         {
             try
             {
+                if (string.IsNullOrEmpty(this.triggerCtl.RuleName))
+                {
+                    MyMessageBox.ShowMessage("警告", "名称不能为空.");
+                    return;
+                }
+                if (string.IsNullOrEmpty(this.triggerCtl.KPI))
+                {
+                    MyMessageBox.ShowMessage("警告", "指标不能为空.");
+                    return;
+                }
+                if (15 >= this.triggerCtl.Interval)
+                {
+                    MyMessageBox.ShowMessage("警告", "轮询间隔不能为小于15秒。");
+                    return;
+                }
                 var trigger = this.triggerCtl.GetTrigger();
                 var id = trigger.SaveIt();
                 var actions = trigger.Children<RedisAction>(null);

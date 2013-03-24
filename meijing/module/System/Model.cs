@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace meijing.ui.module
+namespace meijing
 { 
     class NameAttribute : Attribute 
     {
@@ -146,37 +146,25 @@ namespace meijing.ui.module
 
         public string CreateIt()
         {
-            this.attributes["_id"] = SystemManager.Client.Create(GetClassName(this.GetType()),
+            this.attributes["_id"] = CreateClient().Create(GetClassName(this.GetType()),
                 this.attributes);
             return this.Id;
         }
 
         public void UpdateIt()
         {
-            SystemManager.Client.UpdateById(GetClassName(this.GetType()), this.Id, this.attributes);
+            CreateClient().UpdateById(GetClassName(this.GetType()), this.Id, this.attributes);
         }
 
         public void DeleteIt()
         {
-            SystemManager.Client.DeleteById(GetClassName(this.GetType()), this.Id);
+            CreateClient().DeleteById(GetClassName(this.GetType()), this.Id);
         }
 
         public IList<T> Children<T>(IDictionary<string, string> query)
             where T : Model, new()
         {
-            List<T> result = new List<T>();
-            var qResult = SystemManager.Client.Children(GetClassName(this.GetType()), this.Id, 
-                GetClassName(typeof(T)), query);
-            foreach (var res in qResult)
-            {
-                var instance = new T();
-                foreach (var k in res)
-                {
-                    instance[k.Key] = k.Value;
-                }
-                result.Add(instance);
-            }
-            return result;
+            return Children<T>(GetClassName(this.GetType()), this.Id, query);
         }
 
         private static string GetClassName(Type t) {
@@ -198,51 +186,51 @@ namespace meijing.ui.module
         public static string Create<T>(Dictionary<string, Object> attributes)
             where T : Model
         {
-            return SystemManager.Client.Create(GetClassName(typeof(T)), attributes);
+            return CreateClient().Create(GetClassName(typeof(T)), attributes);
         }
 
         public static string Save<T>(IDictionary<string, string> query, IDictionary<string, object> attributes)
             where T : Model
         {
-            return SystemManager.Client.Save(GetClassName(typeof(T)), query, attributes);
+            return CreateClient().Save(GetClassName(typeof(T)), query, attributes);
         }
 
         public static void UpdateById<T>(string id, IDictionary<string, Object> attributes)
             where T : Model
         {
-            SystemManager.Client.UpdateById(GetClassName(typeof(T)), id, attributes);
+            CreateClient().UpdateById(GetClassName(typeof(T)), id, attributes);
         }
 
         public static void UpdateBy<T>(IDictionary<string, string> query, 
             IDictionary<string, object> attributes)
             where T : Model
         {
-            SystemManager.Client.UpdateBy(GetClassName(typeof(T)), query, attributes);
+            CreateClient().UpdateBy(GetClassName(typeof(T)), query, attributes);
         }
 
         public static void DeleteById<T>(string id)
             where T : Model
         {
-            SystemManager.Client.DeleteById(GetClassName(typeof(T)), id);
+            CreateClient().DeleteById(GetClassName(typeof(T)), id);
         }
 
         public static void DeleteBy<T>(IDictionary<string, string> query)
             where T : Model
         {
-            SystemManager.Client.DeleteBy(GetClassName(typeof(T)), query);
+            CreateClient().DeleteBy(GetClassName(typeof(T)), query);
         }
 
         public static int Count<T>(IDictionary<string, string> query)
             where T : Model
         {
-            return SystemManager.Client.Count(GetClassName(typeof(T)), query);
+            return CreateClient().Count(GetClassName(typeof(T)), query);
         }
 
         public static T FindById<T>(string id) 
             where T : Model, new()
         {
             var instance = new T();
-            foreach(var k in SystemManager.Client.FindById(GetClassName(typeof(T)), id)){
+            foreach(var k in CreateClient().FindById(GetClassName(typeof(T)), id)){
                 instance[k.Key] = k.Value;
             }
             return instance;
@@ -252,7 +240,7 @@ namespace meijing.ui.module
             where T : Model, new()
         {
             List<T> result = new List<T>();
-            var qResult = SystemManager.Client.FindBy(GetClassName(typeof(T)), query);
+            var qResult = CreateClient().FindBy(GetClassName(typeof(T)), query);
             foreach (var res  in qResult)
             {
                 var instance = new T();
@@ -263,6 +251,29 @@ namespace meijing.ui.module
                 result.Add(instance);
             }
             return result;
+        }
+
+        public static IList<T> Children<T>(string target, string id, IDictionary<string, string> query)
+            where T : Model, new()
+        {
+            List<T> result = new List<T>();
+            var qResult = CreateClient().Children(target, id,
+                GetClassName(typeof(T)), query);
+            foreach (var res in qResult)
+            {
+                var instance = new T();
+                foreach (var k in res)
+                {
+                    instance[k.Key] = k.Value;
+                }
+                result.Add(instance);
+            }
+            return result;
+        }
+
+        public static Client CreateClient()
+        {
+            return Helper.Client;
         }
     }
 
@@ -278,8 +289,27 @@ namespace meijing.ui.module
         }
         public string Name
         {
-            get{ return GetString("name"); }
-            set{ base["name"] = value; }
+            get{ return string.IsNullOrEmpty(this.CustomName)? this.SysName : this.CustomName; }
+        }
+        public string SysName
+        {
+            get { return GetString("name"); }
+            set { base["name"] = value; }
+        }
+        public string CustomName
+        {
+            get { return GetString("custom_name"); }
+            set { base["custom_name"] = value; }
+        }
+        public int CustomLevel
+        {
+            get { return GetInt("custom_level", -1); }
+            set { base["custom_level"] = value; }
+        }
+        public int Manufacturer
+        {
+            get { return GetInt("manufacturer", -1); }
+            set { base["manufacturer"] = value; }
         }
         public string Address
         {
@@ -322,6 +352,25 @@ namespace meijing.ui.module
             set{ base["updated_at"] = value; }
         }
 
+        public string GetPrimaryMAC()
+        {
+            var query = new Dictionary<string, string>();
+            query["address"] = this.Address;
+            var primary = this.Children<IPAddress>(query).FirstOrDefault();
+            if(null == primary)
+            {
+                return null;
+            }
+            query.Clear();
+            query["ifIndex"] = primary.IfIndex.ToString();
+            var ifc = this.Children<Interface>(query).FirstOrDefault();
+            if(null == ifc)
+            {
+                return null;
+            }
+            return ifc.IfPhysAddress;
+        }
+
         public override string ToString()
         {
             return string.IsNullOrEmpty(Name)?Address:string.Format("[{0}]{1}", Address, Name);
@@ -335,6 +384,16 @@ namespace meijing.ui.module
         {
             get { return GetString("name"); }
             set { base["name"] = value; }
+        }
+        public int CustomSpeedUp
+        {
+            get { return GetInt("custom_speed_up", -1); }
+            set { base["custom_speed_up"] = value; }
+        }
+        public int CustomSpeedDown
+        {
+            get { return GetInt("custom_speed_down", -1); }
+            set { base["custom_speed_down"] = value; }
         }
         public string Description
         {
@@ -525,6 +584,13 @@ namespace meijing.ui.module
         public override string ToString()
         {
             return string.Format("[{0}{1}]", this.IfIndex, this.IfDescr);
+        }
+
+        public static Interface GetDevicePort(string devId, int ifIndex)
+        {
+            var query = new Dictionary<string, string>();
+            query["ifIndex"] = ifIndex.ToString();
+            return Children<Interface>("device", devId, query).FirstOrDefault();
         }
     }
 

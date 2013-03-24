@@ -17,6 +17,11 @@ namespace meijing.ui.components
         {
             InitializeComponent();
         }
+        public ctlLinkGrid(IList<Link> links)
+        {
+            InitializeComponent();
+            SetLinks(links);
+        }
 
 
         public IList<Link> SelectedLinks()

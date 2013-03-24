@@ -154,6 +154,7 @@
     <Compile Include="form\trigger\frmTrigger2.Designer.cs">
       <DependentUpon>frmTrigger2.cs</DependentUpon>
     </Compile>
+    <Compile Include="module\System\Helper.cs" />
     <Compile Include="messageBox\frmConfirm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -307,6 +308,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="meijing.deviceTypes.txt" />
     <Content Include="clody.ico" />
     <Content Include="ReleaseNote.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

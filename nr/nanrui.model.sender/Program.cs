@@ -50,7 +50,6 @@ namespace meijing.nanrui.model.sender
         static Dictionary<string, Link> _linkByIds = new Dictionary<string, Link>();
         //static Dictionary<int, ServiceStaticPropertiesData> _serviceByIds = new Dictionary<int, ServiceStaticPropertiesData>();
 
-        static Dictionary<string, string> _deviceModels = new Dictionary<string, string>();
         static Dictionary<string, string> _deviceFields = new Dictionary<string, string>();
         static List<KeyValuePair<IPSeg, string>> _corporationIPSeg = new List<KeyValuePair<IPSeg, string>>();
 
@@ -267,8 +266,6 @@ namespace meijing.nanrui.model.sender
                     logger.Info("载入设备指标映射!");
                     DispatchImpl.ReadDispatch(xmlSetting.SelectOne("/configuration/Maps/Device"), _deviceDispatcher, logger);
                     
-                    logger.Logger.Log(typeof(Dispatcher), log4net.Core.Level.Trace, "载入设备类型列表!", null);
-                    _deviceModels = ReadIni(Path.Combine(basePath, "../betasoft.deviceModels.txt"));
                     logger.Logger.Log(typeof(Dispatcher), log4net.Core.Level.Trace, "载入要发送的设备备注列表!", null);
                     ReadMap(_deviceFields, xmlSetting.Select("/configuration/Locale/DeviceFields/*"));
                     
@@ -588,38 +585,25 @@ namespace meijing.nanrui.model.sender
 
         static XmlContainer processRT(Device dev, IDictionary<string, XmlContainer> dict)
         {
-            XmlContainer xmlContainer = createXml(GetAddress(dev.Address, dev.Address), dict);
+            XmlContainer xmlContainer = createXml(GetAddress(System.Net.IPAddress.Parse(dev.Address), dev.Address), dict);
             XmlElement rt = AppendChild(createXmlElement("Router", xmlContainer), "Router");
             string originalKey = generateOriginalKey(dev);
             AppendChild(rt, "OriginalKey", originalKey);
             //AppendChild(rt, "OriginalKey", string.Concat(profix, "Router-", dev.DeviceId));
-            AppendChild(rt, "Name", dev.GetName());
+            AppendChild(rt, "Name", dev.Name);
             AppendChild(rt, "Description", dev.Description);
-            AppendChild(rt, "DevLevel", dev.Level);
-            AppendChild(rt, "Manufacturer", dev.Manufacturer);
-            AppendChild(rt, "Architecture", dev.SysTypeName);
-            AppendChild(rt, "ROMVersion", dev.SystemOID);
-            AppendChild(rt, "OSInfo", dev.SysTypeName);
+            AppendChild(rt, "DevLevel", dev.CustomLevel);
+            AppendChild(rt, "Manufacturer", Helper.GetManufacturer(dev.Manufacturer.ToString()));
+            AppendChild(rt, "Architecture", Helper.GetDeviceCatalog(dev.Catalog));
+            AppendChild(rt, "ROMVersion", dev.Oid);
+            AppendChild(rt, "OSInfo", Helper.GetDeviceCatalog(dev.Catalog));
 
-            string model = null;
-            if (_deviceModels.TryGetValue(dev.SystemOID.Trim(new char[]{'.'}), out model)
-                && !string.IsNullOrEmpty(model))
+            string model = Helper.GetDeviceType(dev.Oid.Trim(new char[] { '.' }));
+            if(!string.IsNullOrEmpty(model))
                 AppendChild(rt, "Model", model);
 
-            AppendChild(rt, "PrimaryMACAddress", btSystem.GetPrimaryMAC(dev));
+            AppendChild(rt, "PrimaryMACAddress", dev.GetPrimaryMAC());
             AppendChild(rt, "UsingIPAddress", dev.Address);
-
-
-            foreach (KeyValuePair<string, string> kp in _deviceFields)
-            {
-                if (string.IsNullOrEmpty(kp.Key) || string.IsNullOrEmpty(kp.Value))
-                    continue;
-
-                string val = null;
-                if (dev.RemarksMap.TryGetValue(kp.Value, out val)
-                    && !string.IsNullOrEmpty(val))
-                    AppendChild(rt, kp.Value, val);
-            }
 
             XmlElement containsInstance = FindAndAppendChild(rt, "ContainsInstance");
             processPorts(dev, true, containsInstance);
@@ -629,48 +613,37 @@ namespace meijing.nanrui.model.sender
 
         static XmlContainer processSW(Device dev, Dictionary<string, XmlContainer> dict)
         {
-            XmlContainer xmlContainer = createXml(GetAddress(dev.IP, dev.Address), dict);
+            XmlContainer xmlContainer = createXml(GetAddress(System.Net.IPAddress.Parse(dev.Address), dev.Address), dict);
             XmlElement sw = AppendChild(createXmlElement("Switch", xmlContainer), "Switch");
             //logger.InfoFormat("添加节点 {0}, 父节点{1}已有{2}个子节点", string.Concat(profix, "Device-", dev.DeviceId), sw.ParentNode.Name, sw.ParentNode.ChildNodes.Count);
             //AppendChild(sw, "OriginalKey", string.Concat(profix, "Switch-", dev.DeviceId));
             string originalKey = generateOriginalKey(dev);
             AppendChild(sw, "OriginalKey", originalKey);
-            AppendChild(sw, "Name", dev.GetName());
+            AppendChild(sw, "Name", dev.Name);
             AppendChild(sw, "Description", dev.Description);
-            AppendChild(sw, "DevLevel", dev.Level);
-            AppendChild(sw, "Manufacturer", dev.Manufacturer);
+            AppendChild(sw, "DevLevel", dev.CustomLevel);
+            AppendChild(sw, "Manufacturer", Helper.GetManufacturer(dev.Manufacturer.ToString()));
 
-            AppendChild(sw, "Architecture", dev.SysTypeName);
-            AppendChild(sw, "ROMVersion", dev.SystemOID);
-            AppendChild(sw, "OSInfo", dev.SysTypeName);
+            AppendChild(sw, "Architecture", Helper.GetDeviceCatalog(dev.Catalog));
+            AppendChild(sw, "ROMVersion", dev.Oid);
+            AppendChild(sw, "OSInfo", Helper.GetDeviceCatalog(dev.Catalog));
 
-            string model = null;
-            if (_deviceModels.TryGetValue(dev.SystemOID.Trim(new char[]{'.'}), out model)
-                && !string.IsNullOrEmpty(model))
+            string model = Helper.GetDeviceType(dev.Oid.Trim(new char[] { '.' }));
+            if (!string.IsNullOrEmpty(model))
                 AppendChild(sw, "Model", model);
 
-            AppendChild(sw, "PrimaryMACAddress", btSystem.GetPrimaryMAC(dev));
+            AppendChild(sw, "PrimaryMACAddress", dev.GetPrimaryMAC());
             AppendChild(sw, "UsingIPAddress", dev.Address);
 
 
-            foreach (KeyValuePair<string, string> kp in _deviceFields)
-            {
-                if (string.IsNullOrEmpty(kp.Key) || string.IsNullOrEmpty(kp.Value))
-                    continue;
-
-                string val = null;
-                if (dev.RemarksMap.TryGetValue(kp.Value, out val)
-                    && !string.IsNullOrEmpty(val))
-                    AppendChild(sw, kp.Value, val);
-            }
 
             XmlElement containsInstance = FindAndAppendChild(sw, "ContainsInstance");
-            processPorts(btSystem, dev, false, containsInstance);
-            processCPU(btSystem, dev, sw.Name, containsInstance, originalKey);
+            processPorts(dev, false, containsInstance);
+            processCPU(dev, sw.Name, containsInstance, originalKey);
             return xmlContainer;
         }
 
-        static string GetAddress(IPAddress ip, string address)
+        static string GetAddress(System.Net.IPAddress ip, string address)
         {
             if (!string.IsNullOrEmpty(address))
                 return address;
@@ -691,27 +664,27 @@ namespace meijing.nanrui.model.sender
             _deviceByIds.TryGetValue(link.Device2Id, out dev2);
             if (null == dev1 || null == dev2)
             {
-                logger.InfoFormat("线路[{0}:{1}]其中一端的设备没有,跳过!", link.Id, link.DisplayName);
+                logger.InfoFormat("线路[{0}:{1}]其中一端的设备没有,跳过!", link.Id, link.Name);
                 return null;
             }
 
 
-            Interface port1 = btSystem.GetDevicePort(link.DevId1, link.IfIndex1);
-            Interface port2 = btSystem.GetDevicePort(link.DevId2, link.IfIndex2);
+            Interface port1 = Interface.GetDevicePort(link.Device1Id, link.IfIndex1);
+            Interface port2 = Interface.GetDevicePort(link.Device2Id, link.IfIndex2);
 
             if (null == port1)
             {
                 if (null != linkLogger)
                 {
                     linkLogger.WriteLine(string.Concat("线路 - ", link.Id
-                        , "-", (null == dev1) ? link.DevId1.ToString() : dev1.DisplayName
-                        , "-", (null == dev2) ? link.DevId2.ToString() : dev2.DisplayName
-                        , " ---- ", link.DisplayName));
+                        , "-", (null == dev1) ? link.Device1Id.ToString() : dev1.Name
+                        , "-", (null == dev2) ? link.Device2Id.ToString() : dev2.Name
+                        , " ---- ", link.Name));
                 }
 
                 if (!uploadForBadLink)
                 {
-                    logger.InfoFormat("线路[{0}:{1}]其中一端的端口没有,跳过!", link.Id, link.DisplayName);
+                    logger.InfoFormat("线路[{0}:{1}]其中一端的端口没有,跳过!", link.Id, link.Name);
                     return null;
                 }
             }
@@ -721,21 +694,21 @@ namespace meijing.nanrui.model.sender
                 if (null != linkLogger)
                 {
                     linkLogger.WriteLine(string.Concat("线路 - ", link.Id
-                        , "-", (null == dev1) ? link.DevId1.ToString() : dev1.DisplayName
-                        , "-", (null == dev2) ? link.DevId2.ToString() : dev2.DisplayName
-                        , " ---- ", link.DisplayName));
+                        , "-", (null == dev1) ? link.Device1Id.ToString() : dev1.Name
+                        , "-", (null == dev2) ? link.Device2Id.ToString() : dev2.Name
+                        , " ---- ", link.Name));
                 }
 
                 if (!uploadForBadLink)
                 {
-                    logger.InfoFormat("线路[{0}:{1}]其中一端的端口没有,跳过!", link.Id, link.DisplayName);
+                    logger.InfoFormat("线路[{0}:{1}]其中一端的端口没有,跳过!", link.Id, link.Name);
                     return null;
                 }
             }
 
 
-            string dev1FieldName = "Port1ID";
-            string dev2FieldName = "Port2ID";
+            //string dev1FieldName = "Port1ID";
+            //string dev2FieldName = "Port2ID";
             string port1FieldName = "Dev1ID";
             string port2FieldName = "Dev2ID";
 
@@ -750,7 +723,7 @@ namespace meijing.nanrui.model.sender
             //    port2FieldName = "Port2ID";
             //}
 
-            XmlContainer xmlContainer = createXml(GetAddress(dev1.IP, dev1.Address), dict);
+            XmlContainer xmlContainer = createXml(GetAddress(System.Net.IPAddress.Parse(dev1.Address), dev1.Address), dict);
             XmlElement linkNode = AppendChild(createXmlElement(className, xmlContainer), className);
 
 
@@ -759,12 +732,12 @@ namespace meijing.nanrui.model.sender
             AppendChild(linkNode, "OriginalKey", string.Concat(profix, "L2Link-", link.Id));
             //- <!--  链路名称 选填 --> 
             //  <Name>主干链路</Name> 
-            AppendChild(linkNode, "Name", link.DisplayName);
-            AppendChild(linkNode, "Description", string.IsNullOrEmpty(link.Descr) ? "" : link.Descr);
+            AppendChild(linkNode, "Name", link.Name);
+            AppendChild(linkNode, "Description", string.IsNullOrEmpty(link.Description) ? "" : link.Description);
 
             //- <!--  链路类型 选填 --> 
             //  <Type>3</Type> 
-            AppendChild(linkNode, "Type", link.TypeName);
+            //AppendChild(linkNode, "Type", link.TypeName);
 
             //- <!--  网络接口1ID 必须填写 --> 
             //  <Dev1ID>6000203</Dev1ID> 
@@ -779,11 +752,11 @@ namespace meijing.nanrui.model.sender
             // linkNode.AppendChild(linkNode.OwnerDocument.CreateComment("Port1ID与Dev1ID这两个字段意思是反的,但这是南瑞制定的格式,我没有办法."));
 
 
-            if ("virtual" == link.TypeName)
-            {
-                AppendChild(linkNode, dev1FieldName, generateOriginalKey(dev1));
-                AppendChild(linkNode, dev2FieldName, generateOriginalKey(dev2));
-            }
+            //if ("virtual" == link.TypeName)
+            //{
+            //    AppendChild(linkNode, dev1FieldName, generateOriginalKey(dev1));
+            //    AppendChild(linkNode, dev2FieldName, generateOriginalKey(dev2));
+            //}
 
             if (null != port1)
             {
@@ -797,11 +770,11 @@ namespace meijing.nanrui.model.sender
 
             //- <!--  链路带宽 必须填写 --> 
             //  <BandWidth>10</BandWidth> 
-            AppendChild(linkNode, "BandWidth", Math.Max(link.UserSpeedUp, link.UserSpeedDown) / 1000000);
+            AppendChild(linkNode, "BandWidth", Math.Max(link.CustomSpeedUp, link.CustomSpeedDown) / 1000000);
 
-            AppendChild(linkNode, "UpSpeed", link.UserSpeedUp / 1000000);
+            AppendChild(linkNode, "UpSpeed", link.CustomSpeedUp / 1000000);
 
-            AppendChild(linkNode, "DownSpeed", link.UserSpeedDown / 1000000);
+            AppendChild(linkNode, "DownSpeed", link.CustomSpeedDown / 1000000);
             //AppendChild(linkNode, "LinkLevel", link.Level);
             return xmlContainer;
         }
@@ -864,15 +837,15 @@ namespace meijing.nanrui.model.sender
             else
             {
                 AppendChild(ip, "Address", ipData.Address);
-                AppendChild(ip, "NetworkMask", ipData.Mask);
+                AppendChild(ip, "NetworkMask", ipData.Netmask);
             }
 
             //  <MACAddress>1A.73.8A.4A.32.21</MACAddress> 
             //- <!--  最大传输速率   --> 
-            AppendChild(ip, "Speed", Math.Max(port.IfSpeedIn, port.IfSpeedOut) / 1000000);
+            AppendChild(ip, "Speed", Math.Max(port.IfSpeed, port.IfSpeed) / 1000000);
 
 
-            AppendChild(ip, "IpInterfaceType", port.IfTypeName);
+            AppendChild(ip, "IpInterfaceType", Helper.GetPortType(port.IfType));
             //AppendChild(ip, "Duplex", port.);
             AppendChild(ip, "MTU", port.IfMtu);
 
@@ -880,6 +853,41 @@ namespace meijing.nanrui.model.sender
             //- <!--  MAC地址   --> 
             //  <MACAddress>1A.73.8A.4A.32.21</MACAddress> 
             AppendChild(ip, "MACAddress", port.IfPhysAddress);
+        }
+
+        static void processCPU(Device dev, string devType, XmlElement element, string originalKey)
+        {
+            //OSCPU[] cpuList = null;
+            //_OSCPUs.TryGetValue(dev.Id, out cpuList);
+
+            //if (null != cpuList && 0 < cpuList.Length)
+            //{
+            //    logger.DebugFormat("设备{0}取到{1}个 CPU 信息", dev.Id, cpuList.Length);
+            //    foreach (OSCPU cpu in cpuList)
+            //    {
+            //        XmlElement el = AppendChild(element, "CPU");
+            //        AppendChild(el, "OriginalKey", string.Concat(originalKey, "-", "CPU-", cpu.CPU_Id));
+            //        AppendChild(el, "Name", dev.GetName() + "-" + cpu.CPU_Id);
+            //        AppendChild(el, "SlotNumber", cpu.CPU_Id);
+            //    }
+            //    return;
+            //}
+            //else
+            //{
+            //    logger.DebugFormat("设备{0}没有取到 CPU 信息 - {1}", dev.Id, _OSCPUs.Count);
+            //}
+
+            XmlElement cpuNode = AppendChild(element, "CPU");
+            AppendChild(cpuNode, "OriginalKey", string.Concat(originalKey, "-", "CPU1"));
+            AppendChild(cpuNode, "Name", dev.Name + "-CPU1");
+            AppendChild(cpuNode, "SlotNumber", "1");
+
+            //        <CPU>
+            //<Objectid>12900047</Objectid>
+            //<OriginalKey></OriginalKey>
+            //<Name>xxxxx</Name>
+            //<SlotNumber>1</SlotNumber>
+            //</CPU>
         }
 
         static string Execute(string cmd, string arguments)
@@ -909,6 +917,7 @@ namespace meijing.nanrui.model.sender
                 return result;
             }
         }
+
 
 
         static private void Kill(string nm, string workingDirectory)

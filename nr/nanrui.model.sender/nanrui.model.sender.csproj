@@ -71,6 +71,7 @@
     <Compile Include="NMSSupport.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Helper.cs" />
     <Compile Include="TaskPool.cs" />
     <Compile Include="UrlBuilder.cs" />
     <Compile Include="XmlSetting.cs" />
@@ -158,8 +159,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(TargetDir)template"   "$(TargetDir)..\.."   /Y /S /E
-xcopy "$(TargetDir)..\..\nms\deploy\btnm\config\btJobs"  "$(TargetDir)..\..\nms\deploy\btnm\bin\btJobs" /Y /S /E
-copy "$(TargetDir)nari_ims_import_data.dtd"  "$(TargetDir)..\..\nms\deploy\btnm\bin\nari_ims_import_data.dtd" /Y</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

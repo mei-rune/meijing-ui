@@ -8,6 +8,7 @@ using System.Drawing;
 
 namespace meijing.ui
 {
+    using meijing.ui.components;
     using meijing.ui.module;
 
     public partial class frmMain : Form
@@ -325,10 +326,6 @@ namespace meijing.ui
         {
             if (null == e.Node.Tag) {
                 if ("devices" == e.Node.Name) {
-                    List<Device> devices = new List<Device>();
-                    for(int i =0; i < e.Node.Nodes.Count; i ++) {
-                        devices.Add(e.Node.Nodes[i].Tag as Device);
-                    }
                     showDevices(GetAllDevices(e.Node));
                 }
                 else if ("interfaces" == e.Node.Name)
@@ -347,7 +344,22 @@ namespace meijing.ui
                     {
                         triggers.Add(e.Node.Nodes[i].Tag as Trigger);
                     }
-                    showTriggers(e.Node.Parent.Tag as Device, triggers);
+                    var dd = e.Node.Parent.Tag as Device;
+                    if (null != dd)
+                    {
+                        showTriggers(dd, triggers);
+                        return;
+                    }
+                    var link = e.Node.Parent.Tag as Link;
+                    if (null != link)
+                    {
+                        showTriggers(link, triggers);
+                        return;
+                    } 
+                }
+                else if ("links" == e.Node.Name)
+                {
+                    showLinks(GetLinks(e.Node));
                 }
                 return;
             }
@@ -368,6 +380,37 @@ namespace meijing.ui
             }
         }
 
+        public void showLinks(IList<Link> links)
+        {
+            this.listView.BeginUpdate();
+            try
+            {
+
+                listView.Columns.Clear();
+                listView.Items.Clear();
+                listView.Columns.Add("linkId", "线路标识", 200);
+                listView.Columns.Add("linkName", "线路名", 100);
+                listView.Columns.Add("DeviceId1", "设备1", 400);
+                listView.Columns.Add("DevicePort2", "端口1", 150);
+                listView.Columns.Add("DeviceId2", "设备2", 150);
+                listView.Columns.Add("DevicePort2", "端口1", 150);
+
+                foreach (var link in links)
+                {
+                    var item = listView.Items.Add(link.Id);
+                    item.SubItems.Add(link.Name);
+                    item.SubItems.Add(link.Device1Id);
+                    item.SubItems.Add(link.IfIndex1.ToString());
+                    item.SubItems.Add(link.Device2Id);
+                    item.SubItems.Add(link.IfIndex2.ToString());
+                    item.Tag = link;
+                }
+            }
+            finally
+            {
+                this.listView.EndUpdate();
+            }
+        }
         public void showDevices(IList<Device> devices)
         {
             listView.BeginUpdate();
@@ -420,7 +463,7 @@ namespace meijing.ui
             }
         }
 
-        public void showTriggers(Device drv, List<Trigger> triggers )
+        public void showTriggers(Model drv, List<Trigger> triggers )
         {
             listView.BeginUpdate();
             try

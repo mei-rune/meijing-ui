@@ -92,7 +92,6 @@ namespace meijing.nanrui.kpi.sender
 
     partial class Program
     {
-        static int MAX_QUEUE = 1000000;
         static string _manufacturer = "Betasoft";
         static string _prefixId = "";
         static Encoding _encoding;
@@ -111,41 +110,8 @@ namespace meijing.nanrui.kpi.sender
         static Dispatcher _serviceDispatcher = new Dispatcher();
         static Dictionary<string, string> _performanceMapForPorts = new Dictionary<string, string>();
         static Dictionary<string, string> _performanceMapForLinks = new Dictionary<string, string>();
-        static List<IMatcher> _serviceMatchers = new List<IMatcher>();
 
 
-        static Dictionary<int, bool[]> _deviceList = null;
-        static Dictionary<int, bool[]> _serverList = null;
-        static Dictionary<int, bool[]> _linkList = null;
-
-
-
-        //static Dictionary<int, Device> _devices = new Dictionary<int, Device>();
-
-        static string GetDBConfigPath(string basePath, string dbPath)
-        {
-            if (Path.IsPathRooted(dbPath))
-                return dbPath;
-
-            return Path.Combine(basePath, dbPath);
-        }
-
-        //static void Test()
-        //{
-        //    ExecuteNonQuery( "delete from BHistoryReadySend" );
-        //    ExecuteNonQuery( "delete from BHistorySendMap" );
-
-        //    long now = ToInt64( DateTime.Now );
-        //    ExecuteNonQuery("insert into BHistoryReadySend(BID,BCreatedTime,BMOId,BMOtype,BValue,BStatus,BStoreId) values(" + now.ToString() + ",@22,@23,@24,@25,@26,0)");
-
-        //    data.Id = Convert.ToInt32(reader["BID"]);
-        //    data.CreatedTime = ToInt64(Convert.ToDateTime(reader["BCreatedTime"]));
-        //    data.MOId = Convert.ToInt32(reader["BMOId"]);
-        //    data.MOType = reader["BMOtype"].ToString();
-        //    data.StatusX = reader["BStatus"].ToString();
-        //    data.StoreId = Convert.ToInt32(reader["BStoreId"]);
-        //    data.Value = Convert.ToDouble(reader["BValue"]);
-        //}
 
         static string GetBasePath(string basePath, string dbPath)
         {
@@ -202,58 +168,6 @@ namespace meijing.nanrui.kpi.sender
                 .Replace('>', '-');
         }
 
-        static Dictionary<int, string> ReadIni(string fileName)
-        {
-            if (!File.Exists(fileName))
-                return null;
-
-            Dictionary<int, string> map = new Dictionary<int, string>();
-            foreach (string ss in File.ReadAllLines(fileName))
-            {
-                if (string.IsNullOrEmpty(ss))
-                    continue;
-
-                int index = ss.IndexOf('=');
-                if (-1 == index)
-                    continue;
-
-                int id = 0;
-                if (!int.TryParse(ss.Substring(0, index), out id))
-                    continue;
-
-                map[id] = ss.Substring(index + 1);
-            }
-            return map;
-        }
-
-        static Dictionary<int, bool[]> ReadIniFromFile(string fileName)
-        {
-            if (!File.Exists(fileName))
-                return null;
-
-            Dictionary<int, bool[]> map = new Dictionary<int, bool[]>();
-            foreach (string ss in File.ReadAllLines(fileName))
-            {
-                if (string.IsNullOrEmpty(ss))
-                    continue;
-
-                int index = ss.IndexOf('=');
-                if (-1 == index)
-                    continue;
-
-                int id = 0;
-                if (!int.TryParse(ss.Substring(0, index), out id))
-                    continue;
-                string val = ss.Substring(index + 1);
-                if (string.IsNullOrEmpty(val))
-                    continue;
-                string[] sa = val.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                if (2 == sa.Length)
-                    map[id] = new bool[] { "true" == sa[0], "true" == sa[1] };
-            }
-            return map;
-        }
-
         static void Main(string[] args)
         {
             try
@@ -273,7 +187,7 @@ namespace meijing.nanrui.kpi.sender
                     }
                 }
 
-                _isDebugging = File.Exists(Path.Combine(Path.GetDirectoryName(_basePath), "Betasoft.DataProvider.Debuger.Running"));
+                _isDebugging = File.Exists(Path.Combine(Path.GetDirectoryName(_basePath), "meijing.debuger.Running"));
 
                 XmlSetting xmlSetting = new XmlSetting(new StreamReader(Path.Combine(_basePath, "nanrui.performance.config")));
                 XmlSetting defaultSetting = XmlSetting.ReadFromFile(Path.Combine(_basePath, "../nanrui.default.config"));
@@ -282,9 +196,6 @@ namespace meijing.nanrui.kpi.sender
                 _corporation = defaultSetting.ReadSetting("/configuration/Locale/Corporation/@value", "");
 
 
-                string maxQueue = xmlSetting.ReadSetting("/configuration/Locale/MAX_QUEUE/@value", MAX_QUEUE.ToString());
-                if (!int.TryParse(maxQueue, out MAX_QUEUE))
-                    MAX_QUEUE = 1000000;
 
                 log4net.Config.XmlConfigurator.Configure(xmlSetting.SelectOne("/configuration/log4net").AsXmlNode() as System.Xml.XmlElement);
                 _logger = LogManager.GetLogger("Betanetworks.Performance");
@@ -292,20 +203,6 @@ namespace meijing.nanrui.kpi.sender
                 try
                 {
                     _logger.Info("程序启动,开始读配置");
-
-                    foreach (XmlSetting driver in xmlSetting.Select("/configuration/DBConfig/driver/*"))
-                    {
-                        string key = driver.ReadSetting("@key", null);
-                        string typeString = driver.ReadSetting("@value", null);
-                        if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(typeString))
-                            continue;
-
-                        Type type = Type.GetType(typeString);
-                        if (null == type)
-                            continue;
-
-                        DBSupport.AddDriver(key, type);
-                    }
 
                     _logger.Logger.Log(typeof(Dispatcher), log4net.Core.Level.Trace, "载入操作系统类型!", null);
                     ReadMap(_osTypes, xmlSetting.Select("/configuration/OSTypes/*"));
@@ -324,190 +221,120 @@ namespace meijing.nanrui.kpi.sender
                     _logger.Logger.Log(typeof(Dispatcher), log4net.Core.Level.Trace, "载入线路指标映射!", null);
                     ReadMap(_performanceMapForLinks, xmlSetting.Select("/configuration/PerformanceKeyMaps/Link/*"));
 
-                    _logger.Logger.Log(typeof(Dispatcher), log4net.Core.Level.Trace, "载入允许发送的设备列表!", null);
-                    _deviceList = ReadIniFromFile(Path.Combine(_basePath, "../deviceList.txt"));
-                    _logger.Logger.Log(typeof(Dispatcher), log4net.Core.Level.Trace, "载入允许发送的服务列表!", null);
-                    _serverList = ReadIniFromFile(Path.Combine(_basePath, "../serverList.txt"));
-                    _logger.Logger.Log(typeof(Dispatcher), log4net.Core.Level.Trace, "载入允许发送的线路列表!", null);
-                    _linkList = ReadIniFromFile(Path.Combine(_basePath, "../linkList.txt"));
 
 
+                    List<PerformanceData> dataList = GetAllReadyRecords();
+                    _logger.InfoFormat("读队列表中的数据成功，共{0}条!", dataList.Count);
 
-                    _serviceMatchers.Add(new SplitMatcher());
+                    Dictionary<PerformanceKey, PerformanceData> dataMap = GetAllRecordFromMap();
+                    _logger.InfoFormat("读MAP表中的数据成功，共{0}条!", dataMap.Count);
 
-                    //foreach (XmlSetting setting in xmlSetting.Select("/configuration/RegexMatcher/*"))
-                    //{
-                    //    string nm = setting.ReadSetting("@name", null);
-                    //    if (string.IsNullOrEmpty(nm))
-                    //        continue;
+                    MoveToMAP(dataList, dataMap);
+                    _logger.Info("更校报MAP表完成!");
 
-                    //    string rx = setting.ReadSetting("@pattern", null);
-                    //    if (string.IsNullOrEmpty(rx))
-                    //        continue;
+                    long now = ToInt64(DateTime.Now);
 
-                    //    string sp = setting.ReadSetting("@separator", null);
-                    //    if (string.IsNullOrEmpty(rx))
-                    //        continue;
-                    //    RegexMatcher rm = new RegexMatcher();
-                    //    rm.Name = nm;
-                    //    rm.Rx = new Regex(rx, RegexOptions.IgnoreCase | RegexOptions.Compiled);
-                    //    rm.Separator = sp;
-                    //    _serviceMatchers.Add(rm);
 
-                    //    _logger.InfoFormat("载入正则处理器{0}, pattern={1}", nm, rx);
-                    //}
-
-                    using (DBSupport dbSupport = new DBSupport(xmlSetting.SelectOne("/configuration/DBConfig"), _basePath))
+                    List<PerformanceBase> recordForSend = new List<PerformanceBase>();
+                    foreach (PerformanceBase perf in GetSendRecordFromMap(dataList.Count > 0, now))
                     {
-                        dbSupport.GetConnection();
+                        recordForSend.Add(perf);
+                    }
 
-                        _dbSupport = dbSupport;
-                        _btSystem = new BTSystem(defaultSetting, dbSupport, _basePath);
+                    if (0 == recordForSend.Count)
+                    {
+                        _logger.InfoFormat("取得需要发送的消息{0}条,没有需要发送的数据,退出程序!", recordForSend.Count);
+                        return;
+                    }
 
-                        _logger.Info("数据库连接建立成功!");
+                    _logger.InfoFormat("取得需要发送的消息{0}条,开始登录MQ!", recordForSend.Count);
+                    int count = 0;
+                    try
+                    {
+                        _encoding = System.Text.Encoding.GetEncoding(defaultSetting.ReadSetting("/configuration/Locale/Encoding/@value", "utf-8"));
 
-
-                        List<PerformanceData> dataList = GetAllReadyRecords();
-                        _logger.InfoFormat("读队列表中的数据成功，共{0}条!", dataList.Count);
-                        List<PerformanceData2> dataList2 = GetAllReadyRecords2();
-                        _logger.InfoFormat("读队列表2中的数据成功，共{0}条!", dataList2.Count);
-
-                        Dictionary<PerformanceKey, PerformanceData> dataMap = GetAllRecordFromMap();
-                        _logger.InfoFormat("读MAP表中的数据成功，共{0}条!", dataMap.Count);
-                        Dictionary<PerformanceKey, PerformanceData2> dataMap2 = GetAllRecordFromMap2();
-                        _logger.InfoFormat("读MAP表中的数据成功，共{0}条!", dataMap2.Count);
-
-                        MoveToMAP(dataList, dataMap);
-                        _logger.Info("更校报MAP表完成!");
-                        MoveToMAP2(dataList2, dataMap2);
-                        _logger.Info("更校报MAP表2完成!");
-
-                        long now = ToInt64(DateTime.Now);
-
-
-                        List<PerformanceBase> recordForSend = new List<PerformanceBase>();
-                        foreach (PerformanceBase perf in GetSendRecordFromMap(dataList.Count > 0, now))
+                        using (Session session = NMSSupport.Create(defaultSetting))
                         {
-                            recordForSend.Add(perf);
-                        }
-
-                        foreach (PerformanceBase perf in GetSendRecordFromMap2(dataList.Count > 0, now))
-                        {
-                            recordForSend.Add(perf);
-                        }
-
-                        if (0 == recordForSend.Count)
-                        {
-                            _logger.InfoFormat("取得需要发送的消息{0}条,没有需要发送的数据,退出程序!", recordForSend.Count);
-                            return;
-                        }
-
-                        _logger.InfoFormat("取得需要发送的消息{0}条,开始登录MQ!", recordForSend.Count);
-                        int count = 0;
-                        try
-                        {
-                            _encoding = System.Text.Encoding.GetEncoding(defaultSetting.ReadSetting("/configuration/Locale/Encoding/@value", "utf-8"));
-
-                            using (Session session = NMSSupport.Create(defaultSetting))
+                            //IDestination destination = Apache.NMS.Util.SessionUtil.GetDestination(session, xmlSetting.ReadSetting("/configuration/MQ/DestinationName/@value"));
+                            //using (IMessageProducer producer = session.CreateProducer(destination))
                             {
-                                //IDestination destination = Apache.NMS.Util.SessionUtil.GetDestination(session, xmlSetting.ReadSetting("/configuration/MQ/DestinationName/@value"));
-                                //using (IMessageProducer producer = session.CreateProducer(destination))
-                                {
-                                    _logger.InfoFormat("登录MQ成功开始发送消息!");
+                                _logger.InfoFormat("登录MQ成功开始发送消息!");
 
-                                    string nowTimestamp = DateTime.Now.ToString();
-
-                                    foreach (PerformanceBase data in recordForSend.ToArray())
-                                    {
-                                        string logPath = Path.Combine(Path.Combine(_basePath, "log"), data.MOType);
-                                        if (!Directory.Exists(logPath))
-                                            Directory.CreateDirectory(logPath);
-
-                                        string logFile = Path.Combine(logPath, string.Concat(data.MOType, "-", data.MOId, "-", encodeFile(data.StatusX), "-", data.StoreId, ".txt"));
-                                        string historyFile = Path.Combine(logPath, string.Concat(data.MOType, "-", data.MOId, "-", encodeFile(data.StatusX), "-", data.StoreId, ".history"));
-
-                                        using (StreamWriter writer = new StreamWriter(logFile))
-                                        {
-                                            MapMessage message = createMapMessage(session, data, writer);
-                                            if (null != message)
-                                            {
-                                                session.Send(Destination.PERFORMANCE, message);
-
-
-                                                Session.Error[] errors = session.GetLastErrors();
-                                                foreach (Session.Error err in errors)
-                                                {
-                                                    writer.Write("//MQError:channel="); writer.Write(err.Name); writer.Write("="); writer.WriteLine(err.exception.Message);
-                                                }
-
-
-                                                count++;
-                                                recordForSend.Remove(data);
-
-                                                if (_isDebugging)
-                                                {
-                                                    File.AppendAllText(historyFile, nowTimestamp + " success\r\n");
-                                                }
-                                            }
-                                            else if (_isDebugging && File.Exists(historyFile))
-                                            {
-                                                File.AppendAllText(historyFile, nowTimestamp + " error\r\n");
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-                            _logger.InfoFormat("本次消息发送完成,共{0}条,开始更新发送时间!", count);
-                            _dbSupport.ExecuteNonQuery(string.Format(SQLMapper.GetSqlString(SQLDialect.UPDATE_MAP_SEND_TIME), now));
-                            _dbSupport.ExecuteNonQuery(string.Format(SQLMapper.GetSqlString(SQLDialect.UPDATE_MAP_SEND_TIME2), now));
-                            _logger.InfoFormat("更新发送时间完成,退出程序!");
-                            return;
-                        }
-                        catch (Exception e)
-                        {
-                            _logger.Fatal(e);
-                        }
-
-                        try
-                        {
-                            if (_isDebugging)
-                            {
                                 string nowTimestamp = DateTime.Now.ToString();
 
                                 foreach (PerformanceBase data in recordForSend.ToArray())
                                 {
                                     string logPath = Path.Combine(Path.Combine(_basePath, "log"), data.MOType);
+                                    if (!Directory.Exists(logPath))
+                                        Directory.CreateDirectory(logPath);
+
+                                    string logFile = Path.Combine(logPath, string.Concat(data.MOType, "-", data.MOId, "-", encodeFile(data.StatusX), "-", data.StoreId, ".txt"));
                                     string historyFile = Path.Combine(logPath, string.Concat(data.MOType, "-", data.MOId, "-", encodeFile(data.StatusX), "-", data.StoreId, ".history"));
 
-                                    if (File.Exists(historyFile))
+                                    using (StreamWriter writer = new StreamWriter(logFile))
                                     {
-                                        File.AppendAllText(historyFile, nowTimestamp + " mq error\r\n");
+                                        MapMessage message = createMapMessage(session, data, writer);
+                                        if (null != message)
+                                        {
+                                            session.Send(Destination.PERFORMANCE, message);
+
+
+                                            Session.Error[] errors = session.GetLastErrors();
+                                            foreach (Session.Error err in errors)
+                                            {
+                                                writer.Write("//MQError:channel="); writer.Write(err.Name); writer.Write("="); writer.WriteLine(err.exception.Message);
+                                            }
+
+
+                                            count++;
+                                            recordForSend.Remove(data);
+
+                                            if (_isDebugging)
+                                            {
+                                                File.AppendAllText(historyFile, nowTimestamp + " success\r\n");
+                                            }
+                                        }
+                                        else if (_isDebugging && File.Exists(historyFile))
+                                        {
+                                            File.AppendAllText(historyFile, nowTimestamp + " error\r\n");
+                                        }
                                     }
                                 }
                             }
                         }
-                        catch (Exception exx)
+
+                        _logger.InfoFormat("本次消息发送完成,共{0}条,开始更新发送时间!", count);
+                        _logger.InfoFormat("更新发送时间完成,退出程序!");
+                        return;
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.Fatal(e);
+                    }
+
+                    try
+                    {
+                        if (_isDebugging)
                         {
-                            _logger.Fatal("记录调试数据时发生错误", exx);
+                            string nowTimestamp = DateTime.Now.ToString();
+
+                            foreach (PerformanceBase data in recordForSend.ToArray())
+                            {
+                                string logPath = Path.Combine(Path.Combine(_basePath, "log"), data.MOType);
+                                string historyFile = Path.Combine(logPath, string.Concat(data.MOType, "-", data.MOId, "-", encodeFile(data.StatusX), "-", data.StoreId, ".history"));
+
+                                if (File.Exists(historyFile))
+                                {
+                                    File.AppendAllText(historyFile, nowTimestamp + " mq error\r\n");
+                                }
+                            }
                         }
                     }
+                    catch (Exception exx)
+                    {
+                        _logger.Fatal("记录调试数据时发生错误", exx);
+                    }
                 }
-                //catch (DbException db)
-                //{
-                //    _logger.Fatal("发生数据库错误!", db);
-
-                //    _logger.Fatal("尝试恢复数据库!");
-                //    try
-                //    {
-                //        initialize_datebase(xmlSetting);
-                //        _logger.Fatal("恢复数据库成功!");
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        _logger.Fatal("恢复数据库成功失败", ex);
-                //    }
-                //}
                 catch (Exception ex)
                 {
                     _logger.Fatal(ex);
@@ -853,247 +680,6 @@ namespace meijing.nanrui.kpi.sender
 
         #endregion
 
-        #region 处理表2
-
-        static List<PerformanceData2> GetAllReadyRecords2()
-        {
-            try
-            {
-                int count = 0;
-                /// 如果数据大多时，只有丢数据了
-                using (IDataReader reader = _dbSupport.ExecuteReader(SQLMapper.GetSqlString(SQLDialect.COUNT_QUEUE2)))
-                {
-                    if (reader.Read())
-                        count = Convert.ToInt32(reader[0]);
-                }
-
-                if (count > MAX_QUEUE)
-                {
-                    int result = _dbSupport.ExecuteNonQuery(SQLMapper.GetSqlString(SQLDialect.DELETE_QUEUE2));
-                    _logger.ErrorFormat("因为消息太多，删除了一部分多余的数据", result);
-                }
-            }
-            catch (Exception e)
-            {
-                _logger.Error(e);
-            }
-
-            List<PerformanceData2> datas = new List<PerformanceData2>();
-            using (IDataReader reader = _dbSupport.ExecuteReader(SQLMapper.GetSqlString(SQLDialect.SELECT_QUEUE2)))
-            {
-                while (reader.Read())
-                {
-                    if (reader["BMOId"].GetType() != typeof(DBNull)
-                        && reader["BStoreId"].GetType() != typeof(DBNull)
-                        && reader["BValue"].GetType() != typeof(DBNull))
-                    {
-                        PerformanceData2 data = new PerformanceData2();
-                        data.Id = Convert.ToInt32(reader["BID"]);
-                        data.CreatedTime = ToInt64(Convert.ToDateTime(reader["BCreatedTime"]));
-                        data.MOId = Convert.ToInt32(reader["BMOId"]);
-                        data.MOType = reader["BMOtype"].ToString();
-                        data.StatusX = reader["BStatus"].ToString();
-                        data.StoreId = Convert.ToInt32(reader["BStoreId"]);
-                        data.Value = Convert.ToString(reader["BValue"]);
-                        datas.Add(data);
-                    }
-                }
-            }
-            return datas;
-        }
-
-        static PerformanceData2 ReadRecordFromMap2(IDataReader reader)
-        {
-            PerformanceData2 data = new PerformanceData2();
-
-            data.CreatedTime = Convert.ToInt64(reader["BCreatedTime"]);
-            data.MOId = Convert.ToInt32(reader["BMOId"]);
-            data.MOType = reader["BMOtype"].ToString();
-            data.StatusX = reader["BStatus"].ToString();
-            data.StoreId = Convert.ToInt32(reader["BStoreId"]);
-            data.Value = Convert.ToString(reader["BValue"]);
-            data.SendTime = Convert.ToInt64(reader["BSendTime"]);
-            return data;
-        }
-        static Dictionary<PerformanceKey, PerformanceData2> GetAllRecordFromMap2()
-        {
-            Dictionary<PerformanceKey, PerformanceData2> dataList = new Dictionary<PerformanceKey, PerformanceData2>();
-            using (IDataReader reader = _dbSupport.ExecuteReader(SQLMapper.GetSqlString(SQLDialect.SELECT_MAP2)))
-            {
-                while (reader.Read())
-                {
-                    PerformanceData2 data = ReadRecordFromMap2(reader);
-                    dataList[new PerformanceKey(data.MOType, data.MOId, data.StatusX, data.StoreId)] = data;
-                }
-            }
-            return dataList;
-        }
-
-        /// <summary>
-        /// 返回MAP表中的所有记录
-        /// </summary>
-        /// <param name="reader"></param>
-        /// <returns></returns>
-        static List<PerformanceData2> GetRecordFromMap2(string sql)
-        {
-            List<PerformanceData2> dataList = new List<PerformanceData2>();
-            using (IDataReader reader = _dbSupport.ExecuteReader(sql))
-            {
-                while (reader.Read())
-                {
-                    PerformanceData2 data = ReadRecordFromMap2(reader);
-                    dataList.Add(data);
-                }
-            }
-            return dataList;
-        }
-
-        /// <summary>
-        /// 将待发送表中的数据转移到MAP表中并清空
-        /// </summary>
-        /// <param name="datas"></param>
-        static void MoveToMAP2(List<PerformanceData2> dataList, Dictionary<PerformanceKey, PerformanceData2> dataMap)
-        {
-            if (0 == dataList.Count)
-                return;
-
-            int maxId = 0;
-            Dictionary<PerformanceKey, PerformanceData2> middleMap = new Dictionary<PerformanceKey, PerformanceData2>();
-            foreach (PerformanceData2 data in dataList)
-            {
-                maxId = Math.Max(data.Id, maxId);
-
-
-                middleMap[new PerformanceKey(data.MOType, data.MOId, data.StatusX, data.StoreId)] = data;
-
-                //PerformanceData old = null;
-                //PerformanceKey key = new PerformanceKey(data.StoreId, data.StatusX);
-                //if (!middleMap.TryGetValue(key, out old))
-                //{
-                //    middleMap.Add(key, data);
-                //}
-                //else
-                //{ 
-                //    if( old.CreateTime < data.CreatedTime)
-                //    {
-                //         old.CreatedTime = data.CreatedTime;
-                //         old.Value = data.Value;
-                //    }
-                //}
-            }
-
-            _logger.InfoFormat("需要更新到MAP表的数据有{0}条!", middleMap.Count);
-
-            using (IDbTransaction transaction = _dbSupport.GetConnection().BeginTransaction())
-            {
-
-                IDbCommand update = _dbSupport.CreateCommand(SQLMapper.GetSqlString(SQLDialect.UPDATE_MAP2));
-                update.Transaction = transaction;
-
-                IDbCommand insert = _dbSupport.CreateCommand(SQLMapper.GetSqlString(SQLDialect.INSERT_MAP2));
-                insert.Transaction = transaction;
-
-                IDbDataParameter u1 = CreateParameter(update, GetParameter(_dbSupport.DriverType, "u", 1), null);
-                IDbDataParameter u2 = CreateParameter(update, GetParameter(_dbSupport.DriverType, "u", 2), null);
-                IDbDataParameter u3 = CreateParameter(update, GetParameter(_dbSupport.DriverType, "u", 3), null);
-                IDbDataParameter u4 = CreateParameter(update, GetParameter(_dbSupport.DriverType, "u", 4), null);
-                IDbDataParameter u5 = CreateParameter(update, GetParameter(_dbSupport.DriverType, "u", 5), null);
-                IDbDataParameter u6 = CreateParameter(update, GetParameter(_dbSupport.DriverType, "u", 6), null);
-
-                update.Parameters.Add(u1);
-                update.Parameters.Add(u2);
-                update.Parameters.Add(u3);
-                update.Parameters.Add(u4);
-                update.Parameters.Add(u5);
-                update.Parameters.Add(u6);
-
-
-                IDbDataParameter i1 = CreateParameter(insert, GetParameter(_dbSupport.DriverType, "i", 1), null);
-                IDbDataParameter i2 = CreateParameter(insert, GetParameter(_dbSupport.DriverType, "i", 2), null);
-                IDbDataParameter i3 = CreateParameter(insert, GetParameter(_dbSupport.DriverType, "i", 3), null);
-                IDbDataParameter i4 = CreateParameter(insert, GetParameter(_dbSupport.DriverType, "i", 4), null);
-                IDbDataParameter i5 = CreateParameter(insert, GetParameter(_dbSupport.DriverType, "i", 5), null);
-                IDbDataParameter i6 = CreateParameter(insert, GetParameter(_dbSupport.DriverType, "i", 6), null);
-
-                insert.Parameters.Add(i1);
-                insert.Parameters.Add(i2);
-                insert.Parameters.Add(i3);
-                insert.Parameters.Add(i4);
-                insert.Parameters.Add(i5);
-                insert.Parameters.Add(i6);
-
-
-                foreach (PerformanceData2 data in middleMap.Values)
-                {
-                    PerformanceData2 old = null;
-
-                    PerformanceKey key = new PerformanceKey(data.MOType, data.MOId, data.StatusX, data.StoreId);
-                    if (dataMap.TryGetValue(key, out old))
-                    {
-                        old.CreatedTime = data.CreatedTime;
-                        old.Value = data.Value;
-
-                        u1.Value = data.CreatedTime;
-                        u2.Value = data.Value;
-                        u3.Value = data.StatusX;
-                        u4.Value = data.MOType;
-                        u5.Value = data.MOId;
-                        u6.Value = data.StoreId;
-
-                        update.ExecuteNonQuery();
-                    }
-                    else
-                    {
-                        dataMap[key] = data;
-
-                        i1.Value = data.CreatedTime;
-                        i2.Value = data.Value;
-                        i3.Value = data.StatusX;
-                        i4.Value = data.StoreId;
-                        i5.Value = data.MOId;
-                        i6.Value = data.MOType;
-
-                        insert.ExecuteNonQuery();
-                    }
-
-                    maxId = Math.Max(data.Id, maxId);
-                }
-
-                IDbCommand delete = _dbSupport.CreateCommand(string.Format(SQLMapper.GetSqlString(SQLDialect.DELETE_QUEUE_BY_TIME2), maxId));
-                delete.Transaction = transaction;
-                delete.ExecuteNonQuery();
-                transaction.Commit();
-            }
-        }
-
-        /// <summary>
-        /// 处理MAP表中的信息
-        /// </summary>
-        static List<PerformanceData2> GetSendRecordFromMap2(bool deleteTimeout, long now)
-        {
-            /// 删除MAP表中没有匹配的STOREID的纪录
-            int deleteCount = _dbSupport.ExecuteNonQuery(SQLMapper.GetSqlString(SQLDialect.DELETE_MAP_NOT_IN_HISTORY2));
-            _logger.InfoFormat("删除MAP表中没有匹配的STOREID的纪录{0}条!", deleteCount);
-
-
-            if (deleteTimeout)
-            {
-                /// 删除MAP表中时间已经超时的纪录
-                deleteCount = _dbSupport.ExecuteNonQuery(string.Format(SQLMapper.GetSqlString(SQLDialect.DELETE_MAP_TIMEOUT2), now));
-                _logger.InfoFormat("删除MAP表中时间已经超时的纪录{0}条!", deleteCount);
-            }
-
-            List<PerformanceData2> dataList = GetRecordFromMap2(string.Format(SQLMapper.GetSqlString(SQLDialect.SELECT_MAP_SEND_TIMEOUT2), now));
-
-            foreach (PerformanceData2 data in dataList)
-            {
-                data.CreatedTime = now;
-            }
-
-            return dataList;
-        }
-
-        #endregion
         #region MESSAGE
 
         static int GetOriginalKey(PerformanceBase data)

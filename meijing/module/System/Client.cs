@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections;
 
-namespace meijing.ui.module
+namespace meijing
 {
     public class Client
     {

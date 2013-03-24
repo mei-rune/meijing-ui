@@ -164,19 +164,7 @@ namespace meijing
         public IList<T> Children<T>(IDictionary<string, string> query)
             where T : Model, new()
         {
-            List<T> result = new List<T>();
-            var qResult = CreateClient().Children(GetClassName(this.GetType()), this.Id, 
-                GetClassName(typeof(T)), query);
-            foreach (var res in qResult)
-            {
-                var instance = new T();
-                foreach (var k in res)
-                {
-                    instance[k.Key] = k.Value;
-                }
-                result.Add(instance);
-            }
-            return result;
+            return Children<T>(GetClassName(this.GetType()), this.Id, query);
         }
 
         private static string GetClassName(Type t) {
@@ -264,9 +252,28 @@ namespace meijing
             }
             return result;
         }
+
+        public static IList<T> Children<T>(string target, string id, IDictionary<string, string> query)
+            where T : Model, new()
+        {
+            List<T> result = new List<T>();
+            var qResult = CreateClient().Children(target, id,
+                GetClassName(typeof(T)), query);
+            foreach (var res in qResult)
+            {
+                var instance = new T();
+                foreach (var k in res)
+                {
+                    instance[k.Key] = k.Value;
+                }
+                result.Add(instance);
+            }
+            return result;
+        }
+
         public static Client CreateClient()
         {
-            throw new NotImplementedException();
+            return Helper.Client;
         }
     }
 
@@ -282,8 +289,27 @@ namespace meijing
         }
         public string Name
         {
-            get{ return GetString("name"); }
-            set{ base["name"] = value; }
+            get{ return string.IsNullOrEmpty(this.CustomName)? this.SysName : this.CustomName; }
+        }
+        public string SysName
+        {
+            get { return GetString("name"); }
+            set { base["name"] = value; }
+        }
+        public string CustomName
+        {
+            get { return GetString("custom_name"); }
+            set { base["custom_name"] = value; }
+        }
+        public int CustomLevel
+        {
+            get { return GetInt("custom_level", -1); }
+            set { base["custom_level"] = value; }
+        }
+        public int Manufacturer
+        {
+            get { return GetInt("manufacturer", -1); }
+            set { base["manufacturer"] = value; }
         }
         public string Address
         {
@@ -326,6 +352,25 @@ namespace meijing
             set{ base["updated_at"] = value; }
         }
 
+        public string GetPrimaryMAC()
+        {
+            var query = new Dictionary<string, string>();
+            query["address"] = this.Address;
+            var primary = this.Children<IPAddress>(query).FirstOrDefault();
+            if(null == primary)
+            {
+                return null;
+            }
+            query.Clear();
+            query["ifIndex"] = primary.IfIndex.ToString();
+            var ifc = this.Children<Interface>(query).FirstOrDefault();
+            if(null == ifc)
+            {
+                return null;
+            }
+            return ifc.IfPhysAddress;
+        }
+
         public override string ToString()
         {
             return string.IsNullOrEmpty(Name)?Address:string.Format("[{0}]{1}", Address, Name);
@@ -339,6 +384,16 @@ namespace meijing
         {
             get { return GetString("name"); }
             set { base["name"] = value; }
+        }
+        public int CustomSpeedUp
+        {
+            get { return GetInt("custom_speed_up", -1); }
+            set { base["custom_speed_up"] = value; }
+        }
+        public int CustomSpeedDown
+        {
+            get { return GetInt("custom_speed_down", -1); }
+            set { base["custom_speed_down"] = value; }
         }
         public string Description
         {
@@ -525,10 +580,17 @@ namespace meijing
             get{ return GetString("ifPhysAddress"); }
             set{ base["ifPhysAddress"] = value; }
         }
-
+        
         public override string ToString()
         {
             return string.Format("[{0}{1}]", this.IfIndex, this.IfDescr);
+        }
+
+        public static Interface GetDevicePort(string devId, int ifIndex)
+        {
+            var query = new Dictionary<string, string>();
+            query["ifIndex"] = ifIndex.ToString();
+            return Children<Interface>("device",devId, query).FirstOrDefault();
         }
     }
 
