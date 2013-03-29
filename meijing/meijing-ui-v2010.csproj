@@ -13,7 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile />
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <PublishUrl>C:\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -194,6 +194,7 @@
     <Compile Include="module\Resource\GetSystemIcon.cs" />
     <Compile Include="module\System\CloneMeunToolItem.cs" />
     <Compile Include="module\System\ConfigHelper.cs" />
+    <Compile Include="module\System\Helper.cs" />
     <Compile Include="module\System\Metric.cs" />
     <Compile Include="module\System\Model.cs" />
     <Compile Include="module\System\SystemManager.cs" />
@@ -374,9 +375,9 @@
     <Content Include="Resources\save.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\3td\json\Source\Src\Newtonsoft.Json\Newtonsoft.Json.Net35.csproj">
+    <ProjectReference Include="..\3td\json\Src\Newtonsoft.Json\Newtonsoft.Json-v2010.csproj">
       <Project>{A9AE40FF-1A21-414A-9FE7-3BE13644CC6D}</Project>
-      <Name>Newtonsoft.Json.Net35</Name>
+      <Name>Newtonsoft.Json-v2010</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

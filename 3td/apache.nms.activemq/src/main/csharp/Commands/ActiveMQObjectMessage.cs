@@ -15,6 +15,7 @@
 * limitations under the License.
 */
 
+using System;
 using System.IO;
 
 #if !(PocketPC||NETCF||NETCF_2_0)

@@ -51,6 +51,7 @@ namespace Apache.NMS.ActiveMQ
 		}
 
 		#region ISerializable interface implementation
+#if !NETCF
 
 		/// <summary>
 		/// Initializes a new instance of the ConnectionClosedException class with serialized data.
@@ -63,7 +64,7 @@ namespace Apache.NMS.ActiveMQ
 			: base(info, context)
 		{
 		}
-
+#endif
 		#endregion
 	}
 }

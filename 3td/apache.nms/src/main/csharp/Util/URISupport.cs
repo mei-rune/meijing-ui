@@ -263,7 +263,7 @@ namespace Apache.NMS.Util
 		public static String UrlEncode(String s)
 		{
 #if !NETCF
-			return HttpUtility.HtmlEncode(s);
+            return HttpUtility.HtmlEncode(s);
 #else
             return Uri.EscapeUriString(s);
 #endif

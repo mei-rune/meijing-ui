@@ -51,7 +51,7 @@ namespace Apache.NMS.ActiveMQ
         }
 
         #region ISerializable interface implementation
-
+#if !NETCF
         /// <summary>
         /// Initializes a new instance of the ConnectionFailedException class with serialized data.
         /// Throws System.ArgumentNullException if the info parameter is null.
@@ -63,7 +63,7 @@ namespace Apache.NMS.ActiveMQ
             : base(info, context)
         {
         }
-
+#endif
         #endregion
     }
 }
