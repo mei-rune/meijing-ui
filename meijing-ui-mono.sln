@@ -5,16 +5,49 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "meijing-ui-mono", "meijing\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Newtonsoft.Json.Mono", "3td\json\Src\Newtonsoft.Json\Newtonsoft.Json.Mono.csproj", "{A9AE40FF-1A21-414A-9FE7-3BE13644CC6D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "log4net.mono", "3td\log4net\src\log4net.mono.csproj", "{181FE707-E161-4722-9F38-6AAAB6FAA106}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ionic.Zlib.Mono", "3td\ionic.zlib\Ionic.Zlib.Mono.csproj", "{7340B466-BB66-4313-922E-8AE7D9D77C3F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "apache.nms.mono", "3td\apache.nms\apache.nms.mono.csproj", "{300C1716-0674-4D01-8F5D-151E59A504FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "apache.nms.activemq.mono", "3td\apache.nms.activemq\apache.nms.activemq.mono.csproj", "{08321F42-4B3D-4815-B592-95962BAC3B9F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nanrui.model.sender.mono", "nr\nanrui.model.sender\nanrui.model.sender.mono.csproj", "{3D08C3B5-998F-486D-A100-1684C3CC2DA3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Release|Any CPU = Release|Any CPU
 		Debug|Any CPU = Debug|Any CPU
+		Debug_nj|Any CPU = Debug_nj|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{08321F42-4B3D-4815-B592-95962BAC3B9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08321F42-4B3D-4815-B592-95962BAC3B9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08321F42-4B3D-4815-B592-95962BAC3B9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08321F42-4B3D-4815-B592-95962BAC3B9F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{08ED1E3B-366B-42EF-B795-0FF1BDAA0B7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{08ED1E3B-366B-42EF-B795-0FF1BDAA0B7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08ED1E3B-366B-42EF-B795-0FF1BDAA0B7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08ED1E3B-366B-42EF-B795-0FF1BDAA0B7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{181FE707-E161-4722-9F38-6AAAB6FAA106}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{181FE707-E161-4722-9F38-6AAAB6FAA106}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{181FE707-E161-4722-9F38-6AAAB6FAA106}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{181FE707-E161-4722-9F38-6AAAB6FAA106}.Release|Any CPU.Build.0 = Release|Any CPU
+		{300C1716-0674-4D01-8F5D-151E59A504FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{300C1716-0674-4D01-8F5D-151E59A504FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{300C1716-0674-4D01-8F5D-151E59A504FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{300C1716-0674-4D01-8F5D-151E59A504FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D08C3B5-998F-486D-A100-1684C3CC2DA3}.Debug_nj|Any CPU.ActiveCfg = Debug_nj|Any CPU
+		{3D08C3B5-998F-486D-A100-1684C3CC2DA3}.Debug_nj|Any CPU.Build.0 = Debug_nj|Any CPU
+		{3D08C3B5-998F-486D-A100-1684C3CC2DA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D08C3B5-998F-486D-A100-1684C3CC2DA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D08C3B5-998F-486D-A100-1684C3CC2DA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D08C3B5-998F-486D-A100-1684C3CC2DA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7340B466-BB66-4313-922E-8AE7D9D77C3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7340B466-BB66-4313-922E-8AE7D9D77C3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7340B466-BB66-4313-922E-8AE7D9D77C3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7340B466-BB66-4313-922E-8AE7D9D77C3F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A9AE40FF-1A21-414A-9FE7-3BE13644CC6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A9AE40FF-1A21-414A-9FE7-3BE13644CC6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9AE40FF-1A21-414A-9FE7-3BE13644CC6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
