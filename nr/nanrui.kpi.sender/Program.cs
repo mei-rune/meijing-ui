@@ -368,27 +368,6 @@ namespace meijing.nanrui.kpi.sender
         /// </summary>
         static List<PerformanceData> GetAllReadyRecords()
         {
-            try
-            {
-                int count = 0;
-                /// 如果数据大多时，只有丢数据了
-                using (IDataReader reader = _dbSupport.ExecuteReader(SQLMapper.GetSqlString(SQLDialect.COUNT_QUEUE)))
-                {
-                    if (reader.Read())
-                        count = Convert.ToInt32(reader[0]);
-                }
-
-                if (count > MAX_QUEUE)
-                {
-                    int result = _dbSupport.ExecuteNonQuery(SQLMapper.GetSqlString(SQLDialect.DELETE_QUEUE));
-                    _logger.ErrorFormat("因为消息太多，删除了一部分多余的数据", result);
-                }
-            }
-            catch (Exception e)
-            {
-                _logger.Error(e);
-            }
-
             List<PerformanceData> datas = new List<PerformanceData>();
             using (IDataReader reader = _dbSupport.ExecuteReader(SQLMapper.GetSqlString(SQLDialect.SELECT_QUEUE)))
             {
@@ -1376,59 +1355,6 @@ namespace meijing.nanrui.kpi.sender
         }
 
         #endregion //Message
-
-
-
-        static void initialize_datebase(XmlSetting xmlSetting)
-        {
-            string logFile = Path.Combine(_basePath, "db_error.log");
-            if (File.Exists(logFile))
-                File.Delete(logFile);
-
-            string current_sqlcmd = "null";
-
-            try
-            {
-                string dbPath = Path.Combine(_basePath, "..\\..\\nms\\deploy\\BTNM\\config\\db.config");
-
-
-                using (DBSupport dbSupport = new DBSupport(xmlSetting.SelectOne("/configuration/DBConfig"), _basePath))
-                {
-                    dbSupport.GetConnection();
-
-                    foreach (string cmdLine in File.ReadAllLines(Path.Combine(_basePath, "Nanrui." + dbSupport.DriverType + ".sql")))
-                    {
-                        if (null == cmdLine)
-                            continue;
-                        string cmd = cmdLine.Trim();
-                        if (0 == cmd.Length)
-                            continue;
-                        if (cmd.StartsWith("--"))
-                            continue;
-                        current_sqlcmd = cmd;
-
-                        if (cmd.Trim().ToUpper().StartsWith("DROP"))
-                        {
-                            try
-                            {
-                                dbSupport.ExecuteNonQuery(cmd);
-                            }
-                            catch
-                            { }
-                        }
-                        else
-                        {
-                            dbSupport.ExecuteNonQuery(cmd);
-                        }
-                    }
-                }
-            }
-            catch (Exception err)
-            {
-                File.WriteAllText(logFile, string.Concat(current_sqlcmd ?? "null", "\r\n", err.ToString()));
-                throw;
-            }
-        }
 
     }
 }
