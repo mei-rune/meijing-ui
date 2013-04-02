@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "meijing-ui", "meijing\meijing-ui.csproj", "{08ED1E3B-366B-42EF-B795-0FF1BDAA0B7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Newtonsoft.Json.Portable", "3td\json\Source\Src\Newtonsoft.Json\Newtonsoft.Json.Portable.csproj", "{959F7F85-C98B-4876-971A-9036224578E4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Newtonsoft.Json.Portable", "3td\json\Src\Newtonsoft.Json\Newtonsoft.Json.Portable.csproj", "{959F7F85-C98B-4876-971A-9036224578E4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nanrui.model.sender", "nr\nanrui.model.sender\nanrui.model.sender.csproj", "{3D08C3B5-998F-486D-A100-1684C3CC2DA3}"
 EndProject
@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "apache.nms", "3td\apache.nm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "apache.nms.activemq", "3td\apache.nms.activemq\apache.nms.activemq.csproj", "{08321F42-4B3D-4815-B592-95962BAC3B9F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ionic.Zlib", "3td\ionic.zlib\Ionic.Zlib\Ionic.Zlib.csproj", "{7340B466-BB66-4313-922E-8AE7D9D77C3F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ionic.Zlib", "3td\ionic.zlib\Ionic.Zlib.csproj", "{7340B466-BB66-4313-922E-8AE7D9D77C3F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "log4net", "3td\log4net\src\log4net.csproj", "{181FE707-E161-4722-9F38-6AAAB6FAA106}"
 EndProject

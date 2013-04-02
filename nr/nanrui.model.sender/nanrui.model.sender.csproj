@@ -137,11 +137,11 @@
       <Project>{300c1716-0674-4d01-8f5d-151e59a504fe}</Project>
       <Name>apache.nms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\3td\ionic.zlib\Ionic.Zlib\Ionic.Zlib.csproj">
+    <ProjectReference Include="..\..\3td\ionic.zlib\Ionic.Zlib.csproj">
       <Project>{7340b466-bb66-4313-922e-8ae7d9d77c3f}</Project>
       <Name>Ionic.Zlib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\3td\json\Source\Src\Newtonsoft.Json\Newtonsoft.Json.Portable.csproj">
+    <ProjectReference Include="..\..\3td\json\Src\Newtonsoft.Json\Newtonsoft.Json.Portable.csproj">
       <Project>{959f7f85-c98b-4876-971a-9036224578e4}</Project>
       <Name>Newtonsoft.Json.Portable</Name>
     </ProjectReference>

@@ -1066,7 +1066,7 @@
       <Project>{300c1716-0674-4d01-8f5d-151e59a504fe}</Project>
       <Name>apache.nms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ionic.zlib\Ionic.Zlib\Ionic.Zlib.csproj">
+    <ProjectReference Include="..\ionic.zlib\Ionic.Zlib.csproj">
       <Project>{7340b466-bb66-4313-922e-8ae7d9d77c3f}</Project>
       <Name>Ionic.Zlib</Name>
     </ProjectReference>
